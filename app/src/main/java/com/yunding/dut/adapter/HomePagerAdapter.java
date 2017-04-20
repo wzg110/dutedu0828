@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.yunding.dut.ui.home.DiscussFragment;
-import com.yunding.dut.ui.home.ReadingFragment;
+import com.yunding.dut.ui.discuss.DiscussListFragment;
+import com.yunding.dut.ui.reading.ReadingFragment;
 
 public class HomePagerAdapter extends FragmentPagerAdapter {
 
@@ -24,7 +24,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
                 fragment = new ReadingFragment();
                 break;
             case DISCUSS_INDEX:
-                fragment = new DiscussFragment();
+                fragment = new DiscussListFragment();
                 break;
         }
         return fragment;

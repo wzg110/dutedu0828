@@ -14,27 +14,35 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    protected void showToast(int msgId) {
-        Toast.makeText(DUTApplication.getmInstance(), msgId, Toast.LENGTH_SHORT).show();
+    public void showToast(int msgId) {
+        Toast.makeText(DUTApplication.getInstance(), msgId, Toast.LENGTH_SHORT).show();
     }
 
-    protected void showToast(String msg) {
-        Toast.makeText(DUTApplication.getmInstance(), msg, Toast.LENGTH_SHORT).show();
+    public void showToast(String msg) {
+        Toast.makeText(DUTApplication.getInstance(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    protected void showSnackBar(int msgId) {
+    public void showSnackBar(int msgId) {
         Snackbar.make(getWindow().getDecorView(), msgId, Snackbar.LENGTH_SHORT).show();
     }
 
-    protected void showSnackBar(String msg) {
+    public void showSnackBar(String msg) {
         Snackbar.make(getWindow().getDecorView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 
-    protected void showProgress() {
+    protected void showProgressDialog() {
 
     }
 
-    protected void hideProgress() {
+    protected void hideProgressDialog() {
+
+    }
+
+    protected void showProgressBar(){
+
+    }
+
+    protected void hideProgressBar(){
 
     }
 }

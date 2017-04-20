@@ -2,6 +2,9 @@ package com.yunding.dut.app;
 
 import android.app.Application;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.yunding.dut.model.data.UserInfo;
+
 /**
  * 类 名 称：DUTApplication
  * <P/>描    述：Application
@@ -15,15 +18,25 @@ import android.app.Application;
 public class DUTApplication extends Application {
 
     private static DUTApplication mApplication;
+    private static UserInfo mUserInfo;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         mApplication = this;
+
+        Fresco.initialize(this);
     }
 
-    public static DUTApplication getmInstance() {
+    public static DUTApplication getInstance() {
         return mApplication;
+    }
+
+    public static UserInfo getUserInfo() {
+        if (mUserInfo == null) {
+            mUserInfo = new UserInfo();
+        }
+        return mUserInfo;
     }
 }

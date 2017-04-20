@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.yunding.dut.R;
+import com.yunding.dut.presenter.account.LoginPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
 import com.yunding.dut.ui.home.HomeActivity;
 
@@ -17,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends ToolBarActivity {
+public class LoginActivity extends ToolBarActivity implements ILoginView {
 
     @BindView(R.id.et_account)
     TextInputEditText etAccount;
@@ -34,6 +35,8 @@ public class LoginActivity extends ToolBarActivity {
     @BindView(R.id.btn_reset_pwd)
     Button btnResetPwd;
 
+    private LoginPresenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,8 @@ public class LoginActivity extends ToolBarActivity {
 
         setTitleInCenter(getString(R.string.login_title));
         setShowNavigation(false);
+
+        mPresenter = new LoginPresenter(this);
     }
 
     @Override
@@ -64,12 +69,47 @@ public class LoginActivity extends ToolBarActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                startActivity(new Intent(this, HomeActivity.class));
+                String account = etAccount.getText().toString();
+                String pwd = etPwd.getText().toString();
+                mPresenter.login(account, pwd);
                 break;
             case R.id.btn_register:
                 break;
             case R.id.btn_reset_pwd:
                 break;
         }
+    }
+
+    @Override
+    public void showProgress() {
+        showProgressDialog();
+    }
+
+    @Override
+    public void hideProgress() {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void invalidAccount() {
+        tilAccount.setError(getString(R.string.invalid_account));
+    }
+
+    @Override
+    public void invalidPwd() {
+        tilPwd.setError(getString(R.string.invalid_pwd));
+    }
+
+    @Override
+    public void loginSuccess() {
+        showToast(R.string.login_success);
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void loginFailed(String msg) {
+        showSnackBar(msg);
     }
 }

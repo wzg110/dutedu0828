@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -38,7 +36,7 @@ public abstract class ToolBarFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mHelper = new ToolBarHelper(getHoldingActivity(), getLayoutId());
         mToolbar = mHelper.getToolBar();
-        getHoldingActivity().setSupportActionBar(mToolbar);
+        getHoldingActivity().setSupportActionBar(mToolbar);//这句代码不可以加，加上会导致menu错乱
         onCreateCustomToolBar(mToolbar);
 
         if (getHoldingActivity().getSupportActionBar() != null) {

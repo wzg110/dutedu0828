@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/bg_white"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_ripple">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/img_group_logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/bg_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/img_group_logo"
+            android:layout_toRightOf="@+id/img_group_logo"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_reading_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text="Group Name"
+                android:theme="@style/text_style_common_black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img_group_logo"
+            android:layout_toEndOf="@+id/img_group_logo"
+            android:layout_toRightOf="@+id/img_group_logo"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_reading_valid_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text="Latest msg"
+                android:theme="@style/text_style_common_gray" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_group_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_finished" />
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

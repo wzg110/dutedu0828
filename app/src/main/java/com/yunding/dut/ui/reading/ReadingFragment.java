@@ -1,52 +1,55 @@
-package com.yunding.dut.ui.home;
+package com.yunding.dut.ui.reading;
 
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.yunding.dut.R;
 import com.yunding.dut.ui.base.ToolBarFragment;
 import com.yunding.dut.ui.me.MeActivity;
 
 /**
- * 类 名 称：DiscussFragment
- * <P/>描    述：讨论
+ * 类 名 称：ReadingFragment
+ * <P/>描    述：阅读
  * <P/>创 建 人：msy
- * <P/>创建时间：2017/4/19 19:20
+ * <P/>创建时间：2017/4/19 19:21
  * <P/>修 改 人：msy
- * <P/>修改时间：2017/4/19 19:20
+ * <P/>修改时间：2017/4/19 19:21
  * <P/>修改备注：
  * <P/>版    本：1.0
  */
-public class DiscussFragment extends ToolBarFragment {
+public class ReadingFragment extends ToolBarFragment {
 
+    public ReadingFragment() {
+    }
 
-    public DiscussFragment() {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_discuss;
+        return R.layout.fragment_reading;
     }
 
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
-        setTitleInCenter("讨论");
+        setTitleInCenter("阅读");
         setShowNavigation(false);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        getmToolbar().inflateMenu(R.menu.menu_discuss);
         super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.menu_reading,menu);//这种方法设置menu不显示
+        getmToolbar().getMenu().clear();
+        getmToolbar().inflateMenu(R.menu.menu_reading);
     }
 
     @Override
@@ -58,4 +61,5 @@ public class DiscussFragment extends ToolBarFragment {
         }
         return true;
     }
+
 }
