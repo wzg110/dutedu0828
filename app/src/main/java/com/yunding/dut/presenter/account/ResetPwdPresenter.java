@@ -1,9 +1,14 @@
 package com.yunding.dut.presenter.account;
 
+import android.content.Context;
 import android.text.TextUtils;
 
+import com.yunding.dut.R;
+import com.yunding.dut.model.resp.CommonResp;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.account.IResetPwdView;
+import com.yunding.dut.util.api.Apis;
+import com.yunding.dut.util.api.ApisAccount;
 
 /**
  * 类 名 称：ResetPwdPresenter
@@ -37,6 +42,27 @@ public class ResetPwdPresenter extends BasePresenter {
             mView.pwdMisMatch();
             return;
         }
-        mView.resetPwdSuccess();
+
+        String url = ApisAccount.resetPwdUrl(oldPwd, newPwd);
+        request(url, new DUTResp() {
+            @Override
+            public void onResp(String response) {
+                CommonResp resp = parseJson(response, CommonResp.class);
+                if (resp != null) {
+                    if (resp.isResult()) {
+                        mView.resetPwdSuccess();
+                    } else {
+                        mView.resetPwdFailed(resp.getMsg());
+                    }
+                } else {
+                    mView.resetPwdFailed(((Context) mView).getString(R.string.server_error));
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                mView.resetPwdFailed(e.toString());
+            }
+        });
     }
 }

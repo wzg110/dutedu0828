@@ -1,6 +1,19 @@
 package com.yunding.dut.presenter.base;
 
-import android.text.TextUtils;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.yunding.dut.model.resp.account.LoginResp;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
+import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.utils.Exceptions;
+
+import org.jetbrains.annotations.NotNull;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 类 名 称：BasePresenter
@@ -27,7 +40,8 @@ public class BasePresenter {
 
     /**
      * 功能简述:
-     * @param  account [学号]
+     *
+     * @param account [学号]
      * @return boolean [合法：true,不合法：false]
      */
     public boolean isValidAccount(String account) {
@@ -36,7 +50,8 @@ public class BasePresenter {
 
     /**
      * 功能简述:
-     * @param  name [姓名]
+     *
+     * @param name [姓名]
      * @return boolean [合法：true,不合法：false]
      */
     public boolean isValidName(String name) {
@@ -45,10 +60,54 @@ public class BasePresenter {
 
     /**
      * 功能简述:
-     * @param  pwd [密码]
+     *
+     * @param pwd [密码]
      * @return boolean [合法：true,不合法：false]
      */
     public boolean isValidPwd(String pwd) {
         return !(pwd.length() > PWD_MAX_LENGTH || pwd.length() < PWD_MIN_LENGTH);
+    }
+
+    private final String TAG_URL = "request_url=";
+    private final String TAG_RESP = "request_resp=";
+
+    /**
+     * 功能简述:
+     *
+     * @param url  [请求地址]
+     * @param resp [回掉接口]
+     */
+    public void request(@NotNull final String url,final DUTResp resp) {
+        Log.e(TAG_URL, url);
+        OkHttpUtils.get().tag(this).url(url).build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.e(TAG_RESP, e.toString());
+                if (resp != null)
+                    resp.onError(e);
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Log.e(TAG_RESP, response);
+                if (resp != null)
+                    resp.onResp(response);
+            }
+        });
+    }
+
+    protected <T> T parseJson(@Nullable String json, @NotNull Class<T> classOfT) {
+        try {
+            return new Gson().fromJson(json, classOfT);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public interface DUTResp {
+
+        void onResp(String response);
+
+        void onError(Exception e);
     }
 }

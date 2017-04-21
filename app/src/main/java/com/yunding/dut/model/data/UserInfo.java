@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.yunding.dut.app.DUTApplication;
+import com.yunding.dut.model.resp.account.LoginResp;
 
 /**
  * 类 名 称：UserInfo
@@ -116,6 +117,15 @@ public class UserInfo {
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.clear();
         editor.apply();
+    }
+
+    public static void saveUserInfo(LoginResp resp){
+        DUTApplication.getUserInfo().setUserId(resp.getData().getStudentId());
+        DUTApplication.getUserInfo().setUserName(resp.getData().getName());
+        DUTApplication.getUserInfo().setUserAccount(resp.getData().getStudentNo());
+        DUTApplication.getUserInfo().setUserGrade(resp.getData().getGradeName());
+        DUTApplication.getUserInfo().setUserClass(resp.getData().getClassName());
+        DUTApplication.getUserInfo().setUserAvatar(resp.getData().getAvatarUrl());
     }
 }
 

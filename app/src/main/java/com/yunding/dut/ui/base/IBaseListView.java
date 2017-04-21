@@ -16,4 +16,6 @@ public interface IBaseListView extends IBaseView {
     void showNoData();
 
     void showBadNetwork();
+
+    void showListFailed();
 }

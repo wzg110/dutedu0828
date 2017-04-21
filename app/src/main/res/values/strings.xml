@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">DUTEdu</string>
 
+    <string name="server_error">服务器内部错误</string>
+
     <!--错误提示-->
     <string name="invalid_account">请输入正确的学号</string>
     <string name="invalid_pwd">密码长度不合法</string>
@@ -51,4 +53,6 @@
     <string name="discuss_group_name">名称</string>
     <string name="discuss_group_grade">年级</string>
     <string name="discuss_group_class">班级</string>
+
+    <string name="menu_group_member">组成员</string>
 </resources>

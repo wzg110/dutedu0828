@@ -1,89 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.yunding.dut.view.DUTSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:id="@+id/srl_group_info"
     tools:context="com.yunding.dut.ui.discuss.DiscussGroupActivity">
 
-    <com.yunding.dut.view.DUTGridRecycleView
-        android:id="@+id/rv_group_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:spanCount="4" />
-
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height_in_page" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_white"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/discuss_group_name"
-            android:theme="@style/text_style_common_black" />
-
-        <TextView
-            android:id="@+id/tv_group_name"
+        <com.yunding.dut.view.DUTGridRecycleView
+            android:id="@+id/rv_group_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:theme="@style/text_style_common_black" />
-    </LinearLayout>
+            app:spanCount="4" />
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height_in_page" />
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height_in_page" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_white"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/discuss_group_grade"
-            android:theme="@style/text_style_common_black" />
-
-        <TextView
-            android:id="@+id/tv_group_grade"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:theme="@style/text_style_common_black" />
-    </LinearLayout>
+            android:background="@color/bg_white"
+            android:padding="16dp">
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height_in_page" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/discuss_group_name"
+                android:theme="@style/text_style_common_black" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_white"
-        android:padding="16dp">
+            <TextView
+                android:id="@+id/tv_group_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:theme="@style/text_style_common_black" />
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/discuss_group_class"
-            android:theme="@style/text_style_common_black" />
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height_in_page" />
 
-        <TextView
-            android:id="@+id/tv_group_class"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:theme="@style/text_style_common_black" />
+            android:background="@color/bg_white"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/discuss_group_grade"
+                android:theme="@style/text_style_common_black" />
+
+            <TextView
+                android:id="@+id/tv_group_grade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:theme="@style/text_style_common_black" />
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height_in_page" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_white"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/discuss_group_class"
+                android:theme="@style/text_style_common_black" />
+
+            <TextView
+                android:id="@+id/tv_group_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:theme="@style/text_style_common_black" />
+        </LinearLayout>
     </LinearLayout>
 
 
-</LinearLayout>
+</com.yunding.dut.view.DUTSwipeRefreshLayout>

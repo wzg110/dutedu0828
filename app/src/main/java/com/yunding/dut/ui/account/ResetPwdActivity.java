@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputLayout;
 import android.widget.Button;
 
 import com.yunding.dut.R;
+import com.yunding.dut.presenter.account.AccountPresenter;
 import com.yunding.dut.presenter.account.ResetPwdPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
 
@@ -79,6 +80,7 @@ public class ResetPwdActivity extends ToolBarActivity implements IResetPwdView {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        AccountPresenter.logOut();
     }
 
     @Override

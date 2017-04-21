@@ -2,10 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yunding.dut">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".app.DUTApplication"
@@ -17,13 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.account.LoginActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.account.RegisterActivity"
             android:launchMode="singleTask" />
@@ -35,7 +26,16 @@
         <activity android:name=".ui.me.MeInfoActivity" />
         <activity android:name=".ui.me.MeSettingActivity" />
         <activity android:name=".ui.discuss.DiscussActivity" />
-        <activity android:name=".ui.discuss.DiscussGroupActivity"></activity>
+        <activity android:name=".ui.discuss.DiscussGroupActivity" />
+        <activity
+            android:name=".ui.LaunchActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
