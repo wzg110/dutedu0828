@@ -55,4 +55,6 @@
     <string name="discuss_group_class">班级</string>
 
     <string name="menu_group_member">组成员</string>
+
+    <string name="discuss_msg_btn_start_discuss">开启讨论</string>
 </resources>

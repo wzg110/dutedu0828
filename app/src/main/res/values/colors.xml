@@ -23,4 +23,8 @@
 
     <color name="bottom_navigation_normal">#9E9E9E</color>
     <color name="bottom_navigation_selected">#4BAF50</color>
+
+
+    <color name="transparent">#00000000</color>
+    <color name="translucent">#59000000</color>
 </resources>

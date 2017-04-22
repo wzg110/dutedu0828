@@ -35,6 +35,18 @@ public class ApisDiscuss extends Apis {
     }
 
     /**
+     * 功能简述:组长开启讨论
+     *
+     * @param subjectId [主题id]
+     * @param groupId   [讨论组id]
+     */
+    public static String startDiscussion(long subjectId, long groupId) {
+        String url = SERVER_URL + "/student/updaterelationopenstart?themeid=" + subjectId
+                + "&groupid=" + groupId;
+        return url;
+    }
+
+    /**
      * 功能简述:获取讨论组消息列表（轮询）
      *
      * @param subjectId [主题id]
@@ -46,6 +58,7 @@ public class ApisDiscuss extends Apis {
         return url;
     }
 
+    //T.B.D
     public static String discussSendMsg(int msgType, long subjectId, long groupId) {
         long userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "/student/addthemegroupmessage?fileurl=123&messagetype=" + msgType

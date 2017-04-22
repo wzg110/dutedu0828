@@ -72,14 +72,39 @@ public class BasePresenter {
     private final String TAG_RESP = "request_resp=";
 
     /**
-     * 功能简述:
+     * 功能简述:公共请求
      *
      * @param url  [请求地址]
      * @param resp [回掉接口]
      */
-    public void request(@NotNull final String url,final DUTResp resp) {
+    public void request(@NotNull final String url, final DUTResp resp) {
         Log.e(TAG_URL, url);
         OkHttpUtils.get().tag(this).url(url).build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.e(TAG_RESP, e.toString());
+                if (resp != null)
+                    resp.onError(e);
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Log.e(TAG_RESP, response);
+                if (resp != null)
+                    resp.onResp(response);
+            }
+        });
+    }
+
+    /**
+     * 功能简述:公共请求
+     *
+     * @param url  [请求地址]
+     * @param resp [回掉接口]
+     */
+    public void request(@NotNull final String url, final DUTResp resp, Object tag) {
+        Log.e(TAG_URL, url);
+        OkHttpUtils.get().tag(tag).url(url).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 Log.e(TAG_RESP, e.toString());
