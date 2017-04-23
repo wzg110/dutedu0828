@@ -58,11 +58,60 @@ public class ApisDiscuss extends Apis {
         return url;
     }
 
-    //T.B.D
-    public static String discussSendMsg(int msgType, long subjectId, long groupId) {
+    /**
+     * 功能简述:发送消息接口
+     *
+     * @param subjectId [参数]
+     * @param groupId   [参数]
+     * @param msgType   [参数]
+     * @param length    [参数]
+     * @param content   [参数]
+     */
+    public static String discussSendMsg(long subjectId, long groupId, int msgType, int length, String content) {
         long userId = DUTApplication.getUserInfo().getUserId();
-        String url = SERVER_URL + "/student/addthemegroupmessage?fileurl=123&messagetype=" + msgType
-                + "&messagelength=13&themeid=" + subjectId
+        String url = SERVER_URL + "/student/addthemegroupmessage?themeid=" + subjectId
+                + "&groupid=" + groupId
+                + "&studentid=" + userId
+                + "&messagetype=" + msgType
+                + "&messagelength=" + length
+                + "&content=" + content;
+
+        return url;
+    }
+
+    /**
+     * 功能简述:讨论组页面获取主题信息
+     *
+     * @param subjectId [主题id]
+     */
+    public static String getSubjectInfo(long subjectId) {
+        String url = SERVER_URL + "/teacher/getthemeinfo?themeid=" + subjectId;
+        return url;
+    }
+
+    /**
+     * 功能简述:讨论组页面，获取主题问题
+     *
+     * @param subjectId [参数]
+     */
+    public static String getSubjectQuestion(long subjectId) {
+        String url = SERVER_URL + "/teacher/getthemetopiclist?themeid=" + subjectId;
+        return url;
+    }
+
+    /**
+     * 功能简述:提交答案
+     *
+     * @param questionId [问题id]
+     * @param answer     [答案]
+     * @param subjectId  [主题id]
+     * @param groupId    [讨论组id]
+     */
+    public static String commitAnswer(long questionId, String answer, long subjectId, long groupId) {
+        long userId = DUTApplication.getUserInfo().getUserId();
+        String url = SERVER_URL + "/student/submitanswer?topicid=" + questionId
+                + "&answer=" + answer
+                + "&themeid=" + subjectId
                 + "&groupid=" + groupId
                 + "&studentid=" + userId;
         return url;

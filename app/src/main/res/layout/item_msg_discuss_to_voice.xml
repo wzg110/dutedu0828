@@ -17,18 +17,48 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tv_content"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/chat_to_bg"
-            android:gravity="start|center_vertical"
-            android:padding="10dp"
-            android:text="Hello"
-            android:textColor="@color/text_color_primary" />
+            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
+            android:gravity="right|end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="5dp"
+                android:text="name"
+                android:theme="@style/text_style_common_gray" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/chat_to_bg"
+                android:gravity="start|center_vertical"
+                android:padding="10dp"
+                android:textColor="@color/text_color_primary" />
+        </LinearLayout>
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginEnd="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:background="@drawable/chat_to_bg"-->
+        <!--android:gravity="start|center_vertical"-->
+        <!--android:padding="10dp"-->
+        <!--android:text="Hello"-->
+        <!--android:textColor="@color/text_color_primary" />-->
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_head"

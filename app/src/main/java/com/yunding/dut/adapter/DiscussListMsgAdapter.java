@@ -1,25 +1,39 @@
 package com.yunding.dut.adapter;
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.lqr.audio.AudioPlayManager;
+import com.lqr.audio.AudioRecordManager;
+import com.lqr.audio.IAudioPlayListener;
 import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.discuss.DiscussMsgListResp;
 import com.yunding.dut.util.api.Apis;
+import com.yunding.dut.util.file.FileUtil;
 import com.yunding.dut.util.third.ConstUtils;
 import com.yunding.dut.util.third.TimeUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.FileCallBack;
 
+import java.io.File;
 import java.util.List;
+
+import okhttp3.Call;
 
 public class DiscussListMsgAdapter extends RecyclerView.Adapter {
 
     private List<DiscussMsgListResp.DataBean.DatasBean> mData;
+    private Context mContext;
 
     private final int ITEM_TYPE_FROM_TEXT = 0;
     private final int ITEM_TYPE_FROM_VOICE = 1;
@@ -32,8 +46,9 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
     private final int MSG_TYPE_VOICE = 1;
     private final int MSG_TYPE_IMAGE = 2;
 
-    public DiscussListMsgAdapter(List<DiscussMsgListResp.DataBean.DatasBean> mData) {
+    public DiscussListMsgAdapter(List<DiscussMsgListResp.DataBean.DatasBean> mData, Context context) {
         this.mData = mData;
+        this.mContext = context;
     }
 
     @Override
@@ -77,7 +92,13 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
         if (holder instanceof ChatFromVoiceHolder) {
             ((ChatFromVoiceHolder) holder).tvName.setText(dataBean.getStudentName());
             ((ChatFromVoiceHolder) holder).imgFromHead.setImageURI(Uri.parse(Apis.SERVER_URL + dataBean.getAvatarUrl()));
-            ((ChatFromVoiceHolder) holder).tvFromContent.setText(dataBean.getMessageLength()+"s");
+            ((ChatFromVoiceHolder) holder).tvFromContent.setText(dataBean.getMessageLength() + "s");
+            ((ChatFromVoiceHolder) holder).tvFromContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    downloadRecord(dataBean.getFileUrl());
+                }
+            });
             if (position > 0) {
                 final DiscussMsgListResp.DataBean.DatasBean preDataBean = mData.get(position - 1);
                 long diffSec = TimeUtils.getTimeSpan(dataBean.getCreateTime(), preDataBean.getCreateTime(), ConstUtils.TimeUnit.MIN);
@@ -104,12 +125,18 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
         } else if (holder instanceof ChatToVoiceHolder) {
             ((ChatToVoiceHolder) holder).tvName.setText(dataBean.getStudentName());
             ((ChatToVoiceHolder) holder).imgToHead.setImageURI(Uri.parse(Apis.SERVER_URL + dataBean.getAvatarUrl()));
-            ((ChatToVoiceHolder) holder).tvToContent.setText(dataBean.getMessageLength()+"s");
+            ((ChatToVoiceHolder) holder).tvToContent.setText(dataBean.getMessageLength() + "s");
             if (position > 0) {
                 final DiscussMsgListResp.DataBean.DatasBean preDataBean = mData.get(position - 1);
                 long diffSec = TimeUtils.getTimeSpan(dataBean.getCreateTime(), preDataBean.getCreateTime(), ConstUtils.TimeUnit.MIN);
                 ((ChatToVoiceHolder) holder).tvTime.setVisibility(diffSec > 1 ? View.VISIBLE : View.GONE);
             }
+            ((ChatToVoiceHolder) holder).tvToContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    downloadRecord(dataBean.getFileUrl());
+                }
+            });
         } else {
             //T.B.D
         }
@@ -129,18 +156,6 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
             //我发送的
             switch (type) {
                 case MSG_TYPE_TEXT:
-                    return ITEM_TYPE_FROM_TEXT;
-                case MSG_TYPE_VOICE:
-                    return ITEM_TYPE_FROM_VOICE;
-                case MSG_TYPE_IMAGE:
-                    return ITEM_TYPE_FROM_IMAGE;
-                default:
-                    return ITEM_TYPE_FROM_TEXT;
-            }
-        } else {
-            //发给我的
-            switch (type) {
-                case MSG_TYPE_TEXT:
                     return ITEM_TYPE_TO_TEXT;
                 case MSG_TYPE_VOICE:
                     return ITEM_TYPE_TO_VOICE;
@@ -148,6 +163,18 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
                     return ITEM_TYPE_TO_IMAGE;
                 default:
                     return ITEM_TYPE_TO_TEXT;
+            }
+        } else {
+            //发给我的
+            switch (type) {
+                case MSG_TYPE_TEXT:
+                    return ITEM_TYPE_FROM_TEXT;
+                case MSG_TYPE_VOICE:
+                    return ITEM_TYPE_FROM_VOICE;
+                case MSG_TYPE_IMAGE:
+                    return ITEM_TYPE_FROM_IMAGE;
+                default:
+                    return ITEM_TYPE_FROM_TEXT;
             }
         }
     }
@@ -214,5 +241,39 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvToContent = (TextView) itemView.findViewById(R.id.tv_content);
         }
+    }
+
+    private void downloadRecord(String path) {
+        OkHttpUtils.get().url(Apis.SERVER_URL + path).build()
+                .execute(new FileCallBack(FileUtil.getDownloadVoiceDir(), System.currentTimeMillis() + FileUtil.getRecordSuffix()) {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e(getClass().toString(),e.toString());
+                    }
+
+                    @Override
+                    public void onResponse(File file, int id) {
+                        startPlay(file);
+                    }
+                });
+    }
+
+    private void startPlay(File file) {
+        AudioPlayManager.getInstance().startPlay(mContext, Uri.fromFile(file), new IAudioPlayListener() {
+            @Override
+            public void onStart(Uri var1) {
+                //开播（一般是开始语音消息动画）
+            }
+
+            @Override
+            public void onStop(Uri var1) {
+                //停播（一般是停止语音消息动画）
+            }
+
+            @Override
+            public void onComplete(Uri var1) {
+                //播完（一般是停止语音消息动画）
+            }
+        });
     }
 }

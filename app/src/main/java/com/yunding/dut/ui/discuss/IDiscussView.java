@@ -1,6 +1,7 @@
 package com.yunding.dut.ui.discuss;
 
 import com.yunding.dut.model.resp.discuss.DiscussMsgListResp;
+import com.yunding.dut.model.resp.discuss.DiscussSubjectResp;
 import com.yunding.dut.ui.base.IBaseListView;
 
 /**
@@ -26,4 +27,10 @@ public interface IDiscussView extends IBaseListView {
     void showMsgList(DiscussMsgListResp resp);
 
     void showMsg(String msg);
+
+    void sendTextMsgSuccess();
+
+    void sendVoiceMsgSuccess();
+
+    void showSubjectInfo(DiscussSubjectResp resp);
 }

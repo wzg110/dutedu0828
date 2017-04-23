@@ -122,12 +122,14 @@ public class DiscussListFragment extends ToolBarFragment implements IDiscussList
 
     @Override
     public void showNoData() {
-        mAdapter.setEmptyView(R.layout.layout_no_data, (ViewGroup) rvDiscussList.getParent());
+        if (mAdapter != null)
+            mAdapter.setEmptyView(R.layout.layout_no_data, (ViewGroup) rvDiscussList.getParent());
     }
 
     @Override
     public void showBadNetwork() {
-        mAdapter.setEmptyView(R.layout.layout_bad_network, (ViewGroup) rvDiscussList.getParent());
+        if (mAdapter != null)
+            mAdapter.setEmptyView(R.layout.layout_bad_network, (ViewGroup) rvDiscussList.getParent());
     }
 
     @Override
