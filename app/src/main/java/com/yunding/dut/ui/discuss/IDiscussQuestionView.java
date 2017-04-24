@@ -1,5 +1,6 @@
 package com.yunding.dut.ui.discuss;
 
+import com.yunding.dut.model.resp.discuss.DiscussQuestionListResp;
 import com.yunding.dut.ui.base.IBaseView;
 
 /**
@@ -14,4 +15,10 @@ import com.yunding.dut.ui.base.IBaseView;
  */
 
 public interface IDiscussQuestionView extends IBaseView{
+
+    void showQuestions(DiscussQuestionListResp resp);
+
+    void showMsg(String msg);
+
+    void commitAnswerSuccess();
 }

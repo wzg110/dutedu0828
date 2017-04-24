@@ -1,5 +1,6 @@
 package com.yunding.dut.model.resp.discuss;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * <P/>版    本：1.0
  */
 
-public class DiscussQuestionListResp {
+public class DiscussQuestionListResp implements Serializable{
 
 
     /**
@@ -70,10 +71,10 @@ public class DiscussQuestionListResp {
         this.data = data;
     }
 
-    public static class ErrorsBean {
+    public static class ErrorsBean implements Serializable{
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * {
          * "answer": "不知道怎么回答",     // 正确答案

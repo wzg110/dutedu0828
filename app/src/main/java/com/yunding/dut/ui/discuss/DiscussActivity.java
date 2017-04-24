@@ -1,6 +1,8 @@
 package com.yunding.dut.ui.discuss;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -27,6 +29,7 @@ import com.yunding.dut.model.resp.discuss.DiscussSubjectResp;
 import com.yunding.dut.presenter.discuss.DiscussPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
 import com.yunding.dut.util.file.FileUtil;
+import com.yunding.dut.util.permission.PermissionUtil;
 import com.yunding.dut.util.third.ConstUtils;
 import com.yunding.dut.util.third.TimeUtils;
 import com.yunding.dut.view.DUTVerticalSmoothScrollRecycleView;
@@ -91,11 +94,36 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
 
         mPresenter = new DiscussPresenter(this);
         if (mDiscussInfo != null) {
-            mPresenter.refreshMsg(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
+//            mPresenter.refreshMsg(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
             mPresenter.loadSubjectInfo(mDiscussInfo.getThemeId());
         }
 
         initRecord();
+
+        checkPermissions();
+
+    }
+
+    private void checkPermissions() {
+        if(PermissionUtil.checkDUTPermission(this)){
+            mPresenter.refreshMsg(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @android.support.annotation.NonNull String[] permissions, @android.support.annotation.NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == PermissionUtil.PERMISSION_REQUEST_CODE){
+            if(permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)&&grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                mPresenter.refreshMsg(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
+            }else{
+                new MaterialDialog.Builder(this)
+                        .title("抱歉")
+                        .content("讨论组功能需要存储权限，不开启将无法正常工作")
+                        .positiveText("确定")
+                        .show();
+            }
+        }
     }
 
     @Override
@@ -409,35 +437,39 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     }
 
     private void showQuestions() {
-        new MaterialDialog.Builder(this)
-                .iconRes(R.mipmap.ic_launcher)
-                .limitIconToDefaultSize()
-                .title("题目标题")
-                .positiveText("允许")
-                .negativeText("拒绝")
-                .onAny(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        showToast("Prompt checked? " + dialog.isPromptCheckBoxChecked());
-                    }
-                })
-                .checkBoxPromptRes(R.string.app_name, false, null)
-                .show();
+        Intent intent = new Intent(this, DiscussQuestionActivity.class);
+        intent.putExtra(DiscussQuestionActivity.DISCUSS_INFO, mDiscussInfo);
+        startActivity(intent);
 
-        new MaterialDialog.Builder(this)
-                .title("单选题目")
-                .items("sfakjnak", "sdadad", "afagfafa", "gagfafa")
-                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        /**
-                         * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
-                         * returning false here won't allow the newly selected radio button to actually be selected.
-                         **/
-                        return true;
-                    }
-                })
-                .positiveText("确定")
-                .show();
+//        new MaterialDialog.Builder(this)
+//                .iconRes(R.mipmap.ic_launcher)
+//                .limitIconToDefaultSize()
+//                .title("题目标题")
+//                .positiveText("允许")
+//                .negativeText("拒绝")
+//                .onAny(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                        showToast("Prompt checked? " + dialog.isPromptCheckBoxChecked());
+//                    }
+//                })
+//                .checkBoxPromptRes(R.string.app_name, false, null)
+//                .show();
+//
+//        new MaterialDialog.Builder(this)
+//                .title("单选题目")
+//                .items("sfakjnak", "sdadad", "afagfafa", "gagfafa")
+//                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+//                    @Override
+//                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+//                        /**
+//                         * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
+//                         * returning false here won't allow the newly selected radio button to actually be selected.
+//                         **/
+//                        return true;
+//                    }
+//                })
+//                .positiveText("确定")
+//                .show();
     }
 }

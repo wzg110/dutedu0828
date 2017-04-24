@@ -117,7 +117,8 @@ public class DiscussListFragment extends ToolBarFragment implements IDiscussList
 
     @Override
     public void hideProgress() {
-        srlDiscussList.setRefreshing(false);
+        if (srlDiscussList != null)
+            srlDiscussList.setRefreshing(false);
     }
 
     @Override

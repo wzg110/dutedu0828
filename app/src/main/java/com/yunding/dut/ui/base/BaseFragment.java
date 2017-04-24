@@ -3,10 +3,14 @@ package com.yunding.dut.ui.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.yunding.dut.app.DUTApplication;
 
 /**
  * 类 名 称：BaseFragment
@@ -52,4 +56,36 @@ public abstract class BaseFragment extends Fragment {
     protected abstract int getLayoutId();
 
     protected abstract void initView(View view, Bundle saveInstanceState);
+
+    public void showToast(int msgId) {
+        Toast.makeText(DUTApplication.getInstance(), msgId, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showToast(String msg) {
+        Toast.makeText(DUTApplication.getInstance(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showSnackBar(int msgId) {
+        Snackbar.make(getHoldingActivity().getWindow().getDecorView(), msgId, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public void showSnackBar(String msg) {
+        Snackbar.make(getHoldingActivity().getWindow().getDecorView(), msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    protected void showProgressDialog() {
+
+    }
+
+    protected void hideProgressDialog() {
+
+    }
+
+    protected void showProgressBar() {
+
+    }
+
+    protected void hideProgressBar() {
+
+    }
 }

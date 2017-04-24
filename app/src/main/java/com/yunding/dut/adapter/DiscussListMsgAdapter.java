@@ -1,9 +1,7 @@
 package com.yunding.dut.adapter;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lqr.audio.AudioPlayManager;
-import com.lqr.audio.AudioRecordManager;
 import com.lqr.audio.IAudioPlayListener;
 import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;

@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.yunding.dut.ui.discuss.DiscussListFragment;
-import com.yunding.dut.ui.reading.ReadingFragment;
+import com.yunding.dut.ui.reading.ReadingListFragment;
 
 public class HomePagerAdapter extends FragmentPagerAdapter {
 
@@ -21,7 +21,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         switch (position) {
             case READING_INDEX:
-                fragment = new ReadingFragment();
+                fragment = new ReadingListFragment();
                 break;
             case DISCUSS_INDEX:
                 fragment = new DiscussListFragment();

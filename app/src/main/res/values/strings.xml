@@ -57,4 +57,6 @@
     <string name="menu_group_member">组成员</string>
 
     <string name="discuss_msg_btn_start_discuss">开启讨论</string>
+
+    <string name="discuss_questions_commit">提交</string>
 </resources>

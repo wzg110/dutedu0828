@@ -1,0 +1,33 @@
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="com.yunding.dut.ui.reading.ReadingChoiceQuestionFragment">
+
+    <LinearLayout
+        android:id="@+id/ll_question"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment" />
+
+        <TextView
+            android:id="@+id/tv_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/hello_blank_fragment" />
+
+        <!--<com.yunding.dut.view.DUTVerticalRecyclerView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

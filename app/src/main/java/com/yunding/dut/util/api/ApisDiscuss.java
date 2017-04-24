@@ -54,7 +54,9 @@ public class ApisDiscuss extends Apis {
      */
     public static String discussGroupMsgListUrl(long subjectId, long groupId) {
         String url = SERVER_URL + "/teacher/getthemegroupmessagelist?themeid=" + subjectId
-                + "&groupid=" + groupId;
+                + "&groupid=" + groupId
+                + "&pageno=" + 0
+                + "&pagesize=" + Integer.MAX_VALUE;
         return url;
     }
 
@@ -114,6 +116,17 @@ public class ApisDiscuss extends Apis {
                 + "&themeid=" + subjectId
                 + "&groupid=" + groupId
                 + "&studentid=" + userId;
+        return url;
+    }
+
+    /**
+     * 功能简述:提交答案
+     *
+     * @param jsonParams [答案json]
+     */
+    public static String commitAnswer(String jsonParams) {
+        long userId = DUTApplication.getUserInfo().getUserId();
+        String url = SERVER_URL + "/student/submitanswer?json=" + jsonParams;
         return url;
     }
 }
