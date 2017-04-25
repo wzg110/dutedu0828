@@ -25,7 +25,7 @@ public abstract class BaseFragmentActivity extends ToolBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
 
         //添加需要显示的第一个Fragment
         if (getSupportFragmentManager().getFragments() == null) {

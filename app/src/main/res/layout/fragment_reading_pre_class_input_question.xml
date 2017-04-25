@@ -45,13 +45,10 @@
 
     </LinearLayout>
 
-    <include layout="@layout/layout_question_toast" />
-
     <Button
         android:id="@+id/btn_go_original"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:text="返回原文"
         android:theme="@style/DUTButton" />
 

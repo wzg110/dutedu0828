@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunding.dut.R;
 import com.yunding.dut.model.data.discuss.DiscussAnswerCache;
+import com.yunding.dut.ui.reading.ReadingActivity;
 
 import java.util.List;
 
@@ -25,15 +26,18 @@ import java.util.List;
 public class DiscussQuestionInputAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     private List<String> mData;
+    private int mState;
 
-    public DiscussQuestionInputAdapter(List<String> data) {
+    public DiscussQuestionInputAdapter(List<String> data, int state) {
         super(R.layout.item_discuss_question_input_list, data);
         mData = data;
+        mState = state;
     }
 
     @Override
     protected void convert(final BaseViewHolder helper, String item) {
         ((EditText) helper.getView(R.id.et_answer)).setHint("空" + String.valueOf(helper.getAdapterPosition() + 1));
+        ((EditText) helper.getView(R.id.et_answer)).setText(item);
         ((EditText) helper.getView(R.id.et_answer)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -51,5 +55,7 @@ public class DiscussQuestionInputAdapter extends BaseQuickAdapter<String, BaseVi
 
             }
         });
+        helper.getView(R.id.et_answer).setEnabled(mState == ReadingActivity.STATE_UNDER_WAY);
+
     }
 }

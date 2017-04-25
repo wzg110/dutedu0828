@@ -27,8 +27,7 @@ public class ReadingListPresenter extends BasePresenter {
 
     public void getReadingList() {
         mView.showProgress();
-        long userId = DUTApplication.getUserInfo().getUserId();
-        String url = ApisReading.getReadingList(userId);
+        String url = ApisReading.getReadingList();
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {

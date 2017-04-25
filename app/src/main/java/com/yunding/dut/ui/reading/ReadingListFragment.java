@@ -131,7 +131,7 @@ public class ReadingListFragment extends ToolBarFragment implements IReadingList
         unbinder = ButterKnife.bind(this, rootView);
 
         mPresenter = new ReadingListPresenter(this);
-        mPresenter.getReadingList();
+//        mPresenter.getReadingList();
 
         srlReadingList.setOnRefreshListener(this);
         rvReadingList.addOnItemTouchListener(new OnItemClickListener() {
@@ -144,6 +144,12 @@ public class ReadingListFragment extends ToolBarFragment implements IReadingList
             }
         });
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.getReadingList();
     }
 
     @Override

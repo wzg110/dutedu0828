@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.yunding.dut.ui.reading.ReadingOriginalFragment">
+    tools:context="com.yunding.dut.ui.reading.ReadingChoiceQuestionFragment">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -23,41 +23,44 @@
                 android:text="@string/hello_blank_fragment" />
 
             <TextView
-                android:id="@+id/tv_content"
+                android:id="@+id/tv_question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:text="@string/hello_blank_fragment" />
+
+            <RadioGroup
+                android:id="@+id/rg_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp" />
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    <LinearLayout
+    <include layout="@layout/layout_question_toast" />
+
+    <Button
+        android:id="@+id/btn_go_original"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="返回原文"
+        android:theme="@style/DUTButton"
+        android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btn_last"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="上一句"
-            android:theme="@style/DUTButton" />
+    <Button
+        android:id="@+id/btn_commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提交答案"
+        android:theme="@style/DUTButton" />
 
-        <Button
-            android:id="@+id/btn_finish"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="结束阅读"
-            android:theme="@style/DUTButton" />
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下一题"
+        android:theme="@style/DUTButton" />
 
-        <Button
-            android:id="@+id/btn_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="下一句"
-            android:theme="@style/DUTButton" />
-
-    </LinearLayout>
 
 </LinearLayout>

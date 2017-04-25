@@ -3,6 +3,7 @@ package com.yunding.dut.ui.base;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.yunding.dut.R;
 import com.yunding.dut.view.ToolBarHelper;
@@ -60,5 +61,9 @@ public abstract class ToolBarActivity extends BaseActivity {
 
     protected void setNavigationIcon(int resId) {
         mToolbar.setNavigationIcon(resId);
+    }
+
+    protected void setToolBarVisible(boolean isToolBarVisible) {
+        mToolbar.setVisibility(isToolBarVisible ? View.VISIBLE : View.GONE);
     }
 }

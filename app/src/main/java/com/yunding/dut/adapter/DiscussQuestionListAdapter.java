@@ -133,7 +133,7 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
                 ((InputViewHolder) holder).tvQuestionContent.setText(item.getContent());
                 if (mDataCache.get(holder.getAdapterPosition()) != null) {
                     List<String> dataList = mDataCache.get(holder.getAdapterPosition()).getInputAnswer();
-                    ((InputViewHolder) holder).rvAnswer.setAdapter(new DiscussQuestionInputAdapter(dataList));
+                    ((InputViewHolder) holder).rvAnswer.setAdapter(new DiscussQuestionInputAdapter(dataList,0));
                 }
             }
     }
