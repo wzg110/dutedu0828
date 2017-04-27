@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#4BAF50</color>
-    <color name="color_primary_dark">#1F9C1E</color>
+    <color name="color_primary">#00C2A0</color>
+    <color name="color_primary_dark">#00A787</color>
     <color name="color_accent">#4BAF50</color>
     <color name="color_window_background">#EDEDED</color>
 
@@ -15,15 +15,14 @@
     <color name="ripple_pressed">#9ccc</color>
 
     <color name="et_color_control_normal">#9E9E9E</color>
-    <color name="et_color_control_activated">#4BAF50</color>
+    <color name="et_color_control_activated">#00C2A0</color>
     <color name="et_text_color_hint">#9E9E9E</color>
 
-    <color name="btn_color_control_high_light">#1F9C1E</color>
-    <color name="btn_color_button_normal">#4BAF50</color>
+    <color name="btn_color_control_high_light">#00A787</color>
+    <color name="btn_color_button_normal">#00C2A0</color>
 
     <color name="bottom_navigation_normal">#9E9E9E</color>
-    <color name="bottom_navigation_selected">#4BAF50</color>
-
+    <color name="bottom_navigation_selected">#00C2A0</color>
 
     <color name="transparent">#00000000</color>
     <color name="translucent">#59000000</color>

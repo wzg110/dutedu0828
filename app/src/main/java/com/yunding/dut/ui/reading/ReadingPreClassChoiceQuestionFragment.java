@@ -110,7 +110,7 @@ public class ReadingPreClassChoiceQuestionFragment extends BaseFragmentInReading
         for (ReadingListResp.DataBean.PreClassExercisesBean.OptionsBeanX option : mPreExerciseBean.getOptions()) {
             RadioButton rbChoice = new RadioButton(getHoldingActivity());
             rbChoice.setText(option.getOptionIndex() + "." + option.getOptionContent());
-            if (mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STAET_FINISHED) {
+            if (mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED) {
                 rbChoice.setEnabled(false);
                 if (TextUtils.equals(mPreExerciseBean.getAnswerContent(), option.getOptionIndex())) {
                     rbChoice.setChecked(true);
@@ -132,11 +132,11 @@ public class ReadingPreClassChoiceQuestionFragment extends BaseFragmentInReading
         });
 
         //初始化按钮状态
-        btnNext.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STAET_FINISHED ? View.VISIBLE : View.GONE);
-        btnCommit.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STAET_FINISHED ? View.GONE : View.VISIBLE);
+        btnNext.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
+        btnCommit.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
 
         //初始化提示
-        layoutToast.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STAET_FINISHED ? View.VISIBLE : View.GONE);
+        layoutToast.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
         tvRightAnswer.setText(mPreExerciseBean.getRightAnswer());
         tvToast.setText(mPreExerciseBean.getAnalysis());
 
@@ -163,7 +163,7 @@ public class ReadingPreClassChoiceQuestionFragment extends BaseFragmentInReading
 
     @Override
     public void commitSuccess() {
-        mPreExerciseBean.setQuestionCompleted(ReadingActivity.STAET_FINISHED);
+        mPreExerciseBean.setQuestionCompleted(ReadingActivity.STATE_FINISHED);
         btnCommit.setVisibility(View.GONE);
         btnNext.setVisibility(View.VISIBLE);
         layoutToast.setVisibility(View.VISIBLE);

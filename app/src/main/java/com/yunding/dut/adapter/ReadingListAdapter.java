@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunding.dut.R;
 import com.yunding.dut.model.resp.reading.ReadingListResp;
+import com.yunding.dut.ui.reading.ReadingActivity;
 import com.yunding.dut.util.third.TimeUtils;
 
 import java.util.List;
@@ -29,5 +30,6 @@ public class ReadingListAdapter extends BaseQuickAdapter<ReadingListResp.DataBea
     protected void convert(BaseViewHolder helper, ReadingListResp.DataBean item) {
         helper.setText(R.id.tv_reading_name, item.getCourseTitle());
         helper.setText(R.id.tv_reading_valid_date, item.getCreateTime());
+        helper.setVisible(R.id.img_group_state, item.getCompleted() == ReadingActivity.STATE_FINISHED);
     }
 }

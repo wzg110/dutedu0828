@@ -21,8 +21,10 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.lqr.audio.AudioRecordManager;
 import com.lqr.audio.IAudioRecordListener;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.DiscussListMsgAdapter;
+import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.discuss.DiscussListResp;
 import com.yunding.dut.model.resp.discuss.DiscussMsgListResp;
 import com.yunding.dut.model.resp.discuss.DiscussSubjectResp;
@@ -55,8 +57,6 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
 
     @BindView(R.id.tv_subject_title)
     TextView tvSubjectTitle;
-    @BindView(R.id.tv_subject_question)
-    TextView tvSubjectQuestion;
     @BindView(R.id.rv_msg_list)
     DUTVerticalSmoothScrollRecycleView rvMsgList;
     @BindView(R.id.btn_open)
@@ -77,6 +77,10 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     LinearLayout llRecord;
     @BindView(R.id.tv_count_down)
     TextView tvCountDown;
+    @BindView(R.id.expand_text_view)
+    ExpandableTextView tvQuestion;
+    @BindView(R.id.tv_go_answer)
+    TextView tvGoAnswer;
 
     private DiscussListResp.DataBean mDiscussInfo;
     private DiscussListMsgAdapter mAdapter;
@@ -94,18 +98,14 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
 
         mPresenter = new DiscussPresenter(this);
         if (mDiscussInfo != null) {
-//            mPresenter.refreshMsg(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
             mPresenter.loadSubjectInfo(mDiscussInfo.getThemeId());
         }
-
         initRecord();
-
         checkPermissions();
-
     }
 
     private void checkPermissions() {
-        if(PermissionUtil.checkDUTPermission(this)){
+        if (PermissionUtil.checkDUTPermission(this)) {
             mPresenter.refreshMsg(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
         }
     }
@@ -113,10 +113,10 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     @Override
     public void onRequestPermissionsResult(int requestCode, @android.support.annotation.NonNull String[] permissions, @android.support.annotation.NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == PermissionUtil.PERMISSION_REQUEST_CODE){
-            if(permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)&&grantResults[0]== PackageManager.PERMISSION_GRANTED){
+        if (requestCode == PermissionUtil.PERMISSION_REQUEST_CODE) {
+            if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mPresenter.refreshMsg(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
-            }else{
+            } else {
                 new MaterialDialog.Builder(this)
                         .title("抱歉")
                         .content("讨论组功能需要存储权限，不开启将无法正常工作")
@@ -163,6 +163,9 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
                     tvCountDown.setVisibility(View.GONE);
                     break;
             }
+
+            //根据是否是组长显示是否可以答题
+            tvGoAnswer.setVisibility(mDiscussInfo.getIsLeader() == 1 ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -186,13 +189,9 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.tv_subject_title, R.id.btn_open, R.id.btn_record, R.id.btn_send, R.id.btn_input})
+    @OnClick({R.id.btn_open, R.id.btn_record, R.id.btn_send, R.id.btn_input, R.id.tv_go_answer})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_subject_title:
-                //答题页面
-                showQuestions();
-                break;
             case R.id.btn_open:
                 //开启讨论
                 if (mDiscussInfo != null && mPresenter != null)
@@ -211,12 +210,14 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
                 llRecord.setVisibility(View.GONE);
                 llInput.setVisibility(View.VISIBLE);
                 break;
+            case R.id.tv_go_answer:
+                showQuestions();
+                break;
         }
     }
 
     @Override
     public void showProgress() {
-
     }
 
     @Override
@@ -350,7 +351,8 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     @Override
     public void showSubjectInfo(DiscussSubjectResp resp) {
         tvSubjectTitle.setText("题目：" + resp.getData().getName());
-        tvSubjectQuestion.setText("主题：" + resp.getData().getContent());
+        tvQuestion.setText("主题：" + resp.getData().getContent());
+//        tvSubjectQuestion.setText("主题：" + resp.getData().getContent());
     }
 
     class LongTouch implements View.OnTouchListener {

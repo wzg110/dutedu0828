@@ -43,10 +43,12 @@ public class ResetPwdPresenter extends BasePresenter {
             return;
         }
 
+        mView.showProgress();
         String url = ApisAccount.resetPwdUrl(oldPwd, newPwd);
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {
+                mView.hideProgress();
                 CommonResp resp = parseJson(response, CommonResp.class);
                 if (resp != null) {
                     if (resp.isResult()) {
@@ -61,6 +63,7 @@ public class ResetPwdPresenter extends BasePresenter {
 
             @Override
             public void onError(Exception e) {
+                mView.hideProgress();
                 mView.resetPwdFailed(e.toString());
             }
         });

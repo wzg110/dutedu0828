@@ -2,9 +2,9 @@
 <com.yunding.dut.view.DUTSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/srl_group_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/srl_group_info"
     tools:context="com.yunding.dut.ui.discuss.DiscussGroupActivity">
 
     <LinearLayout
@@ -16,6 +16,7 @@
             android:id="@+id/rv_group_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/bg_white"
             app:spanCount="4" />
 
         <android.support.v4.widget.Space

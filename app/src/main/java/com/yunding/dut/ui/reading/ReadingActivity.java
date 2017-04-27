@@ -25,7 +25,7 @@ public class ReadingActivity extends BaseFragmentActivity {
     public static final int TYPE_CHOICE = 2;
     public static final int TYPE_INPUT = 1;
 
-    public static final int STAET_FINISHED = 1;
+    public static final int STATE_FINISHED = 1;
     public static final int STATE_UNDER_WAY = 0;
 
     @Override

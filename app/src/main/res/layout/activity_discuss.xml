@@ -1,61 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_gray"
+    android:background="@color/bg_white"
     android:orientation="vertical"
     tools:context="com.yunding.dut.ui.discuss.DiscussActivity">
 
-    <!--<android.support.v7.widget.CardView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@color/bg_white"-->
-    <!--app:elevation="2dp">-->
-
-    <RelativeLayout
+    <com.ms.square.android.expandabletextview.ExpandableTextView
+        android:id="@+id/expand_text_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/bg_gray"
+        expandableTextView:maxCollapsedLines="4">
 
-        <TextView
-            android:id="@+id/tv_subject_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bg_white"
-            android:padding="5dp"
-            android:theme="@style/text_style_common_gray" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_subject_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:theme="@style/text_style_common_black" />
+
+            <TextView
+                android:id="@+id/tv_count_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/color_primary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_go_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="去答题"
+                android:theme="@style/text_style_common_black" />
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/tv_subject_question"
+            android:id="@id/expandable_text"
+            style="@style/text_style_common_black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_subject_title"
-            android:background="@color/bg_white"
-            android:drawableBottom="@drawable/ic_expand"
-            android:drawablePadding="10dp"
-            android:padding="5dp"
-            android:theme="@style/text_style_common_gray" />
+            android:fontFamily="sans-serif-light"
+            android:padding="5dp" />
 
-        <TextView
-            android:id="@+id/tv_count_down"
+        <ImageButton
+            android:id="@id/expand_collapse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:padding="10dp"
-            android:text="40分钟"
-            android:textColor="@color/color_primary"
-            android:textSize="20sp" />
-
-    </RelativeLayout>
-    
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height_in_page" />
-
-    <!--</android.support.v7.widget.CardView>-->
+            android:layout_gravity="center_horizontal"
+            android:background="@android:color/transparent"
+            android:padding="5dp" />
+    </com.ms.square.android.expandabletextview.ExpandableTextView>
 
     <com.yunding.dut.view.DUTVerticalSmoothScrollRecycleView
         android:id="@+id/rv_msg_list"

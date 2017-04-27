@@ -38,7 +38,6 @@ public class MeActivity extends ToolBarActivity {
         ButterKnife.bind(this);
 
         setTitle(getString(R.string.me_center_title));
-        showUserInfo();
     }
 
     private void showUserInfo() {
@@ -58,5 +57,11 @@ public class MeActivity extends ToolBarActivity {
                 startActivity(new Intent(this, MeSettingActivity.class));
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showUserInfo();
     }
 }

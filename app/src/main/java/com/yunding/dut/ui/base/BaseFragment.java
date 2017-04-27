@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.yunding.dut.app.DUTApplication;
+import com.yunding.dut.view.DUTProgressDialog;
 
 /**
  * 类 名 称：BaseFragment
@@ -73,12 +74,18 @@ public abstract class BaseFragment extends Fragment {
         Snackbar.make(getHoldingActivity().getWindow().getDecorView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 
-    protected void showProgressDialog() {
+    DUTProgressDialog progress;
 
+    protected void showProgressDialog() {
+        progress = new DUTProgressDialog()
+                .show(getHoldingActivity().getSupportFragmentManager());
+        progress.setCancelable(false);
     }
 
     protected void hideProgressDialog() {
-
+        if (progress != null) {
+            progress.dismissAllowingStateLoss();
+        }
     }
 
     protected void showProgressBar() {

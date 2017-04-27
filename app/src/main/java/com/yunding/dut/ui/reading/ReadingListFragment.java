@@ -131,7 +131,6 @@ public class ReadingListFragment extends ToolBarFragment implements IReadingList
         unbinder = ButterKnife.bind(this, rootView);
 
         mPresenter = new ReadingListPresenter(this);
-//        mPresenter.getReadingList();
 
         srlReadingList.setOnRefreshListener(this);
         rvReadingList.addOnItemTouchListener(new OnItemClickListener() {

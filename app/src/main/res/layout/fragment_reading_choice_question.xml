@@ -43,7 +43,8 @@
         android:id="@+id/btn_go_original"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="返回原文"
+        android:visibility="visible"
+        android:text="阅读原文"
         android:theme="@style/DUTButton" />
 
     <Button

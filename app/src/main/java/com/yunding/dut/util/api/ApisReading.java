@@ -17,9 +17,6 @@ public class ApisReading extends Apis {
 
     public static String getReadingList() {
         long userId = DUTApplication.getUserInfo().getUserId();
-//        String url = "http://172.16.0.78:8080/www-0.0.1/reading/courselist?studentId=" + 1
-//                + "&page=" + 1
-//                + "&pagesize=" + Integer.MAX_VALUE;
         String url = SERVER_URL + "/reading/courselist?studentId=" + userId
                 + "&page=" + 1
                 + "&pagesize=" + Integer.MAX_VALUE;
@@ -33,6 +30,27 @@ public class ApisReading extends Apis {
                 + "&answerContent=" + answerContent
                 + "&answerTime=" + answerTime
                 + "&backTime=" + backTime;
+        return url;
+    }
+
+    public static String markerWords(String courseId, int wordIndex, int wordLength, String word) {
+        long userId = DUTApplication.getUserInfo().getUserId();
+        String url = SERVER_URL + "/reading/savenewword?studentId=" + userId
+                + "&courseId=" + courseId
+                + "&wordIndex=" + wordIndex
+                + "&wordLength=" + wordLength
+                + "&word=" + word;
+        return url;
+    }
+
+    public static String recordReadingTime(String courseId, int sentenceIndex, String fromSentenceIndex, long stayTime, int articleFinish) {
+        long userId = DUTApplication.getUserInfo().getUserId();
+        String url = SERVER_URL + "/reading/savereadingtime?studentId=" + userId
+                + "&courseId=" + courseId
+                + "&sentenceIndex=" + sentenceIndex
+                + "&fromSentenceIndex=" + fromSentenceIndex
+                + "&stayTime=" + stayTime
+                + "&articleFinish=" + articleFinish;
         return url;
     }
 }

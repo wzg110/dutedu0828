@@ -7,5 +7,4 @@
         android:icon="@drawable/ic_menu_group_member"
         android:title="@string/menu_group_member"
         app:showAsAction="ifRoom" />
-
 </menu>

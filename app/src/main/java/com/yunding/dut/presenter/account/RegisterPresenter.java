@@ -55,10 +55,12 @@ public class RegisterPresenter extends BasePresenter {
             return;
         }
 
+        mView.showProgress();
         String url = ApisAccount.registerUrl(name, account, confirmPwd);
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {
+                mView.hideProgress();
                 CommonResp resp = parseJson(response, CommonResp.class);
                 if (resp != null) {
                     if (resp.isResult()) {
@@ -73,6 +75,7 @@ public class RegisterPresenter extends BasePresenter {
 
             @Override
             public void onError(Exception e) {
+                mView.hideProgress();
                 mView.registerFailed(e.toString());
             }
         });

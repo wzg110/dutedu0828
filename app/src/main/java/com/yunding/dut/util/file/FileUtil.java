@@ -2,8 +2,10 @@ package com.yunding.dut.util.file;
 
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * 类 名 称：FileUtil
@@ -22,7 +24,7 @@ public class FileUtil {
 
     private static final String RECORD_SUFFIX = ".voice";
 
-    public static String getRecordVoiceDir(){
+    public static String getRecordVoiceDir() {
         String voiceDir = APP_ROOT_DIR + "/voice/record";
         File file = new File(voiceDir);
         if (!file.exists()) {
@@ -40,7 +42,20 @@ public class FileUtil {
         return voiceDir;
     }
 
-    public static String getRecordSuffix(){
+    public static String getAvatarPath() {
+        String avatarDir = APP_ROOT_DIR + "/img/avatar/avatar.jpg";
+        File file = new File(avatarDir);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                Log.e("getAvatarPath", e.toString());
+            }
+        }
+        return avatarDir;
+    }
+
+    public static String getRecordSuffix() {
         return RECORD_SUFFIX;
     }
 }

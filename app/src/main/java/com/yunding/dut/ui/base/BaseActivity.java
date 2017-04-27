@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.yunding.dut.app.DUTApplication;
+import com.yunding.dut.view.DUTProgressDialog;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -30,12 +31,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         Snackbar.make(getWindow().getDecorView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 
-    protected void showProgressDialog() {
+    DUTProgressDialog progress;
 
+    protected void showProgressDialog() {
+        progress = new DUTProgressDialog()
+                .show(getSupportFragmentManager());
+        progress.setCancelable(false);
     }
 
     protected void hideProgressDialog() {
-
+        if (progress != null) {
+            progress.dismissAllowingStateLoss();
+        }
     }
 
     protected void showProgressBar(){

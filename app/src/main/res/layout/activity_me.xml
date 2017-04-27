@@ -24,7 +24,6 @@
                 android:id="@+id/img_avatar"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@color/bg_gray"
                 android:scaleType="centerInside"
                 fresco:placeholderImage="@drawable/ic_default_head"
                 fresco:roundedCornerRadius="10dp" />

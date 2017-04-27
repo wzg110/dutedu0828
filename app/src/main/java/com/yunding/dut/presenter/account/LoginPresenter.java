@@ -43,6 +43,7 @@ public class LoginPresenter extends BasePresenter {
             mView.invalidPwd();
             return;
         }
+        mView.showProgress();
         String url = ApisAccount.loginUrl(account, pwd);
         request(url, new DUTResp() {
             @Override

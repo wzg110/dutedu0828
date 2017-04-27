@@ -1,14 +1,27 @@
 package com.yunding.dut.ui.reading;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.yunding.dut.R;
 import com.yunding.dut.model.resp.reading.ReadingListResp;
+import com.yunding.dut.presenter.reading.ReadingPresenter;
 import com.yunding.dut.ui.base.BaseFragmentInReading;
+import com.yunding.dut.util.third.ConstUtils;
+import com.yunding.dut.util.third.TimeUtils;
+import com.yunding.dut.view.selectable.OnSelectListener;
+import com.yunding.dut.view.selectable.SelectableTextHelper;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,7 +36,7 @@ import butterknife.OnClick;
  * <P/>修改备注：
  * <P/>版    本：1.0
  */
-public class ReadingOriginalFragment extends BaseFragmentInReading {
+public class ReadingOriginalFragment extends BaseFragmentInReading implements IReadingArticleView {
 
 
     @BindView(R.id.tv_title)
@@ -38,6 +51,17 @@ public class ReadingOriginalFragment extends BaseFragmentInReading {
     Button btnNext;
 
     private ReadingListResp.DataBean mReadingInfo;
+
+    private ReadingPresenter mPresenter;
+
+    //当前选中句子的索引
+    private int mSentenceIndex = 0;
+
+    //上一个句子的阅读开始时间
+    private long mReadingStartTime = 0;
+
+    //记录该篇文章是否读完
+    private boolean mIsFinished = false;
 
     public ReadingOriginalFragment() {
     }
@@ -54,19 +78,68 @@ public class ReadingOriginalFragment extends BaseFragmentInReading {
         if (mReadingInfo != null) {
             tvTitle.setText(mReadingInfo.getCourseTitle());
             tvContent.setText(mReadingInfo.getCourseContent());
-        }
 
+            int isArticleFinished = mReadingInfo.getArticleFinish();
+            if (isArticleFinished == 1) {
+                btnLast.setVisibility(View.GONE);
+                btnNext.setVisibility(View.GONE);
+                mIsFinished = true;
+            } else {
+                btnLast.setVisibility(View.VISIBLE);
+                btnNext.setVisibility(View.VISIBLE);
+                mIsFinished = false;//初始化阅读状态
+                mSentenceIndex = mReadingInfo.getReadingLineIndex();//
+                mReadingStartTime = System.currentTimeMillis();//初始化时间
+                moveToPosition();
+            }
+        }
+        mPresenter = new ReadingPresenter(this);
+
+        SelectableTextHelper mSelectableTextHelper = new SelectableTextHelper.Builder(tvContent)
+                .setSelectedColor(getResources().getColor(R.color.color_primary))
+                .setCursorHandleSizeInDp(20)
+                .setCursorHandleColor(getResources().getColor(R.color.translucent))
+                .build();
+
+        mSelectableTextHelper.setSelectListener(new OnSelectListener() {
+            @Override
+            public void onTextSelected(CharSequence content, int startIndex, int endIndex) {
+                Log.e(getClass().toString(), "start=" + startIndex + "and end=" + endIndex + "and content=" + content);
+                mPresenter.markerWords(mReadingInfo.getCourseId(), startIndex, content.length(), content.toString());
+            }
+        });
     }
 
     @OnClick({R.id.btn_last, R.id.btn_finish, R.id.btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_last:
+                if (mSentenceIndex > 0) {
+                    mSentenceIndex--;
+                    moveToPosition();
+                    commitLastSentenceTime(false);
+                } else {
+                    showToast("已经是第一句了");
+                }
                 break;
             case R.id.btn_finish:
-                goNext();
+                if (mIsFinished) {
+                    goNext();
+                    if (mReadingInfo.getArticleFinish() == ReadingActivity.STATE_UNDER_WAY) {
+                        commitNextSentenceTime(true);
+                    }
+                } else {
+                    showToast("请完成阅读");
+                }
                 break;
             case R.id.btn_next:
+                if (mSentenceIndex < mReadingInfo.getSentenceInfo().size()) {
+                    mSentenceIndex++;
+                    moveToPosition();
+                    commitNextSentenceTime(false);
+                } else {
+                    showToast("已经到最后一句了");
+                }
                 break;
         }
     }
@@ -104,4 +177,70 @@ public class ReadingOriginalFragment extends BaseFragmentInReading {
                 break;
         }
     }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        if (TextUtils.isEmpty(msg)) {
+            showToast(R.string.server_error);
+        } else {
+            showToast(msg);
+        }
+    }
+
+    private void moveToPosition() {
+        List<ReadingListResp.DataBean.SentenceInfoBean> sentenceInfoList = mReadingInfo.getSentenceInfo();
+        if (sentenceInfoList == null) return;
+        if (mSentenceIndex >= sentenceInfoList.size() || mSentenceIndex < 0) return;
+
+        ReadingListResp.DataBean.SentenceInfoBean sentenceInfo = sentenceInfoList.get(mSentenceIndex);
+        changeColorOfText(sentenceInfo.getIndex(), sentenceInfo.getIndex() + sentenceInfo.getLength());
+
+        if (mSentenceIndex == sentenceInfoList.size() - 1) {
+            mIsFinished = true;
+        }
+    }
+
+    private void commitNextSentenceTime(boolean isFinish) {
+        long second = TimeUtils.getTimeSpanByNow(mReadingStartTime, ConstUtils.TimeUnit.SEC);//该句子的阅读时间
+        if (!isFinish) {
+            mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex - 1, mSentenceIndex - 2, second, 0);
+        } else {
+            mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex - 1, mSentenceIndex - 2, second, 1);
+        }
+        mReadingStartTime = System.currentTimeMillis();//更新时间
+    }
+
+    private void commitLastSentenceTime(boolean isFinish) {
+        long second = TimeUtils.getTimeSpanByNow(mReadingStartTime, ConstUtils.TimeUnit.SEC);//该句子的阅读时间
+        if (!isFinish) {
+            mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex + 1, mSentenceIndex + 2, second, 0);
+        } else {
+            mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex + 1, mSentenceIndex + 2, second, 1);
+        }
+        mReadingStartTime = System.currentTimeMillis();//更新时间
+    }
+
+    private void changeColorOfText(int startIndex, int endIndex) {
+        SpannableStringBuilder builder = new SpannableStringBuilder(tvContent.getText().toString());
+
+        ForegroundColorSpan blackSpan = new ForegroundColorSpan(Color.BLACK);
+        ForegroundColorSpan graySpan = new ForegroundColorSpan(Color.rgb(230,230,230));
+
+        builder.setSpan(graySpan, 0, startIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(blackSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(graySpan, endIndex, tvContent.getText().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        tvContent.setText(builder);
+    }
+
 }
