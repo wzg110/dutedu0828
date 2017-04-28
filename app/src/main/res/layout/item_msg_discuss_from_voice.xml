@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg_white"
     android:orientation="vertical">
 
     <include layout="@layout/chat_item_title_date" />
@@ -12,13 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
         android:layout_marginRight="50dp"
+        android:gravity="center_vertical"
         android:padding="10dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_head"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@color/bg_gray" />
+            android:background="@color/bg_gray"
+            fresco:placeholderImage="@drawable/ic_default_head" />
 
         <LinearLayout
             android:layout_width="match_parent"

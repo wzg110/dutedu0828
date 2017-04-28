@@ -4,6 +4,7 @@
 
     <item
         android:id="@+id/action_commit"
+        android:icon="@drawable/ic_menu_commit"
         android:title="@string/discuss_questions_commit"
         app:showAsAction="always" />
 

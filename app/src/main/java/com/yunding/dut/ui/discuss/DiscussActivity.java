@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -17,14 +16,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.lqr.audio.AudioRecordManager;
 import com.lqr.audio.IAudioRecordListener;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.DiscussListMsgAdapter;
-import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.discuss.DiscussListResp;
 import com.yunding.dut.model.resp.discuss.DiscussMsgListResp;
 import com.yunding.dut.model.resp.discuss.DiscussSubjectResp;
@@ -38,7 +35,6 @@ import com.yunding.dut.view.DUTVerticalSmoothScrollRecycleView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -94,14 +90,13 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         ButterKnife.bind(this);
 
         mDiscussInfo = (DiscussListResp.DataBean) getIntent().getSerializableExtra(DISCUSS_SUBJECT_INFO);
-        initViewState();
-
         mPresenter = new DiscussPresenter(this);
         if (mDiscussInfo != null) {
             mPresenter.loadSubjectInfo(mDiscussInfo.getThemeId());
         }
+
+        refreshView();
         initRecord();
-        checkPermissions();
     }
 
     private void checkPermissions() {
@@ -135,39 +130,6 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         super.onDestroy();
     }
 
-    private void initViewState() {
-        if (mDiscussInfo != null) {
-            //开启讨论按钮显示状态
-            btnOpen.setVisibility((mDiscussInfo.getIsLeader() == 1 && mDiscussInfo.getState() == 0)
-                    ? View.VISIBLE : View.GONE);
-
-            //标题显示状态
-            switch (mDiscussInfo.getState()) {
-                case DiscussPresenter.STATE_DISCUSS_NOT_START:
-                    setTitle(mDiscussInfo.getGroupName() + "（未开启）");
-                    llInput.setVisibility(View.GONE);
-                    llRecord.setVisibility(View.GONE);
-                    tvCountDown.setVisibility(View.GONE);
-                    break;
-                case DiscussPresenter.STATE_DISCUSSING:
-                    setTitle(mDiscussInfo.getGroupName() + "（进行中）");
-                    llInput.setVisibility(View.VISIBLE);
-                    llRecord.setVisibility(View.GONE);
-                    tvCountDown.setVisibility(View.VISIBLE);
-                    showDiscussing();
-                    break;
-                case DiscussPresenter.STATE_DISCUSS_FINISHED:
-                    setTitle(mDiscussInfo.getGroupName() + "（已结束）");
-                    llInput.setVisibility(View.GONE);
-                    llRecord.setVisibility(View.GONE);
-                    tvCountDown.setVisibility(View.GONE);
-                    break;
-            }
-
-            //根据是否是组长显示是否可以答题
-            tvGoAnswer.setVisibility(mDiscussInfo.getIsLeader() == 1 ? View.VISIBLE : View.GONE);
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -187,6 +149,37 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshView() {
+        if (mDiscussInfo == null) return;
+        switch (mDiscussInfo.getState()) {
+            case DiscussPresenter.STATE_DISCUSS_NOT_START:
+                setTitle(mDiscussInfo.getGroupName() + "（未开启）");
+                llInput.setVisibility(View.GONE);
+                llRecord.setVisibility(View.GONE);
+                tvCountDown.setVisibility(View.GONE);
+                tvGoAnswer.setVisibility(View.GONE);
+                btnOpen.setVisibility(mDiscussInfo.getIsLeader() == 1 ? View.VISIBLE : View.GONE);
+                break;
+            case DiscussPresenter.STATE_DISCUSSING:
+                setTitle(mDiscussInfo.getGroupName() + "（进行中）");
+                llInput.setVisibility(View.VISIBLE);
+                llRecord.setVisibility(View.GONE);
+                tvCountDown.setVisibility(View.VISIBLE);
+                tvGoAnswer.setVisibility(View.VISIBLE);
+                btnOpen.setVisibility(View.GONE);
+                showDiscussing();
+                break;
+            case DiscussPresenter.STATE_DISCUSS_FINISHED:
+                setTitle(mDiscussInfo.getGroupName() + "（已结束）");
+                llInput.setVisibility(View.GONE);
+                llRecord.setVisibility(View.GONE);
+                tvCountDown.setVisibility(View.GONE);
+                tvGoAnswer.setVisibility(View.GONE);
+                btnOpen.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @OnClick({R.id.btn_open, R.id.btn_record, R.id.btn_send, R.id.btn_input, R.id.tv_go_answer})
@@ -242,7 +235,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
 
     @Override
     public void showDiscussNotStart() {
-        setTitle(mDiscussInfo.getGroupName() + "（讨论未开始)");
+        setTitle(mDiscussInfo.getGroupName() + "（未开始)");
         llInput.setVisibility(View.GONE);
         llRecord.setVisibility(View.GONE);
         btnOpen.setVisibility(mDiscussInfo.getIsLeader() == 1 ? View.VISIBLE : View.GONE);
@@ -251,25 +244,31 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     @Override
     public void showDiscussing() {
         mDiscussInfo.setState(DiscussPresenter.STATE_DISCUSSING);//更改状态为进行中
-        setTitle(mDiscussInfo.getGroupName() + "（讨论进行中)");
-        llInput.setVisibility(View.VISIBLE);
-        llRecord.setVisibility(View.GONE);
+        setTitle(mDiscussInfo.getGroupName() + "（进行中)");
+        if (llInput.getVisibility() == View.GONE &&
+                llRecord.getVisibility() == View.GONE) {
+            llInput.setVisibility(View.VISIBLE);
+            llRecord.setVisibility(View.GONE);
+        }
         btnOpen.setVisibility(View.GONE);
+        tvGoAnswer.setVisibility(View.VISIBLE);
+
+        showCountDown();
     }
 
     @Override
     public void showDiscussFinished() {
-        setTitle(mDiscussInfo.getGroupName() + "（讨论已结束)");
+        setTitle(mDiscussInfo.getGroupName() + "（已结束)");
         llInput.setVisibility(View.GONE);
         llRecord.setVisibility(View.GONE);
         btnOpen.setVisibility(View.GONE);
     }
 
-    @Override
     public void showCountDown() {
-        if (mDiscussInfo.getState() == DiscussPresenter.STATE_DISCUSSING) {
+        if (mDiscussInfo.getState() == DiscussPresenter.STATE_DISCUSSING && mCountDown == null) {
             tvCountDown.setVisibility(View.VISIBLE);
-            mCountDown = new DiscussionCountDown(mDiscussInfo.getCountdownTime() * 3600 * 1000, 3600 * 1000);
+            tvCountDown.setText("还剩" + mDiscussInfo.getCountdownTime() + "分钟");
+            mCountDown = new DiscussionCountDown(mDiscussInfo.getCountdownTime() * 60 * 1000, 1000);
             mCountDown.start();
         }
     }
@@ -352,10 +351,9 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     public void showSubjectInfo(DiscussSubjectResp resp) {
         tvSubjectTitle.setText("题目：" + resp.getData().getName());
         tvQuestion.setText("主题：" + resp.getData().getContent());
-//        tvSubjectQuestion.setText("主题：" + resp.getData().getContent());
     }
 
-    class LongTouch implements View.OnTouchListener {
+    private class LongTouch implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -374,6 +372,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     }
 
     private void initRecord() {
+        checkPermissions();
         btnPressRecord.setOnTouchListener(new LongTouch());
         String audioDir = FileUtil.getRecordVoiceDir();
         AudioRecordManager.getInstance(this).setAudioSavePath(audioDir);
@@ -442,36 +441,5 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         Intent intent = new Intent(this, DiscussQuestionActivity.class);
         intent.putExtra(DiscussQuestionActivity.DISCUSS_INFO, mDiscussInfo);
         startActivity(intent);
-
-//        new MaterialDialog.Builder(this)
-//                .iconRes(R.mipmap.ic_launcher)
-//                .limitIconToDefaultSize()
-//                .title("题目标题")
-//                .positiveText("允许")
-//                .negativeText("拒绝")
-//                .onAny(new MaterialDialog.SingleButtonCallback() {
-//                    @Override
-//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                        showToast("Prompt checked? " + dialog.isPromptCheckBoxChecked());
-//                    }
-//                })
-//                .checkBoxPromptRes(R.string.app_name, false, null)
-//                .show();
-//
-//        new MaterialDialog.Builder(this)
-//                .title("单选题目")
-//                .items("sfakjnak", "sdadad", "afagfafa", "gagfafa")
-//                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-//                    @Override
-//                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-//                        /**
-//                         * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
-//                         * returning false here won't allow the newly selected radio button to actually be selected.
-//                         **/
-//                        return true;
-//                    }
-//                })
-//                .positiveText("确定")
-//                .show();
     }
 }

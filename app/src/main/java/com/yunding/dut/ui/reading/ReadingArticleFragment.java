@@ -36,7 +36,7 @@ import butterknife.OnClick;
  * <P/>修改备注：
  * <P/>版    本：1.0
  */
-public class ReadingOriginalFragment extends BaseFragmentInReading implements IReadingArticleView {
+public class ReadingArticleFragment extends BaseFragmentInReading implements IReadingArticleView {
 
 
     @BindView(R.id.tv_title)
@@ -63,7 +63,7 @@ public class ReadingOriginalFragment extends BaseFragmentInReading implements IR
     //记录该篇文章是否读完
     private boolean mIsFinished = false;
 
-    public ReadingOriginalFragment() {
+    public ReadingArticleFragment() {
     }
 
     @Override
@@ -74,6 +74,7 @@ public class ReadingOriginalFragment extends BaseFragmentInReading implements IR
     @Override
     protected void initView(View view, Bundle saveInstanceState) {
         mReadingInfo = (ReadingListResp.DataBean) getArguments().getSerializable(ReadingActivity.READING_INFO);
+        mPresenter = new ReadingPresenter(this);
 
         if (mReadingInfo != null) {
             tvTitle.setText(mReadingInfo.getCourseTitle());
@@ -91,10 +92,9 @@ public class ReadingOriginalFragment extends BaseFragmentInReading implements IR
                 mIsFinished = false;//初始化阅读状态
                 mSentenceIndex = mReadingInfo.getReadingLineIndex();//
                 mReadingStartTime = System.currentTimeMillis();//初始化时间
-                moveToPosition();
+                moveToPosition(mSentenceIndex);
             }
         }
-        mPresenter = new ReadingPresenter(this);
 
         SelectableTextHelper mSelectableTextHelper = new SelectableTextHelper.Builder(tvContent)
                 .setSelectedColor(getResources().getColor(R.color.color_primary))
@@ -116,33 +116,31 @@ public class ReadingOriginalFragment extends BaseFragmentInReading implements IR
         switch (view.getId()) {
             case R.id.btn_last:
                 if (mSentenceIndex > 0) {
-                    mSentenceIndex--;
-                    moveToPosition();
-                    commitLastSentenceTime(false);
+                    commitLastSentenceTime();
+                    mSentenceIndex -= 1;
+                    moveToPosition(mSentenceIndex);
                 } else {
-                    showToast("已经是第一句了");
+                    showToast("已经到第一句了");
                 }
                 break;
             case R.id.btn_finish:
                 if (mIsFinished) {
                     goNext();
-                    if (mReadingInfo.getArticleFinish() == ReadingActivity.STATE_UNDER_WAY) {
-                        commitNextSentenceTime(true);
+                    if (mReadingInfo.getArticleFinish() == 0) {
+                        commitNextSentenceTime();
                     }
                 } else {
                     showToast("请完成阅读");
                 }
                 break;
             case R.id.btn_next:
-                if (mSentenceIndex < mReadingInfo.getSentenceInfo().size()) {
-                    mSentenceIndex++;
-                    if (mSentenceIndex < (mReadingInfo.getSentenceInfo().size() - 1)) {
-                        moveToPosition();
-                        commitNextSentenceTime(false);
-                    }else{
+                if (mSentenceIndex < (mReadingInfo.getSentenceInfo().size() - 1)) {
+                    commitNextSentenceTime();
+                    mSentenceIndex += 1;
+                    if (mSentenceIndex == mReadingInfo.getSentenceInfo().size() - 1) {
                         mIsFinished = true;
-                        showToast("已经到最后一句了");
                     }
+                    moveToPosition(mSentenceIndex);
                 } else {
                     showToast("已经到最后一句了");
                 }
@@ -203,51 +201,53 @@ public class ReadingOriginalFragment extends BaseFragmentInReading implements IR
         }
     }
 
-    private void moveToPosition() {
+    /**
+     * 功能简述:改变文字颜色
+     *
+     * @param currentPosition [当前变色位置]
+     */
+    private void moveToPosition(int currentPosition) {
         List<ReadingListResp.DataBean.SentenceInfoBean> sentenceInfoList = mReadingInfo.getSentenceInfo();
         if (sentenceInfoList == null) return;
-        if (mSentenceIndex >= sentenceInfoList.size() || mSentenceIndex < 0) return;
+        if (currentPosition >= sentenceInfoList.size() || currentPosition < 0) return;
 
         ReadingListResp.DataBean.SentenceInfoBean sentenceInfo = sentenceInfoList.get(mSentenceIndex);
-        changeColorOfText(sentenceInfo.getIndex(), sentenceInfo.getIndex() + sentenceInfo.getLength());
+        int startIndex = sentenceInfo.getIndex();
+        int endIndex = sentenceInfo.getIndex() + sentenceInfo.getLength();
 
-        if (mSentenceIndex == sentenceInfoList.size() - 1) {
-            mIsFinished = true;
-        }
-    }
-
-    private void commitNextSentenceTime(boolean isFinish) {
-        long second = TimeUtils.getTimeSpanByNow(mReadingStartTime, ConstUtils.TimeUnit.SEC);//该句子的阅读时间
-        if (!isFinish) {
-            mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex - 1, mSentenceIndex - 2, second, 0);
-        } else {
-            mReadingInfo.setArticleFinish(1);
-            mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex - 1, mSentenceIndex - 2, second, 1);
-        }
-        mReadingStartTime = System.currentTimeMillis();//更新时间
-    }
-
-    private void commitLastSentenceTime(boolean isFinish) {
-        long second = TimeUtils.getTimeSpanByNow(mReadingStartTime, ConstUtils.TimeUnit.SEC);//该句子的阅读时间
-        if (!isFinish) {
-            mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex + 1, mSentenceIndex + 2, second, 0);
-        } else {
-            mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex + 1, mSentenceIndex + 2, second, 1);
-        }
-        mReadingStartTime = System.currentTimeMillis();//更新时间
-    }
-
-    private void changeColorOfText(int startIndex, int endIndex) {
         SpannableStringBuilder builder = new SpannableStringBuilder(tvContent.getText().toString());
-
         ForegroundColorSpan blackSpan = new ForegroundColorSpan(Color.BLACK);
         ForegroundColorSpan graySpan = new ForegroundColorSpan(Color.rgb(230, 230, 230));
-
         builder.setSpan(graySpan, 0, startIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setSpan(blackSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setSpan(graySpan, endIndex, tvContent.getText().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
         tvContent.setText(builder);
     }
 
+    /**
+     * 功能简述:点击下一句提交
+     */
+    private void commitNextSentenceTime() {
+        long second = TimeUtils.getTimeSpanByNow(mReadingStartTime, ConstUtils.TimeUnit.SEC);//该句子的阅读时间
+        int isFinish = mSentenceIndex == (mReadingInfo.getSentenceInfo().size() - 1) ? 1 : 0;
+        if (isFinish == 1) {
+            mReadingInfo.setArticleFinish(1);
+        }
+        mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex, mSentenceIndex - 1, second, isFinish);
+        mReadingStartTime = System.currentTimeMillis();//更新时间
+    }
+
+    /**
+     * 功能简述:点击上一句提交
+     */
+    private void commitLastSentenceTime() {
+        long second = TimeUtils.getTimeSpanByNow(mReadingStartTime, ConstUtils.TimeUnit.SEC);//该句子的阅读时间
+        if (mSentenceIndex == mReadingInfo.getSentenceInfo().size() - 1) {
+            mReadingInfo.setArticleFinish(1);
+            mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex, mSentenceIndex - 1, second, 1);
+        } else {
+            mPresenter.commitReadingTime(mReadingInfo.getCourseId(), mSentenceIndex, mSentenceIndex + 1, second, 0);
+        }
+        mReadingStartTime = System.currentTimeMillis();//更新时间
+    }
 }

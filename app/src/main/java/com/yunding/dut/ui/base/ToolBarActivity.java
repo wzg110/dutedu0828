@@ -66,4 +66,8 @@ public abstract class ToolBarActivity extends BaseActivity {
     protected void setToolBarVisible(boolean isToolBarVisible) {
         mToolbar.setVisibility(isToolBarVisible ? View.VISIBLE : View.GONE);
     }
+
+    public Toolbar getmToolbar() {
+        return mToolbar;
+    }
 }

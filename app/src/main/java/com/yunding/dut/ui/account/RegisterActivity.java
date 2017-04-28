@@ -96,14 +96,14 @@ public class RegisterActivity extends ToolBarActivity implements IRegisterView {
     @Override
     public void registerSuccess() {
         showToast(R.string.register_success);
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
     @Override
     public void registerFailed(String msg) {
-        showSnackBar(msg);
+        showToast(msg);
     }
 
     @Override

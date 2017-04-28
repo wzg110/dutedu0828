@@ -137,6 +137,7 @@ public class DiscussListFragment extends ToolBarFragment implements IDiscussList
     public void showDiscussList(DiscussListResp resp) {
         if (mAdapter == null) {
             mAdapter = new DiscussGroupListAdapter(resp.getData());
+            mAdapter.setEmptyView(R.layout.layout_no_data, (ViewGroup) rvDiscussList.getParent());
             rvDiscussList.setAdapter(mAdapter);
             rvDiscussList.addOnItemTouchListener(new OnItemClickListener() {
                 @Override

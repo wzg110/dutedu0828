@@ -2,7 +2,7 @@
 <resources>
     <color name="color_primary">#00C2A0</color>
     <color name="color_primary_dark">#00A787</color>
-    <color name="color_accent">#4BAF50</color>
+    <color name="color_accent">#00C2A0</color>
     <color name="color_window_background">#EDEDED</color>
 
     <color name="bg_gray">#EDEDED</color>

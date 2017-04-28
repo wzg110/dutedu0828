@@ -22,8 +22,6 @@ public interface IDiscussView extends IBaseListView {
 
     void showDiscussFinished();
 
-    void showCountDown();
-
     void showMsgList(DiscussMsgListResp resp);
 
     void showMsg(String msg);

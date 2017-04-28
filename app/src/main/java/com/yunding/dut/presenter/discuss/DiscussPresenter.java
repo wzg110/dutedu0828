@@ -1,17 +1,14 @@
 package com.yunding.dut.presenter.discuss;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lqr.audio.AudioRecordManager;
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.CommonResp;
 import com.yunding.dut.model.resp.discuss.DiscussMsgListResp;
 import com.yunding.dut.model.resp.discuss.DiscussSubjectResp;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.discuss.IDiscussView;
-import com.yunding.dut.util.api.Apis;
 import com.yunding.dut.util.api.ApisDiscuss;
 import com.yunding.dut.util.file.FileUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -19,7 +16,6 @@ import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -59,7 +55,7 @@ public class DiscussPresenter extends BasePresenter {
                 CommonResp resp = parseJson(response, CommonResp.class);
                 if (resp != null) {
                     if (resp.isResult()) {
-                        mView.showCountDown();
+                        mView.showMsg("开启成功");
                         mView.showDiscussing();
                     } else {
                         mView.showMsg(resp.getMsg());
@@ -92,7 +88,7 @@ public class DiscussPresenter extends BasePresenter {
                                     mView.showDiscussNotStart();
                                     break;
                                 case STATE_DISCUSSING:
-                                    mView.showCountDown();
+                                    mView.showDiscussing();
                                     break;
                                 case STATE_DISCUSS_FINISHED:
                                     mView.showDiscussFinished();

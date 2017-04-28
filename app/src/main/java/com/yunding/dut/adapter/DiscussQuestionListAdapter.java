@@ -43,7 +43,6 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
 
     private List<DiscussQuestionListResp.DataBean> mDatas;
     private List<DiscussAnswerCache> mDataCache;
-    //    private DiscussAnswerCache cache;
     private Context mContext;
 
     private DiscussListResp.DataBean mResp;
@@ -98,15 +97,13 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final DiscussQuestionListResp.DataBean item = mDatas.get(holder.getAdapterPosition());
-//        final DiscussAnswerCache cache = new DiscussAnswerCache();
         if (mDataCache != null && mDataCache.size() > holder.getAdapterPosition())
-//            cache = mDataCache.get(holder.getAdapterPosition());
             if (holder instanceof ChoiceViewHolder) {
                 ((ChoiceViewHolder) holder).tvQuestionNo.setText("第" + ++position + "题");
                 ((ChoiceViewHolder) holder).tvQuestionContent.setText(item.getContent());
                 String options = item.getSelectOptions();
                 if (!TextUtils.isEmpty(options)) {
-                    final String[] optionArray = options.split(",");
+                    final String[] optionArray = options.split("㊎");
                     if (((ChoiceViewHolder) holder).rgAnswer.getChildCount() >= optionArray.length)
                         return;
                     for (String option : optionArray) {

@@ -98,9 +98,9 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         //初始化UI
         if (mExerciseBean == null) return;
         if (mExerciseBean.getQuestionType() == ReadingActivity.TYPE_CHOICE) {
-            tvTitle.setText("第" + (1 + mQuestionIndex) + "题" + "（选择题）");
+            tvTitle.setText("课后小题第" + (1 + mQuestionIndex) + "题" + "（共" + mReadingInfo.getExercises().size() + "题）");
         } else {
-            tvTitle.setText("第" + (1 + mQuestionIndex) + "题" + "（填空题）");
+            tvTitle.setText("课后小题第" + (1 + mQuestionIndex) + "题" + "（共" + mReadingInfo.getExercises().size() + "题）");
         }
         tvQuestion.setText(mExerciseBean.getQuestionContent());
 
@@ -113,6 +113,7 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         if (mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED) {
             //已完成的直接显示答案
             String[] answerContent = new Gson().fromJson(mExerciseBean.getAnswerContent(), String[].class);
+            if (answerContent == null) return;
             for (String answer : answerContent) {
                 inputList.add(answer);
             }
@@ -199,6 +200,9 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         }
 
         if (mExerciseBean != null) {
+            mReadingInfo.getPreClassExercises()
+                    .get(mReadingInfo.getExercises().indexOf(mExerciseBean))
+                    .setAnswerContent(answerTemp);
             mPresenter.commitAnswer(mExerciseBean.getQuestionId(), answerTemp, timeSpan, mGoOriginalTime);
         }
     }

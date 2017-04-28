@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.yunding.dut.ui.discuss.DiscussQuestionActivity">
 
-    <com.yunding.dut.view.DUTHorizontalRecyclerView
+    <com.yunding.dut.view.DUTVerticalRecyclerView
         android:id="@+id/rv_question_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

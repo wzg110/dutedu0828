@@ -33,14 +33,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/discuss_group_name"
-                android:theme="@style/text_style_common_black" />
+                android:theme="@style/text_style_14_black" />
 
             <TextView
                 android:id="@+id/tv_group_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:theme="@style/text_style_common_black" />
+                android:theme="@style/text_style_14_black" />
         </LinearLayout>
 
         <android.support.v4.widget.Space
@@ -57,14 +57,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/discuss_group_grade"
-                android:theme="@style/text_style_common_black" />
+                android:theme="@style/text_style_14_black" />
 
             <TextView
                 android:id="@+id/tv_group_grade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:theme="@style/text_style_common_black" />
+                android:theme="@style/text_style_14_black" />
         </LinearLayout>
 
         <android.support.v4.widget.Space
@@ -81,14 +81,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/discuss_group_class"
-                android:theme="@style/text_style_common_black" />
+                android:theme="@style/text_style_14_black" />
 
             <TextView
                 android:id="@+id/tv_group_class"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:theme="@style/text_style_common_black" />
+                android:theme="@style/text_style_14_black" />
         </LinearLayout>
     </LinearLayout>
 

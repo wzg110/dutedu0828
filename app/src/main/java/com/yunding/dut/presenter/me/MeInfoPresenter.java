@@ -2,6 +2,7 @@ package com.yunding.dut.presenter.me;
 
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.CommonResp;
+import com.yunding.dut.model.resp.UploadAvatarResp;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.me.IMeInfoView;
 import com.yunding.dut.util.api.ApisMeInfo;
@@ -50,9 +51,10 @@ public class MeInfoPresenter extends BasePresenter {
                     @Override
                     public void onResponse(String response, int id) {
                         mView.hideProgress();
-                        CommonResp resp = parseJson(response, CommonResp.class);
+                        UploadAvatarResp resp = parseJson(response, UploadAvatarResp.class);
                         if (resp != null) {
                             if (resp.isResult()) {
+                                DUTApplication.getUserInfo().setUserAvatar(resp.getData());
                                 mView.showAvatar();
                             } else {
                                 mView.showMsg(resp.getMsg());

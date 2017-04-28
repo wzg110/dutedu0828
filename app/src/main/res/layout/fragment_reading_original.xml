@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.yunding.dut.ui.reading.ReadingOriginalFragment">
+    tools:context="com.yunding.dut.ui.reading.ReadingArticleFragment">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -27,6 +27,7 @@
                 android:id="@+id/tv_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#E6E6E6"
                 android:lineSpacingExtra="5dp"
                 android:textSize="16sp"
                 android:text="@string/hello_blank_fragment" />

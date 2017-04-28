@@ -110,6 +110,6 @@ public class LoginActivity extends ToolBarActivity implements ILoginView {
 
     @Override
     public void loginFailed(String msg) {
-        showSnackBar(msg);
+        showToast(msg);
     }
 }

@@ -85,7 +85,7 @@ public class ResetPwdActivity extends ToolBarActivity implements IResetPwdView {
 
     @Override
     public void resetPwdFailed(String msg) {
-        showSnackBar(msg);
+        showToast(msg);
     }
 
     @OnClick(R.id.btn_reset_pwd)

@@ -59,6 +59,7 @@ public class DiscussGroupActivity extends ToolBarActivity implements IDiscussGro
             mAdapter.setNewData(resp.getData().getStudents());
         }
 
+        setTitle(mDiscussInfo.getGroupName() + "（" + resp.getData().getStudents().size() + "人）");
         tvGroupName.setText(mDiscussInfo.getGroupName());
         tvGroupGrade.setText(resp.getData().getGroup().getGradeName());
         tvGroupClass.setText(resp.getData().getGroup().getClassName());

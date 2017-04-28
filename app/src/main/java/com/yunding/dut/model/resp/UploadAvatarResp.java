@@ -11,7 +11,7 @@ package com.yunding.dut.model.resp;
  * <P/>版    本：
  */
 
-public class CommonResp {
+public class UploadAvatarResp {
 
 
     /**
@@ -25,7 +25,7 @@ public class CommonResp {
     private String msg;
     private boolean result;
     private String version;
-//    private String data;
+    private String data;
 
     public ErrorsBean getErrors() {
         return errors;
@@ -62,11 +62,11 @@ public class CommonResp {
     public static class ErrorsBean {
     }
 
-//    public String getData() {
-//        return data;
-//    }
-//
-//    public void setData(String data) {
-//        this.data = data;
-//    }
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
 }

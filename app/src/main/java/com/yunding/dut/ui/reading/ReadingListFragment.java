@@ -41,7 +41,7 @@ import butterknife.Unbinder;
  * <P/>修改备注：
  * <P/>版    本：1.0
  */
-public class ReadingListFragment extends ToolBarFragment implements IReadingListView ,SwipeRefreshLayout.OnRefreshListener{
+public class ReadingListFragment extends ToolBarFragment implements IReadingListView, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.rv_reading_list)
     DUTVerticalRecyclerView rvReadingList;
@@ -77,7 +77,7 @@ public class ReadingListFragment extends ToolBarFragment implements IReadingList
         super.onCreateOptionsMenu(menu, inflater);
 //        inflater.inflate(R.menu.menu_reading,menu);//这种方法设置menu不显示
         getmToolbar().getMenu().clear();
-        getmToolbar().inflateMenu(R.menu.menu_reading);
+        getmToolbar().inflateMenu(R.menu.menu_reading_list);
     }
 
     @Override
@@ -104,15 +104,16 @@ public class ReadingListFragment extends ToolBarFragment implements IReadingList
 
     @Override
     public void showReadingList(ReadingListResp resp) {
-        mData = new ArrayList<>();
         if (mAdapter == null) {
+            mData = resp.getData();
             mAdapter = new ReadingListAdapter(mData);
+            mAdapter.setEmptyView(R.layout.layout_no_data, (ViewGroup) rvReadingList.getParent());
             rvReadingList.setAdapter(mAdapter);
         } else {
             mData.clear();
+            mData.addAll(resp.getData());
         }
-        mData.addAll(resp.getData());
-        mAdapter.notifyDataSetChanged();
+        mAdapter.setNewData(mData);
     }
 
     @Override

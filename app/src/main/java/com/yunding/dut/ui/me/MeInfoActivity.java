@@ -14,9 +14,7 @@ import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.presenter.me.MeInfoPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
 import com.yunding.dut.util.api.Apis;
-import com.yunding.dut.util.file.FileUtil;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -54,7 +52,7 @@ public class MeInfoActivity extends ToolBarActivity implements IMeInfoView {
 
     private void showUserInfo() {
         String avatarPath = DUTApplication.getUserInfo().getUserAvatar();
-        imgAvatar.setImageURI(avatarPath);
+        imgAvatar.setImageURI(Apis.SERVER_URL+avatarPath);
         tvAccount.setText(DUTApplication.getUserInfo().getUserAccount());
         tvName.setText(DUTApplication.getUserInfo().getUserName());
         tvGrade.setText(DUTApplication.getUserInfo().getUserGrade());
@@ -83,10 +81,11 @@ public class MeInfoActivity extends ToolBarActivity implements IMeInfoView {
         PhotoPickUtils.onActivityResult(requestCode, resultCode, data, new PhotoPickUtils.PickHandler() {
             @Override
             public void onPickSuccess(ArrayList<String> photos) {
-                UCrop.of(Uri.fromFile(new File(photos.get(0))), Uri.fromFile(new File(FileUtil.getAvatarPath())))
-                        .withAspectRatio(1, 1)
-                        .withMaxResultSize(200, 200)
-                        .start(MeInfoActivity.this);
+                mPresenter.uploadAvatar(photos.get(0));
+//                UCrop.of(Uri.fromFile(new File(photos.get(0))), Uri.fromFile(new File(FileUtil.getAvatarPath())))
+//                        .withAspectRatio(1, 1)
+//                        .withMaxResultSize(200, 200)
+//                        .start(MeInfoActivity.this);
             }
 
             @Override
@@ -135,7 +134,7 @@ public class MeInfoActivity extends ToolBarActivity implements IMeInfoView {
 
     @Override
     public void showAvatar() {
-
+        showUserInfo();
     }
 
     @Override

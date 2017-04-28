@@ -11,7 +11,7 @@
         android:drawablePadding="5dp"
         android:drawableTop="@drawable/ic_no_data"
         android:gravity="center"
-        android:text="暂无数据，点击重试"
+        android:text="暂无数据"
         android:theme="@style/text_style_common_gray" />
 
 </RelativeLayout>

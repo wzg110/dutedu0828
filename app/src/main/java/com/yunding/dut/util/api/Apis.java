@@ -13,8 +13,7 @@ package com.yunding.dut.util.api;
 
 public class Apis {
 
-//    public static final String SERVER_URL = "http://172.16.0.33:8080/www/";//http://172.16.0.78:8080/www-0.0.1
-//    public static final String SERVER_URL = "http://172.16.0.78:8080/www-0.0.1";//http://172.16.0.78:8080/www-0.0.1
-    public static final String SERVER_URL = "http://xue.yinle.cc";//http://172.16.0.78:8080/www-0.0.1
+    public static final String SERVER_URL = "http://xue.yinle.cc/";//http://172.16.0.78:8080/www-0.0.1
+//    public static final String SERVER_URL = "http://172.16.0.78:8080/www-0.0.1/";//http://172.16.0.78:8080/www-0.0.1
 
 }

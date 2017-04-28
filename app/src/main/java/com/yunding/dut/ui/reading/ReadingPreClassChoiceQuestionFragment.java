@@ -44,8 +44,6 @@ public class ReadingPreClassChoiceQuestionFragment extends BaseFragmentInReading
     TextView tvQuestion;
     @BindView(R.id.rg_options)
     RadioGroup rgOptions;
-    @BindView(R.id.btn_go_original)
-    Button btnGoOriginal;
     @BindView(R.id.btn_commit)
     Button btnCommit;
     @BindView(R.id.btn_next)
@@ -66,7 +64,6 @@ public class ReadingPreClassChoiceQuestionFragment extends BaseFragmentInReading
     private ReadingPresenter mPresenter;
 
     private long mStartTime;
-    private int mGoOriginalTime = 0;
 
     private ReadingListResp.DataBean.PreClassExercisesBean.OptionsBeanX mSelectedOption;
 
@@ -98,9 +95,9 @@ public class ReadingPreClassChoiceQuestionFragment extends BaseFragmentInReading
 
         //初始化题号，题目内容
         if (mPreExerciseBean.getQuestionType() == ReadingActivity.TYPE_CHOICE) {
-            tvTitle.setText("第" + (mQuestionIndex + 1) + "题" + "（选择题）");
+            tvTitle.setText("课前小题第" + (mQuestionIndex + 1) + "题" + "（共" + mReadingInfo.getPreClassExercises().size() + "题）");
         } else {
-            tvTitle.setText("第" + (mQuestionIndex + 1) + "题" + "（填空题）");
+            tvTitle.setText("课前小题第" + (mQuestionIndex + 1) + "题" + "（共" + mReadingInfo.getPreClassExercises().size() + "题）");
         }
         tvQuestion.setText(mPreExerciseBean.getQuestionContent());
 
@@ -174,11 +171,9 @@ public class ReadingPreClassChoiceQuestionFragment extends BaseFragmentInReading
 
     }
 
-    @OnClick({R.id.btn_go_original, R.id.btn_commit, R.id.btn_next})
+    @OnClick({R.id.btn_commit, R.id.btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_go_original:
-                break;
             case R.id.btn_commit:
                 commitAnswer();
                 break;
@@ -217,7 +212,7 @@ public class ReadingPreClassChoiceQuestionFragment extends BaseFragmentInReading
             //课前小题已经答完，进入阅读页面
             Bundle bundle = new Bundle();
             bundle.putSerializable(ReadingActivity.READING_INFO, mReadingInfo);
-            ReadingOriginalFragment originalFragment = new ReadingOriginalFragment();
+            ReadingArticleFragment originalFragment = new ReadingArticleFragment();
             originalFragment.setArguments(bundle);
             addFragment(originalFragment);
         }
@@ -234,7 +229,10 @@ public class ReadingPreClassChoiceQuestionFragment extends BaseFragmentInReading
         }
 
         if (mPreExerciseBean != null && mSelectedOption != null) {
-            mPresenter.commitAnswer(mPreExerciseBean.getQuestionId(), mSelectedOption.getOptionIndex(), timeSpan, mGoOriginalTime);
+            mReadingInfo.getPreClassExercises()
+                    .get(mReadingInfo.getPreClassExercises().indexOf(mPreExerciseBean))
+                    .setAnswerContent(mSelectedOption.getOptionIndex());
+            mPresenter.commitAnswer(mPreExerciseBean.getQuestionId(), mSelectedOption.getOptionIndex(), timeSpan, 0);
         } else {
             showToast("请选择答案");
         }

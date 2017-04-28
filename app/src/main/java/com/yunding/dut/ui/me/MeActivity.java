@@ -11,6 +11,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.ui.base.ToolBarActivity;
+import com.yunding.dut.util.api.Apis;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +42,7 @@ public class MeActivity extends ToolBarActivity {
     }
 
     private void showUserInfo() {
-        imgAvatar.setImageURI(Uri.parse(DUTApplication.getUserInfo().getUserAvatar()));
+        imgAvatar.setImageURI(Apis.SERVER_URL + DUTApplication.getUserInfo().getUserAvatar());
         tvName.setText(DUTApplication.getUserInfo().getUserName());
         tvGrade.setText(DUTApplication.getUserInfo().getUserGrade());
         tvClass.setText(DUTApplication.getUserInfo().getUserClass());

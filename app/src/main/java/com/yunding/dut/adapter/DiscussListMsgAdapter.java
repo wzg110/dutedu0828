@@ -87,6 +87,7 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
         if (mData.get(position) == null) return;
         final DiscussMsgListResp.DataBean.DatasBean dataBean = mData.get(position);
         if (holder instanceof ChatFromVoiceHolder) {
+            ((ChatFromVoiceHolder) holder).tvTime.setText(dataBean.getCreateTime());
             ((ChatFromVoiceHolder) holder).tvName.setText(dataBean.getStudentName());
             ((ChatFromVoiceHolder) holder).imgFromHead.setImageURI(Uri.parse(Apis.SERVER_URL + dataBean.getAvatarUrl()));
             ((ChatFromVoiceHolder) holder).tvFromContent.setText(dataBean.getMessageLength() + "s");
@@ -102,6 +103,7 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
                 ((ChatFromVoiceHolder) holder).tvTime.setVisibility(diffSec > 1 ? View.VISIBLE : View.GONE);
             }
         } else if (holder instanceof ChatFromTextHolder) {
+            ((ChatFromTextHolder) holder).tvTime.setText(dataBean.getCreateTime());
             ((ChatFromTextHolder) holder).tvName.setText(dataBean.getStudentName());
             ((ChatFromTextHolder) holder).imgFromHead.setImageURI(Uri.parse(Apis.SERVER_URL + dataBean.getAvatarUrl()));
             ((ChatFromTextHolder) holder).tvFromContent.setText(dataBean.getContent());
@@ -111,6 +113,7 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
                 ((ChatFromTextHolder) holder).tvTime.setVisibility(diffSec > 1 ? View.VISIBLE : View.GONE);
             }
         } else if (holder instanceof ChatToTextHolder) {
+            ((ChatToTextHolder) holder).tvTime.setText(dataBean.getCreateTime());
             ((ChatToTextHolder) holder).tvName.setText(dataBean.getStudentName());
             ((ChatToTextHolder) holder).imgToHead.setImageURI(Uri.parse(Apis.SERVER_URL + dataBean.getAvatarUrl()));
             ((ChatToTextHolder) holder).tvToContent.setText(dataBean.getContent());
@@ -120,6 +123,7 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
                 ((ChatToTextHolder) holder).tvTime.setVisibility(diffSec > 1 ? View.VISIBLE : View.GONE);
             }
         } else if (holder instanceof ChatToVoiceHolder) {
+            ((ChatToVoiceHolder) holder).tvTime.setText(dataBean.getCreateTime());
             ((ChatToVoiceHolder) holder).tvName.setText(dataBean.getStudentName());
             ((ChatToVoiceHolder) holder).imgToHead.setImageURI(Uri.parse(Apis.SERVER_URL + dataBean.getAvatarUrl()));
             ((ChatToVoiceHolder) holder).tvToContent.setText(dataBean.getMessageLength() + "s");
@@ -245,7 +249,7 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
                 .execute(new FileCallBack(FileUtil.getDownloadVoiceDir(), System.currentTimeMillis() + FileUtil.getRecordSuffix()) {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        Log.e(getClass().toString(),e.toString());
+                        Log.e(getClass().toString(), e.toString());
                     }
 
                     @Override

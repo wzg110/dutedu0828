@@ -95,9 +95,9 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
         //初始化UI
         if (mExerciseBean == null) return;
         if (mExerciseBean.getQuestionType() == ReadingActivity.TYPE_CHOICE) {
-            tvTitle.setText("第" + (mQuestionIndex + 1) + "题" + "（选择题）");
+            tvTitle.setText("课后小题第" + (mQuestionIndex + 1) + "题" + "（共" + mReadingInfo.getExercises().size() + "题）");
         } else {
-            tvTitle.setText("第" + (mQuestionIndex + 1) + "题" + "（填空题）");
+            tvTitle.setText("课后小题第" + (mQuestionIndex + 1) + "题" + "（共" + mReadingInfo.getExercises().size() + "题）");
         }
         tvQuestion.setText(mExerciseBean.getQuestionContent());
 
@@ -195,6 +195,9 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
         }
 
         if (mExerciseBean != null && mSelectedOption != null) {
+            mReadingInfo.getPreClassExercises()
+                    .get(mReadingInfo.getExercises().indexOf(mExerciseBean))
+                    .setAnswerContent(mSelectedOption.getOptionIndex());
             mPresenter.commitAnswer(mExerciseBean.getQuestionId(), mSelectedOption.getOptionIndex(), timeSpan, mGoOriginalTime);
         } else {
             showToast("请选择答案");

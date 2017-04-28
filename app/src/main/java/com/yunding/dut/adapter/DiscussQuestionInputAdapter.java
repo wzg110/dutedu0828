@@ -1,6 +1,8 @@
 package com.yunding.dut.adapter;
 
+import android.graphics.Color;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
@@ -36,6 +38,7 @@ public class DiscussQuestionInputAdapter extends BaseQuickAdapter<String, BaseVi
 
     @Override
     protected void convert(final BaseViewHolder helper, String item) {
+        ((EditText) helper.getView(R.id.et_answer)).setTextColor(Color.BLACK);
         ((EditText) helper.getView(R.id.et_answer)).setHint("空" + String.valueOf(helper.getAdapterPosition() + 1));
         ((EditText) helper.getView(R.id.et_answer)).setText(item);
         ((EditText) helper.getView(R.id.et_answer)).addTextChangedListener(new TextWatcher() {
@@ -56,6 +59,11 @@ public class DiscussQuestionInputAdapter extends BaseQuickAdapter<String, BaseVi
             }
         });
         helper.getView(R.id.et_answer).setEnabled(mState == ReadingActivity.STATE_UNDER_WAY);
+        if (mState == ReadingActivity.STATE_FINISHED) {
+            ((EditText) helper.getView(R.id.et_answer)).setInputType(InputType.TYPE_NULL);
+        }else{
+            ((EditText) helper.getView(R.id.et_answer)).setInputType(InputType.TYPE_CLASS_TEXT);
+        }
 
     }
 }

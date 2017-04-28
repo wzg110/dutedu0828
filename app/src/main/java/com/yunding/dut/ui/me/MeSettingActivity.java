@@ -2,8 +2,11 @@ package com.yunding.dut.ui.me;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.yunding.dut.R;
 import com.yunding.dut.presenter.account.AccountPresenter;
 import com.yunding.dut.ui.account.LoginActivity;
@@ -31,11 +34,27 @@ public class MeSettingActivity extends ToolBarActivity {
                 startActivity(new Intent(this, ResetPwdActivity.class));
                 break;
             case R.id.tv_log_out:
-                AccountPresenter.logOut();
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                new MaterialDialog.Builder(this)
+                        .title("提示")
+                        .content("确认退出此阅读课？")
+                        .positiveText("确定")
+                        .negativeText("取消")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                AccountPresenter.logOut();
+                                Intent intent = new Intent(MeSettingActivity.this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        })
+                        .show();
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

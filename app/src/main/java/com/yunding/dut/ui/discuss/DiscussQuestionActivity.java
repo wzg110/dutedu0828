@@ -13,6 +13,7 @@ import com.yunding.dut.model.resp.discuss.DiscussQuestionListResp;
 import com.yunding.dut.presenter.discuss.DiscussQuestionPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
 import com.yunding.dut.view.DUTHorizontalRecyclerView;
+import com.yunding.dut.view.DUTVerticalRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 public class DiscussQuestionActivity extends ToolBarActivity implements IDiscussQuestionView {
 
     @BindView(R.id.rv_question_list)
-    DUTHorizontalRecyclerView rvQuestionList;
+    DUTVerticalRecyclerView rvQuestionList;
 
     public static String DISCUSS_INFO = "DISCUSS_INFO";
     private DiscussListResp.DataBean mResp;
@@ -42,8 +43,8 @@ public class DiscussQuestionActivity extends ToolBarActivity implements IDiscuss
             mPresenter.getSubjectQuestions(mResp.getThemeId());
         }
 
-        LinearSnapHelper mLinearSnapHelper = new LinearSnapHelper();
-        mLinearSnapHelper.attachToRecyclerView(rvQuestionList);
+//        LinearSnapHelper mLinearSnapHelper = new LinearSnapHelper();
+//        mLinearSnapHelper.attachToRecyclerView(rvQuestionList);
 
         setTitle("答题");
     }
@@ -102,6 +103,7 @@ public class DiscussQuestionActivity extends ToolBarActivity implements IDiscuss
     @Override
     public void commitAnswerSuccess() {
         showSnackBar("提交成功");
+        finish();
     }
 
     public void commitAnswer(String jsonParam) {

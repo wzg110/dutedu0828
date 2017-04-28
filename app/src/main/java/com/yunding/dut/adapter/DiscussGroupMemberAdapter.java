@@ -33,7 +33,7 @@ public class DiscussGroupMemberAdapter extends BaseQuickAdapter<DiscussGroupInfo
         SimpleDraweeView imgAvatar = helper.getView(R.id.img_avatar);
         imgAvatar.setImageURI(Uri.parse(Apis.SERVER_URL + item.getAvatarUrl()));
         if (item.getIsLeader() == 1) {
-            helper.setText(R.id.tv_name, item.getStudentName() + "（组长）");
+            helper.setText(R.id.tv_name, "(组长)" + item.getStudentName());
         } else {
             helper.setText(R.id.tv_name, item.getStudentName());
         }

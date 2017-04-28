@@ -1,7 +1,14 @@
 package com.yunding.dut.ui.reading;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.yunding.dut.R;
 import com.yunding.dut.model.resp.reading.ReadingListResp;
 import com.yunding.dut.ui.base.BaseFragment;
 import com.yunding.dut.ui.base.BaseFragmentActivity;
@@ -35,6 +42,13 @@ public class ReadingActivity extends BaseFragmentActivity {
 
     @Override
     protected BaseFragment getFirstFragment() {
+        getmToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeFragment();
+            }
+        });
+
         mReadingInfo = (ReadingListResp.DataBean) getIntent().getSerializableExtra(READING_INFO);
         if (mReadingInfo != null) {
             if (mReadingInfo.getPreClassExercises() != null && mReadingInfo.getPreClassExercises().size() > 0) {
@@ -56,7 +70,7 @@ public class ReadingActivity extends BaseFragmentActivity {
                     return readingChoiceFragment;
                 }
             } else {
-                ReadingOriginalFragment readingOriginalFragment = new ReadingOriginalFragment();
+                ReadingArticleFragment readingOriginalFragment = new ReadingArticleFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(READING_INFO, mReadingInfo);
                 readingOriginalFragment.setArguments(bundle);
@@ -67,5 +81,32 @@ public class ReadingActivity extends BaseFragmentActivity {
             finish();
             return null;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_reading, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_close_reading:
+                new MaterialDialog.Builder(this)
+                        .title("提示")
+                        .content("确认退出此阅读课？")
+                        .positiveText("确定")
+                        .negativeText("取消")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                finish();
+                            }
+                        })
+                        .show();
+                break;
+        }
+        return true;
     }
 }

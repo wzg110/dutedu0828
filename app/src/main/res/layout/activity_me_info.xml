@@ -27,9 +27,9 @@
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:background="@color/bg_gray"
             android:scaleType="centerInside"
-            fresco:placeholderImage="@drawable/ic_default_head"
-            fresco:roundedCornerRadius="10dp" />
+            fresco:placeholderImage="@drawable/ic_default_head" />
     </RelativeLayout>
 
     <android.support.v4.widget.Space
