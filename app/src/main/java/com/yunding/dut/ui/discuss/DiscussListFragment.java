@@ -95,8 +95,13 @@ public class DiscussListFragment extends ToolBarFragment implements IDiscussList
         unbinder = ButterKnife.bind(this, rootView);
 
         srlDiscussList.setOnRefreshListener(this);
-        mPresenter.loadDiscussGroupList();
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.loadDiscussGroupList();
     }
 
     @Override
