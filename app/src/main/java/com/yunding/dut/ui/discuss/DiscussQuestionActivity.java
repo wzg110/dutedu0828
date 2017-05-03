@@ -59,7 +59,11 @@ public class DiscussQuestionActivity extends ToolBarActivity implements IDiscuss
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_commit:
-                mAdapter.commitAnswer();
+                if (mResp.getIsLeader() == 1) {
+                    mAdapter.commitAnswer();
+                }else{
+                    showToast("只有组长可以提交答案");
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -371,7 +371,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             if (!RegexUtils.isMatch(REGEX_ENG, charSequence)) {
-                showToast("只能输入中文字符");
+                showToast("只能通过英文交流");
             }
         }
 
@@ -383,6 +383,8 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
                 if (matchList.size() > 0) {
                     CharSequence matchChar = RegexUtils.getMatches(REGEX_ENG, editable.subSequence(0, editable.length())).get(0);
                     editable.replace(0, editable.length(), matchChar);
+                } else {
+                    editable.clear();
                 }
                 etMsgText.addTextChangedListener(this);
             }
