@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -30,6 +32,7 @@ import com.yunding.dut.ui.base.ToolBarActivity;
 import com.yunding.dut.util.file.FileUtil;
 import com.yunding.dut.util.permission.PermissionUtil;
 import com.yunding.dut.util.third.ConstUtils;
+import com.yunding.dut.util.third.RegexUtils;
 import com.yunding.dut.util.third.TimeUtils;
 import com.yunding.dut.view.DUTVerticalSmoothScrollRecycleView;
 
@@ -347,10 +350,43 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
 
     }
 
+    //英文正则
+    private String REGEX_ENG = "[\\x00-\\xff]+";
+
     @Override
     public void showSubjectInfo(DiscussSubjectResp resp) {
         tvSubjectTitle.setText("题目：" + resp.getData().getName());
         tvQuestion.setText("主题：" + resp.getData().getContent());
+        if (resp.getData().getIsLanguage() == 0) {
+            etMsgText.addTextChangedListener(new MsgTextWatcher());
+        }
+    }
+
+    private class MsgTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if (!RegexUtils.isMatch(REGEX_ENG, charSequence)) {
+                showToast("只能输入中文字符");
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            if (!RegexUtils.isMatch(REGEX_ENG, editable)) {
+                etMsgText.removeTextChangedListener(this);
+                List<String> matchList = RegexUtils.getMatches(REGEX_ENG, editable.subSequence(0, editable.length()));
+                if (matchList.size() > 0) {
+                    CharSequence matchChar = RegexUtils.getMatches(REGEX_ENG, editable.subSequence(0, editable.length())).get(0);
+                    editable.replace(0, editable.length(), matchChar);
+                }
+                etMsgText.addTextChangedListener(this);
+            }
+        }
     }
 
     private class LongTouch implements View.OnTouchListener {
