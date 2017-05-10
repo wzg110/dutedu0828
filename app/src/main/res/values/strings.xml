@@ -36,6 +36,16 @@
     <string name="reset_pwd_confirm_new_pwd">确认新密码</string>
     <string name="reset_pwd_btn_confirm_update">确认修改</string>
 
+    <string name="find_pwd_step_1_input_phone">请输入您的手机号</string>
+    <string name="find_pwd_step_1_input_sms_code">请输入6位数字验证码</string>
+    <string name="find_pwd_step_1_btn_send_code">获取验证码</string>
+    <string name="find_pwd_step_1_btn_next">下一步</string>
+    <string name="find_pwd_step_2_input_new_pwd">请输入6~16位新密码</string>
+    <string name="find_pwd_step_2_confirm_new_pwd">确认新密码</string>
+    <string name="find_pwd_step_2_btn_ok">确认</string>
+
+    <string name="bind_phone_btn_ok">确认</string>
+
     <string name="menu_me">我的</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

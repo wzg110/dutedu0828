@@ -40,7 +40,6 @@
         <activity
             android:name=".ui.LaunchActivity"
             android:theme="@style/SplashTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,19 +48,19 @@
         </activity>
         <activity android:name=".ui.discuss.DiscussQuestionActivity" />
         <activity android:name=".ui.reading.ReadingActivity" />
-
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/TakePhotoTheme" />
-
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/TakePhotoTheme" />
-
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TakePhotoTheme" />
+        <activity android:name=".ui.account.FindPwdStep1Activity" />
+        <activity android:name=".ui.account.FindPwdStep2Activity" />
+        <activity android:name=".ui.account.BindPhoneActivity"></activity>
     </application>
 
 </manifest>
