@@ -200,7 +200,7 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         }
 
         if (mExerciseBean != null) {
-            mReadingInfo.getPreClassExercises()
+            mReadingInfo.getExercises()
                     .get(mReadingInfo.getExercises().indexOf(mExerciseBean))
                     .setAnswerContent(answerTemp);
             mPresenter.commitAnswer(mExerciseBean.getQuestionId(), answerTemp, timeSpan, mGoOriginalTime);

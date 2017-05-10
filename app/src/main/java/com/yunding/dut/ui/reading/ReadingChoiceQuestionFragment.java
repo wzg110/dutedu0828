@@ -195,7 +195,7 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
         }
 
         if (mExerciseBean != null && mSelectedOption != null) {
-            mReadingInfo.getPreClassExercises()
+            mReadingInfo.getExercises()
                     .get(mReadingInfo.getExercises().indexOf(mExerciseBean))
                     .setAnswerContent(mSelectedOption.getOptionIndex());
             mPresenter.commitAnswer(mExerciseBean.getQuestionId(), mSelectedOption.getOptionIndex(), timeSpan, mGoOriginalTime);
