@@ -4,11 +4,13 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.WindowManager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;
+import com.yunding.dut.ui.account.BindPhoneActivity;
 import com.yunding.dut.ui.account.LoginActivity;
 import com.yunding.dut.ui.base.BaseActivity;
 import com.yunding.dut.ui.home.HomeActivity;
@@ -31,6 +33,18 @@ public class LaunchActivity extends BaseActivity {
         checkPermissions();
     }
 
+    private void checkBindState() {
+        if (TextUtils.isEmpty(DUTApplication.getUserInfo().getUserPhone())) {
+            //未绑定
+            startActivity(new Intent(this,BindPhoneActivity.class));
+        } else {
+            showToast(R.string.login_success);
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+    }
+
     private void goNext() {
         Observable.timer(1, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
             @Override
@@ -39,7 +53,8 @@ public class LaunchActivity extends BaseActivity {
                 if (userId == 0) {
                     startActivity(new Intent(LaunchActivity.this, LoginActivity.class));
                 } else {
-                    startActivity(new Intent(LaunchActivity.this, HomeActivity.class));
+                    checkBindState();
+//                    startActivity(new Intent(LaunchActivity.this, HomeActivity.class));
                 }
                 finish();
             }

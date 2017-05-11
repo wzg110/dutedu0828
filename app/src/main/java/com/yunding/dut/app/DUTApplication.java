@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.yunding.dut.model.data.UserInfo;
+import com.yunding.dut.util.third.Utils;
 
 /**
  * 类 名 称：DUTApplication
@@ -26,6 +27,7 @@ public class DUTApplication extends Application {
 
         mApplication = this;
 
+        Utils.init(this);
         Fresco.initialize(this);
     }
 

@@ -31,13 +31,15 @@ public class UserInfo {
     private final String USER_NAME = "user_name";
     private final String USER_GRADE = "user_grade";
     private final String USER_CLASS = "user_class";
+    private final String USER_PHONE = "user_phone";
 
-//    private long userId;
+    //    private long userId;
 //    private String userAvatar;
 //    private String userAccount;
 //    private String userName;
 //    private String userClass;
 //    private String userGrade;
+    private String userPhone;
 
     private SharedPreferences mPreference;
     private String SPACE = "";
@@ -113,13 +115,23 @@ public class UserInfo {
         editor.apply();
     }
 
-    public void clearUserInfo(){
+    public String getUserPhone() {
+        return getPreferences().getString(USER_PHONE, SPACE);
+    }
+
+    public void setUserPhone(String userPhone) {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putString(USER_PHONE, userPhone);
+        editor.apply();
+    }
+
+    public void clearUserInfo() {
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.clear();
         editor.apply();
     }
 
-    public static void saveUserInfo(LoginResp resp){
+    public static void saveUserInfo(LoginResp resp) {
         DUTApplication.getUserInfo().setUserId(resp.getData().getStudentId());
         DUTApplication.getUserInfo().setUserName(resp.getData().getName());
         DUTApplication.getUserInfo().setUserAccount(resp.getData().getStudentNo());

@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.yunding.dut.R;
+import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.presenter.account.LoginPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
 import com.yunding.dut.ui.home.HomeActivity;
@@ -74,8 +76,10 @@ public class LoginActivity extends ToolBarActivity implements ILoginView {
                 mPresenter.login(account, pwd);
                 break;
             case R.id.btn_register:
+                startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.btn_reset_pwd:
+                startActivity(new Intent(this, FindPwdStep1Activity.class));
                 break;
         }
     }
@@ -102,10 +106,15 @@ public class LoginActivity extends ToolBarActivity implements ILoginView {
 
     @Override
     public void loginSuccess() {
-        showToast(R.string.login_success);
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        if (TextUtils.isEmpty(DUTApplication.getUserInfo().getUserPhone())) {
+            //未绑定
+            startActivity(new Intent(this,BindPhoneActivity.class));
+        } else {
+            showToast(R.string.login_success);
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
     }
 
     @Override

@@ -39,10 +39,10 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.8'
     compile 'com.lqr.audio:library:1.0.0'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.4'
-    testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.ms-square:expandableTextView:0.1.4'
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
     compile 'com.github.glassLake:PhotoPicker:1.0.3'
     compile 'com.github.yalantis:ucrop:2.2.1'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

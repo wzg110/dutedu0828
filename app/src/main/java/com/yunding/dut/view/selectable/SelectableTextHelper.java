@@ -19,8 +19,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yunding.dut.R;
+import com.yunding.dut.app.DUTApplication;
 
 /**
  * Created by Jaeger on 16/8/30.
@@ -271,19 +273,29 @@ public class SelectableTextHelper {
                     new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
             mWindow.setClippingEnabled(false);
 
-            contentView.findViewById(R.id.tv_copy).setOnClickListener(new View.OnClickListener() {
+            //标记生词
+            contentView.findViewById(R.id.tv_marker).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    ClipboardManager clip = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-//                    clip.setPrimaryClip(ClipData.newPlainText(mSelectionInfo.mSelectionContent, mSelectionInfo.mSelectionContent));
                     if (mSelectListener != null) {
-//                        mSelectListener.onTextSelected(mSelectionInfo.mSelectionContent);//Edit by masiyuan
                         mSelectListener.onTextSelected(mSelectionInfo.mSelectionContent, mSelectionInfo.mStart, mSelectionInfo.mEnd);
                     }
                     SelectableTextHelper.this.resetSelectionInfo();
                     SelectableTextHelper.this.hideSelectView();
                 }
             });
+            //选择复制
+            contentView.findViewById(R.id.tv_copy).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClipboardManager clip = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                    clip.setPrimaryClip(ClipData.newPlainText(mSelectionInfo.mSelectionContent, mSelectionInfo.mSelectionContent));
+                    Toast.makeText(DUTApplication.getInstance().getApplicationContext(),"已复制到剪贴板",Toast.LENGTH_SHORT).show();
+                    SelectableTextHelper.this.resetSelectionInfo();
+                    SelectableTextHelper.this.hideSelectView();
+                }
+            });
+            //全选
             contentView.findViewById(R.id.tv_select_all).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

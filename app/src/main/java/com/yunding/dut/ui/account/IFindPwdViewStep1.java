@@ -13,6 +13,8 @@ import com.yunding.dut.ui.base.IBaseView;
  * <P/>版    本：1.0
  */
 
-public interface IFindPwdView extends IBaseView{
+public interface IFindPwdViewStep1 extends IBaseView{
+
+    void showMsg(String msg);
 
 }

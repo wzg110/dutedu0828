@@ -8,8 +8,13 @@
     android:paddingRight="5dp">
 
     <TextView
-        android:id="@+id/tv_copy"
+        android:id="@+id/tv_marker"
         android:text="标记生词"
+        style="@style/OperateTextView"/>
+
+    <TextView
+        android:id="@+id/tv_copy"
+        android:text="复制"
         style="@style/OperateTextView"/>
 
     <TextView

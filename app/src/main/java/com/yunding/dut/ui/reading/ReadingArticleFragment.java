@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +18,9 @@ import com.yunding.dut.model.resp.reading.ReadingListResp;
 import com.yunding.dut.presenter.reading.ReadingPresenter;
 import com.yunding.dut.ui.base.BaseFragmentInReading;
 import com.yunding.dut.util.third.ConstUtils;
+import com.yunding.dut.util.third.SizeUtils;
 import com.yunding.dut.util.third.TimeUtils;
+import com.yunding.dut.view.DUTHorizontalProgressBarWithNumber;
 import com.yunding.dut.view.selectable.OnSelectListener;
 import com.yunding.dut.view.selectable.SelectableTextHelper;
 
@@ -49,6 +52,8 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
     Button btnFinish;
     @BindView(R.id.btn_next)
     Button btnNext;
+    @BindView(R.id.progress)
+    DUTHorizontalProgressBarWithNumber progressBar;
 
     private ReadingListResp.DataBean mReadingInfo;
 
@@ -107,11 +112,21 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
             public void onTextSelected(CharSequence content, int startIndex, int endIndex) {
                 Log.e(getClass().toString(), "start=" + startIndex + "and end=" + endIndex + "and content=" + content);
                 mPresenter.markerWords(mReadingInfo.getCourseId(), startIndex, content.length(), content.toString());
+                changeMarkerBg(startIndex, endIndex, content.toString());
             }
         });
+
+        initMarkerWords();
+
+        refreshProgress();
     }
 
-    @OnClick({R.id.btn_last, R.id.btn_finish, R.id.btn_next})
+    private void refreshProgress() {
+        int progress = (100 * (mSentenceIndex + 1)) / mReadingInfo.getSentenceInfo().size();
+        progressBar.setProgress(progress);
+    }
+
+    @OnClick({R.id.btn_last, R.id.btn_finish, R.id.btn_next, R.id.btn_size_small, R.id.btn_size_middle, R.id.btn_size_big})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_last:
@@ -144,6 +159,15 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
                 } else {
                     showToast("已经到最后一句了");
                 }
+                break;
+            case R.id.btn_size_small:
+                tvContent.setTextSize(12);
+                break;
+            case R.id.btn_size_middle:
+                tvContent.setTextSize(14);
+                break;
+            case R.id.btn_size_big:
+                tvContent.setTextSize(16);
                 break;
         }
     }
@@ -221,6 +245,38 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
         builder.setSpan(graySpan, 0, startIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setSpan(blackSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setSpan(graySpan, endIndex, tvContent.getText().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvContent.setText(builder);
+
+        refreshProgress();
+    }
+
+    /**
+     * 功能简述:标记完成更改文字背景颜色
+     *
+     * @param startIndex [参数]
+     * @param startIndex [参数]
+     */
+    private void changeMarkerBg(int startIndex, int endIndex, String content) {
+        ReadingListResp.DataBean.NewWordsBean newWordsBean = new ReadingListResp.DataBean.NewWordsBean();
+        newWordsBean.setWord(content);
+        newWordsBean.setWordIndex(startIndex);
+        newWordsBean.setWordLength(endIndex - startIndex);
+        mReadingInfo.getNewWords().add(newWordsBean);
+        initMarkerWords();
+    }
+
+    /**
+     * 功能简述:初始话已标记生词的位置
+     */
+    private void initMarkerWords() {
+        List<ReadingListResp.DataBean.NewWordsBean> newWords = mReadingInfo.getNewWords();
+        SpannableStringBuilder builder = new SpannableStringBuilder(tvContent.getText().toString());
+        for (ReadingListResp.DataBean.NewWordsBean newWord : newWords) {
+            int startIndex = newWord.getWordIndex();
+            int endIndex = startIndex + newWord.getWordLength();
+            BackgroundColorSpan yellowSpan = new BackgroundColorSpan(Color.YELLOW);
+            builder.setSpan(yellowSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         tvContent.setText(builder);
     }
 

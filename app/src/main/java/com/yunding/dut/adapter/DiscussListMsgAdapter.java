@@ -1,5 +1,7 @@
 package com.yunding.dut.adapter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -8,17 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lqr.audio.AudioPlayManager;
 import com.lqr.audio.IAudioPlayListener;
 import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.discuss.DiscussMsgListResp;
+import com.yunding.dut.ui.base.BaseActivity;
 import com.yunding.dut.util.api.Apis;
 import com.yunding.dut.util.file.FileUtil;
 import com.yunding.dut.util.third.ConstUtils;
 import com.yunding.dut.util.third.TimeUtils;
+import com.yunding.dut.view.DUTMsgOperationDialog;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
 
@@ -112,6 +118,14 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
                 long diffSec = TimeUtils.getTimeSpan(dataBean.getCreateTime(), preDataBean.getCreateTime(), ConstUtils.TimeUnit.MIN);
                 ((ChatFromTextHolder) holder).tvTime.setVisibility(diffSec > 1 ? View.VISIBLE : View.GONE);
             }
+            //添加长按复制事件
+            ((ChatFromTextHolder) holder).tvFromContent.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    showOper(dataBean);
+                    return false;
+                }
+            });
         } else if (holder instanceof ChatToTextHolder) {
             ((ChatToTextHolder) holder).tvTime.setText(dataBean.getCreateTime());
             ((ChatToTextHolder) holder).tvName.setText(dataBean.getStudentName());
@@ -122,6 +136,14 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
                 long diffSec = TimeUtils.getTimeSpan(dataBean.getCreateTime(), preDataBean.getCreateTime(), ConstUtils.TimeUnit.MIN);
                 ((ChatToTextHolder) holder).tvTime.setVisibility(diffSec > 1 ? View.VISIBLE : View.GONE);
             }
+            //添加长按复制事件
+            ((ChatToTextHolder) holder).tvToContent.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    showOper(dataBean);
+                    return false;
+                }
+            });
         } else if (holder instanceof ChatToVoiceHolder) {
             ((ChatToVoiceHolder) holder).tvTime.setText(dataBean.getCreateTime());
             ((ChatToVoiceHolder) holder).tvName.setText(dataBean.getStudentName());
@@ -141,6 +163,27 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
         } else {
             //T.B.D
         }
+    }
+
+    /**
+     * 功能简述:显示操作对话框
+     *
+     * @param dataBean [消息对象]
+     */
+    private void showOper(final DiscussMsgListResp.DataBean.DatasBean dataBean) {
+        new MaterialDialog.Builder(mContext).items("复制").itemsCallback(new MaterialDialog.ListCallback() {
+            @Override
+            public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                switch (position) {
+                    case 0:
+                        ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clipData = ClipData.newPlainText("Label", dataBean.getContent());
+                        cm.setPrimaryClip(clipData);
+                        Toast.makeText(mContext, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }).show();
     }
 
     @Override

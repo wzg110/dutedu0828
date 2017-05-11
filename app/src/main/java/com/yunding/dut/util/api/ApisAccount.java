@@ -63,4 +63,49 @@ public class ApisAccount extends Apis {
         String url = SERVER_URL + "/student/getstudentthemelist?studentid=" + userId;
         return url;
     }
+
+    /**
+     * 功能简述:发送短信验证码
+     *
+     * @param phone [手机号]
+     */
+    public static String sendSmsCode(String phone) {
+        String url = SERVER_URL + "/student/sendsmscode?phone=" + phone;
+        return url;
+    }
+
+    /**
+     * 功能简述:检查短信验证码
+     *
+     * @param phone   [电话号码]
+     * @param smsCode [短信验证码]
+     */
+    public static String checkSmsCode(String phone, String smsCode) {
+        String url = SERVER_URL + "/student/ischecksmscode?phone=" + phone + "&code=" + smsCode;
+        return url;
+    }
+
+    /**
+     * 功能简述:通过短信验证码重置密码
+     *
+     * @param newPwd  [新密码]
+     * @param smsCode [短信验证码]
+     * @param phone   [电话号码]
+     */
+    public static String findPwd(String newPwd, String smsCode, String phone) {
+        String url = SERVER_URL + "/student/updatephonepassword?newpassword=" + newPwd + "&code=" + smsCode + "&phone=" + phone;
+        return url;
+    }
+
+    /**
+     * 功能简述:绑定手机号
+     *
+     * @param phone     [手机号]
+     * @param smsCode   [短信验证码]
+     * @param studentId [学生id]
+     */
+    public static String bindPhone(String phone, String smsCode, int studentId) {
+        String url = SERVER_URL + "/student/updatephone?phone=" + phone + "&code=" + smsCode + "&studentid=" + studentId;
+        return url;
+    }
 }

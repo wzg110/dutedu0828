@@ -65,13 +65,13 @@
                 <Button
                     android:id="@+id/btn_register"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/color_window_background"
                     android:text="@string/login_btn_register"
                     android:textColor="@color/color_primary"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <Button
                     android:id="@+id/btn_reset_pwd"

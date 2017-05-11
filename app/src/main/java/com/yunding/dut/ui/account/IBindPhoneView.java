@@ -13,5 +13,9 @@ import com.yunding.dut.ui.base.IBaseView;
  * <P/>版    本：
  */
 
-public interface IBindPhoneView extends IBaseView{
+public interface IBindPhoneView extends IBaseView {
+
+    void showMsg(String msg);
+
+    void bindSuccess();
 }
