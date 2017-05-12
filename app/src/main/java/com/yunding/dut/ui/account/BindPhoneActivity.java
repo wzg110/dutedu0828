@@ -80,7 +80,7 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
     private void bindPhone() {
         String phone = etPhone.getText().toString();
         String smsCode = etSmsCode.getText().toString();
-        int studentId = 0;
+        long studentId = DUTApplication.getUserInfo().getUserId();
         mPresenter.bindPhone(phone, smsCode, studentId);
     }
 
@@ -117,6 +117,8 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
     public void bindSuccess() {
         DUTApplication.getUserInfo().setUserPhone(etPhone.getText().toString());
         showMsg("绑定成功");
-        startActivity(new Intent(this, HomeActivity.class));
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

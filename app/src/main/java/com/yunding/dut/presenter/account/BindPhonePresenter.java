@@ -61,7 +61,7 @@ public class BindPhonePresenter extends BasePresenter {
         });
     }
 
-    public void bindPhone(String phone, String smsCode, int studentId) {
+    public void bindPhone(String phone, String smsCode, long studentId) {
         String url = ApisAccount.bindPhone(phone, smsCode, studentId);
         request(url, new DUTResp() {
             @Override

@@ -23,4 +23,6 @@ public interface ILoginView extends IBaseView{
 
     void loginFailed(String msg);
 
+    void goBindPhone();
+
 }

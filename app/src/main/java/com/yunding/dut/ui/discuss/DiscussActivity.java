@@ -190,8 +190,11 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         switch (view.getId()) {
             case R.id.btn_open:
                 //开启讨论
-                if (mDiscussInfo != null && mPresenter != null)
+                if (mDiscussInfo != null && mPresenter != null) {
                     mPresenter.startDiscussion(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
+                    String content = "我已开启讨论";
+                    mPresenter.sendMsg(null, mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId(), DiscussPresenter.MSG_TYPE_TEXT, content.length(), content);
+                }
                 break;
             case R.id.btn_record:
                 llRecord.setVisibility(View.VISIBLE);

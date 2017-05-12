@@ -1,27 +1,26 @@
 package com.yunding.dut.model.resp.account;
 
-import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
 /**
- * 类 名 称：LoginResp
- * <P/>描    述：登录接口返回
+ * 类 名 称：RegisterResp
+ * <P/>描    述：注册接口返回
  * <P/>创 建 人：msy
- * <P/>创建时间：2017/4/21 12:10
+ * <P/>创建时间：2017/5/12 10:02
  * <P/>修 改 人：msy
- * <P/>修改时间：2017/4/21 12:10
+ * <P/>修改时间：2017/5/12 10:02
  * <P/>修改备注：
  * <P/>版    本：
  */
 
-public class LoginResp {
-
+public class RegisterResp implements Serializable{
 
     /**
-     * data : {"age":0,"avatarUrl":"123123123123","classId":1,"className":"科目1 ","createTime":"2017-04-18 13:42:12","loginCount":35,"loginEquipment":0,"loginTime":"2017-04-19 14:37:31","name":"雷雨","passWord":"","radeId":1,"radeName":"哈哈","sex":0,"studentId":1,"studentNo":"123124355"}
+     * data : {"age":0,"avatarUrl":"upload/imgs/moren.jpg","classId":3,"className":"科目2","createTime":"2017-05-12 09:53:02","loginCount":0,"loginEquipment":0,"loginTime":"2017-05-12 09:53:02","name":"天明","passWord":"","phone":"","radeId":1,"radeName":"2017年级","sex":0,"studentId":123,"studentNo":"111111"}
      * errors : {}
      * msg : ok
      * result : true
-     * version : 20170418, leiyu
+     * version : 20160426,leiyu
      */
 
     private DataBean data;
@@ -70,26 +69,27 @@ public class LoginResp {
         this.version = version;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * age : 0
-         * avatarUrl : 123123123123
-         * classId : 1
-         * className : 科目1
-         * createTime : 2017-04-18 13:42:12
-         * loginCount : 35
+         * avatarUrl : upload/imgs/moren.jpg
+         * classId : 3
+         * className : 科目2
+         * createTime : 2017-05-12 09:53:02
+         * loginCount : 0
          * loginEquipment : 0
-         * loginTime : 2017-04-19 14:37:31
-         * name : 雷雨
+         * loginTime : 2017-05-12 09:53:02
+         * name : 天明
          * passWord :
+         * phone :
          * radeId : 1
-         * radeName : 哈哈
+         * radeName : 2017年级
          * sex : 0
-         * studentId : 1
-         * studentNo : 123124355
+         * studentId : 123
+         * studentNo : 111111
          */
 
-        private long age;
+        private int age;
         private String avatarUrl;
         private int classId;
         private String className;
@@ -100,19 +100,17 @@ public class LoginResp {
         private String name;
         private String passWord;
         private String phone;
-        @SerializedName("radeId")
-        private int gradeId;
-        @SerializedName("radeName")
-        private String gradeName;
+        private int radeId;
+        private String radeName;
         private int sex;
         private int studentId;
         private String studentNo;
 
-        public long getAge() {
+        public int getAge() {
             return age;
         }
 
-        public void setAge(long age) {
+        public void setAge(int age) {
             this.age = age;
         }
 
@@ -180,14 +178,6 @@ public class LoginResp {
             this.name = name;
         }
 
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
         public String getPassWord() {
             return passWord;
         }
@@ -196,20 +186,28 @@ public class LoginResp {
             this.passWord = passWord;
         }
 
-        public int getGradeId() {
-            return gradeId;
+        public String getPhone() {
+            return phone;
         }
 
-        public void setGradeId(int gradeId) {
-            this.gradeId = gradeId;
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
 
-        public String getGradeName() {
-            return gradeName;
+        public int getRadeId() {
+            return radeId;
         }
 
-        public void setGradeName(String gradeName) {
-            this.gradeName = gradeName;
+        public void setRadeId(int radeId) {
+            this.radeId = radeId;
+        }
+
+        public String getRadeName() {
+            return radeName;
+        }
+
+        public void setRadeName(String radeName) {
+            this.radeName = radeName;
         }
 
         public int getSex() {
@@ -237,6 +235,6 @@ public class LoginResp {
         }
     }
 
-    public static class ErrorsBean {
+    public static class ErrorsBean implements Serializable{
     }
 }

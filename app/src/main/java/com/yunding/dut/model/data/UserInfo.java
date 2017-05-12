@@ -138,6 +138,7 @@ public class UserInfo {
         DUTApplication.getUserInfo().setUserGrade(resp.getData().getGradeName());
         DUTApplication.getUserInfo().setUserClass(resp.getData().getClassName());
         DUTApplication.getUserInfo().setUserAvatar(resp.getData().getAvatarUrl());
+        DUTApplication.getUserInfo().setUserPhone(resp.getData().getPhone());
     }
 }
 

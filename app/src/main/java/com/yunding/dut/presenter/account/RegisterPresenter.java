@@ -4,10 +4,10 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.yunding.dut.R;
-import com.yunding.dut.model.resp.CommonResp;
+import com.yunding.dut.app.DUTApplication;
+import com.yunding.dut.model.resp.account.RegisterResp;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.account.IRegisterView;
-import com.yunding.dut.util.api.Apis;
 import com.yunding.dut.util.api.ApisAccount;
 
 /**
@@ -61,10 +61,11 @@ public class RegisterPresenter extends BasePresenter {
             @Override
             public void onResp(String response) {
                 mView.hideProgress();
-                CommonResp resp = parseJson(response, CommonResp.class);
+                RegisterResp resp = parseJson(response, RegisterResp.class);
                 if (resp != null) {
                     if (resp.isResult()) {
-                        mView.registerSuccess();
+                        saveUserInfo(resp);
+                        mView.registerSuccess(resp);
                     } else {
                         mView.registerFailed(resp.getMsg());
                     }
@@ -79,5 +80,19 @@ public class RegisterPresenter extends BasePresenter {
                 mView.registerFailed(e.toString());
             }
         });
+    }
+
+    /**
+     * 功能简述:保存用户信息
+     *
+     * @param resp [注册接口返回]
+     */
+    private void saveUserInfo(RegisterResp resp) {
+        DUTApplication.getUserInfo().setUserAvatar(resp.getData().getAvatarUrl());
+        DUTApplication.getUserInfo().setUserPhone(resp.getData().getPhone());
+        DUTApplication.getUserInfo().setUserName(resp.getData().getName());
+        DUTApplication.getUserInfo().setUserClass(resp.getData().getClassName());
+        DUTApplication.getUserInfo().setUserGrade(resp.getData().getRadeName());
+        DUTApplication.getUserInfo().setUserId(resp.getData().getStudentId());
     }
 }

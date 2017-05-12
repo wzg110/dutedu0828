@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/find_pwd_step_2_input_new_pwd"
-                    android:inputType="number" />
+                    android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
 

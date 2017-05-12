@@ -106,19 +106,19 @@ public class LoginActivity extends ToolBarActivity implements ILoginView {
 
     @Override
     public void loginSuccess() {
-        if (TextUtils.isEmpty(DUTApplication.getUserInfo().getUserPhone())) {
-            //未绑定
-            startActivity(new Intent(this,BindPhoneActivity.class));
-        } else {
-            showToast(R.string.login_success);
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
+        showToast(R.string.login_success);
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     @Override
     public void loginFailed(String msg) {
         showToast(msg);
+    }
+
+    @Override
+    public void goBindPhone() {
+        startActivity(new Intent(this, BindPhoneActivity.class));
     }
 }

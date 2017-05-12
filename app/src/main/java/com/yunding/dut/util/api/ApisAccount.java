@@ -104,7 +104,7 @@ public class ApisAccount extends Apis {
      * @param smsCode   [短信验证码]
      * @param studentId [学生id]
      */
-    public static String bindPhone(String phone, String smsCode, int studentId) {
+    public static String bindPhone(String phone, String smsCode, long studentId) {
         String url = SERVER_URL + "/student/updatephone?phone=" + phone + "&code=" + smsCode + "&studentid=" + studentId;
         return url;
     }

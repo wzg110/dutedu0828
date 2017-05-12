@@ -1,5 +1,6 @@
 package com.yunding.dut.ui.account;
 
+import com.yunding.dut.model.resp.account.RegisterResp;
 import com.yunding.dut.ui.base.IBaseView;
 
 /**
@@ -25,7 +26,7 @@ public interface IRegisterView extends IBaseView{
 
     void pwdMismatch();
 
-    void registerSuccess();
+    void registerSuccess(RegisterResp resp);
 
     void registerFailed(String msg);
 }

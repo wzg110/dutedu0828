@@ -82,7 +82,7 @@ public class FindPwdPresenter extends BasePresenter {
                 CommonResp resp = parseJson(response, CommonResp.class);
                 if (resp != null) {
                     if (resp.isResult()) {
-
+                        mView2.findSuccess();
                     } else {
                         mView2.showMsg(resp.getMsg());
                     }

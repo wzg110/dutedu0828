@@ -36,9 +36,8 @@ public class LaunchActivity extends BaseActivity {
     private void checkBindState() {
         if (TextUtils.isEmpty(DUTApplication.getUserInfo().getUserPhone())) {
             //未绑定
-            startActivity(new Intent(this,BindPhoneActivity.class));
+            startActivity(new Intent(this, BindPhoneActivity.class));
         } else {
-            showToast(R.string.login_success);
             Intent intent = new Intent(this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -54,7 +53,6 @@ public class LaunchActivity extends BaseActivity {
                     startActivity(new Intent(LaunchActivity.this, LoginActivity.class));
                 } else {
                     checkBindState();
-//                    startActivity(new Intent(LaunchActivity.this, HomeActivity.class));
                 }
                 finish();
             }

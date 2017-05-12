@@ -1,16 +1,14 @@
 package com.yunding.dut.presenter.account;
 
 import android.content.Context;
+import android.text.TextUtils;
 
-import com.google.gson.Gson;
-import com.google.gson.internal.Primitives;
 import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.data.UserInfo;
 import com.yunding.dut.model.resp.account.LoginResp;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.account.ILoginView;
-import com.yunding.dut.util.api.Apis;
 import com.yunding.dut.util.api.ApisAccount;
 
 /**
@@ -52,8 +50,14 @@ public class LoginPresenter extends BasePresenter {
                 LoginResp resp = parseJson(response, LoginResp.class);
                 if (resp != null) {
                     if (resp.isResult()) {
-                        mView.loginSuccess();
                         UserInfo.saveUserInfo(resp);//保存用户信息
+                        if (TextUtils.isEmpty(DUTApplication.getUserInfo().getUserPhone())) {
+                            //未绑定
+                            mView.goBindPhone();
+                        } else {
+                            //已绑定
+                            mView.loginSuccess();
+                        }
                     } else {
                         mView.loginFailed(resp.getMsg());
                     }

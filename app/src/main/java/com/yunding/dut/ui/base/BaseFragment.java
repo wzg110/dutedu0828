@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.view.DUTProgressDialog;
 
@@ -63,7 +64,11 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showToast(String msg) {
-        Toast.makeText(DUTApplication.getInstance(), msg, Toast.LENGTH_SHORT).show();
+        if (msg.contains("Exception")) {
+            Toast.makeText(DUTApplication.getInstance(), R.string.net_work_error, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(DUTApplication.getInstance(), msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void showSnackBar(int msgId) {

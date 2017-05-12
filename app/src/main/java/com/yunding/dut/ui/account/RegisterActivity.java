@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import com.yunding.dut.R;
+import com.yunding.dut.model.resp.account.RegisterResp;
 import com.yunding.dut.presenter.account.RegisterPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
 import com.yunding.dut.ui.home.HomeActivity;
@@ -94,9 +95,9 @@ public class RegisterActivity extends ToolBarActivity implements IRegisterView {
     }
 
     @Override
-    public void registerSuccess() {
+    public void registerSuccess(RegisterResp resp) {
         showToast(R.string.register_success);
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, BindPhoneActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
