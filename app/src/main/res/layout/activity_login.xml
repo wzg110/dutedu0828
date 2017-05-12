@@ -71,7 +71,7 @@
                     android:background="@color/color_window_background"
                     android:text="@string/login_btn_register"
                     android:textColor="@color/color_primary"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btn_reset_pwd"

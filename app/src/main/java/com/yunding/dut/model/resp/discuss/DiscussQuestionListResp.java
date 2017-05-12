@@ -106,6 +106,7 @@ public class DiscussQuestionListResp implements Serializable{
         private int themeId;
         private int topicId;
         private int type;
+        private String studentAnswer;
 
         public String getAnswer() {
             return answer;
@@ -169,6 +170,14 @@ public class DiscussQuestionListResp implements Serializable{
 
         public void setType(int type) {
             this.type = type;
+        }
+
+        public String getStudentAnswer() {
+            return studentAnswer;
+        }
+
+        public void setStudentAnswer(String studentAnswer) {
+            this.studentAnswer = studentAnswer;
         }
     }
 }

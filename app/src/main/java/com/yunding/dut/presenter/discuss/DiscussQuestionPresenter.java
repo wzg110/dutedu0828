@@ -25,9 +25,9 @@ public class DiscussQuestionPresenter extends BasePresenter {
         this.mView = mView;
     }
 
-    public void getSubjectQuestions(long subjectId) {
+    public void getSubjectQuestions(long subjectId,long groupId) {
         mView.showProgress();
-        String url = ApisDiscuss.getSubjectQuestion(subjectId);
+        String url = ApisDiscuss.getSubjectQuestion(subjectId,groupId);
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {

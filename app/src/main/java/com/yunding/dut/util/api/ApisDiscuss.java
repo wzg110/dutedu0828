@@ -96,8 +96,8 @@ public class ApisDiscuss extends Apis {
      *
      * @param subjectId [参数]
      */
-    public static String getSubjectQuestion(long subjectId) {
-        String url = SERVER_URL + "/teacher/getthemetopiclist?themeid=" + subjectId;
+    public static String getSubjectQuestion(long subjectId, long groupId) {
+        String url = SERVER_URL + "/teacher/getthemetopiclist?themeid=" + subjectId + "&groupid=" + groupId;
         return url;
     }
 

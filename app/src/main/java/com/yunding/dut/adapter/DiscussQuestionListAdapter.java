@@ -23,6 +23,7 @@ import com.yunding.dut.model.resp.discuss.DiscussQuestionParam;
 import com.yunding.dut.ui.discuss.DiscussQuestionActivity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -109,11 +110,14 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
                     for (String option : optionArray) {
                         RadioButton rbChoice = new RadioButton(mContext);
                         rbChoice.setText(option);
+                        if (mDataCache.get(holder.getAdapterPosition()) != null && TextUtils.equals(mDataCache.get(holder.getAdapterPosition()).getChoiceAnswer(), option)) {
+                            rbChoice.setChecked(true);
+                        }
+                        if (TextUtils.equals(option, mDataCache.get(holder.getAdapterPosition()).getQuestion().getStudentAnswer())) {
+                            rbChoice.setChecked(true);
+                        }
                         ((ChoiceViewHolder) holder).rgAnswer.addView(rbChoice,
                                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        if (mDataCache.get(holder.getAdapterPosition()) != null && TextUtils.equals(mDataCache.get(holder.getAdapterPosition()).getChoiceAnswer(), option)) {
-                            rbChoice.setSelected(true);
-                        }
                     }
                     ((ChoiceViewHolder) holder).rgAnswer.check(-1);
                     ((ChoiceViewHolder) holder).rgAnswer.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -129,8 +133,17 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
                 ((InputViewHolder) holder).tvQuestionNo.setText("第" + ++position + "题");
                 ((InputViewHolder) holder).tvQuestionContent.setText(item.getContent());
                 if (mDataCache.get(holder.getAdapterPosition()) != null) {
-                    List<String> dataList = mDataCache.get(holder.getAdapterPosition()).getInputAnswer();
-                    ((InputViewHolder) holder).rvAnswer.setAdapter(new DiscussQuestionInputAdapter(dataList,0));
+                    List<String> dataList = new ArrayList<>();
+                    if (!TextUtils.isEmpty(mDataCache.get(holder.getAdapterPosition()).getQuestion().getStudentAnswer())) {
+                        String studentAnswer = mDataCache.get(holder.getAdapterPosition()).getQuestion().getStudentAnswer();
+                        String[] answerArray = studentAnswer.split(",");
+                        for (String answer : answerArray) {
+                            dataList.add(answer);
+                        }
+                    } else {
+                        dataList = mDataCache.get(holder.getAdapterPosition()).getInputAnswer();
+                    }
+                    ((InputViewHolder) holder).rvAnswer.setAdapter(new DiscussQuestionInputAdapter(dataList, 0));
                 }
             }
     }

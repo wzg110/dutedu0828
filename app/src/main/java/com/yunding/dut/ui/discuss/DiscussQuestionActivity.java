@@ -40,7 +40,7 @@ public class DiscussQuestionActivity extends ToolBarActivity implements IDiscuss
         mResp = (DiscussListResp.DataBean) getIntent().getSerializableExtra(DISCUSS_INFO);
         mPresenter = new DiscussQuestionPresenter(this);
         if (mResp != null) {
-            mPresenter.getSubjectQuestions(mResp.getThemeId());
+            mPresenter.getSubjectQuestions(mResp.getThemeId(),mResp.getGroupId());
         }
 
 //        LinearSnapHelper mLinearSnapHelper = new LinearSnapHelper();
