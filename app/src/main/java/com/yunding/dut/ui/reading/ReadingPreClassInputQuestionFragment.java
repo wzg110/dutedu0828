@@ -2,11 +2,14 @@ package com.yunding.dut.ui.reading;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,6 +23,10 @@ import com.yunding.dut.util.third.ConstUtils;
 import com.yunding.dut.util.third.TimeUtils;
 import com.yunding.dut.view.DUTVerticalRecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +34,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.yunding.dut.ui.reading.ReadingActivity.READING_INFO;
 
 /**
  * 类 名 称：ReadingInputQuestionFragment
@@ -59,7 +68,9 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
     @BindView(R.id.layout_toast)
     LinearLayout layoutToast;
     Unbinder unbinder;
-
+    @BindView(R.id.iv_to_answer_pre)
+    ImageView mIvToAnswerPre;
+    private static final String TAG = "ReadingPreClassInputQue";
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.PreClassExercisesBean mPreExerciseBean;
 
@@ -71,6 +82,12 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
     private long mStartTime;
 
     public ReadingPreClassInputQuestionFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -130,7 +147,7 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
         tvToast.setText(mPreExerciseBean.getAnalysis());
     }
 
-    @OnClick({R.id.btn_commit, R.id.btn_next})
+    @OnClick({R.id.btn_commit, R.id.btn_next,R.id.iv_to_answer_pre})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_commit:
@@ -138,6 +155,17 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
                 break;
             case R.id.btn_next:
                 goNext();
+                break;
+            case R.id.iv_to_answer_pre:
+
+                ReadingListResp.DataBean.PreClassExercisesBean bean = mReadingInfo.getPreClassExercises().get(mQuestionIndex);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(ReadingActivity.READING_INFO, mReadingInfo);
+                bundle.putSerializable(ReadingActivity.READING_QUESTION, bean);
+                ReadingPreInputFragment readingPreInputFragment = new ReadingPreInputFragment();
+                readingPreInputFragment.setArguments(bundle);
+                addFragment(readingPreInputFragment);
+                Log.e(TAG, "onViewClicked: "+readingPreInputFragment);
                 break;
         }
     }
@@ -167,6 +195,31 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
         btnCommit.setVisibility(View.GONE);
         btnNext.setVisibility(View.VISIBLE);
         layoutToast.setVisibility(View.VISIBLE);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getAnswer(ReadingListResp.DataBean dataBean){
+        btnCommit.setVisibility(View.GONE);
+        btnNext.setVisibility(View.VISIBLE);
+        layoutToast.setVisibility(View.VISIBLE);
+        mPreExerciseBean = dataBean.getPreClassExercises().get(mQuestionIndex);
+        //初始化输入框
+        String[] rightAnswerArray = mPreExerciseBean.getRightAnswer().split(",");
+        List<String> inputList = new ArrayList<>();
+        if (mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED) {
+            //已完成的直接显示答案
+            String[] answerContent = new Gson().fromJson(mPreExerciseBean.getAnswerContent(), String[].class);
+            if (answerContent == null) return;
+            for (String answer : answerContent) {
+                inputList.add(answer);
+            }
+        } else {
+            //未完成的直接显示空
+            for (String answer : rightAnswerArray) {
+                inputList.add("");
+            }
+        }
+
+        mInputAdapter.setNewData(inputList);
     }
 
     @Override
@@ -242,5 +295,11 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -1,25 +1,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:zhy="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.yunding.dut.ui.reading.ReadingArticleFragment">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:zhy="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.yunding.dut.ui.reading.ReadingArticleFragment">
 
     <LinearLayout
+        android:id="@+id/lila_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_white"
         android:gravity="center_vertical"
-        android:padding="5dp">
+        android:padding="5dp"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="字号"
             android:textColor="@color/text_color_primary"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <RadioGroup
             android:layout_width="match_parent"
@@ -32,14 +34,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="A"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <RadioButton
                 android:id="@+id/btn_size_middle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="A"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <RadioButton
                 android:id="@+id/btn_size_big"
@@ -47,12 +49,13 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="A"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
         </RadioGroup>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lila_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_white"
@@ -64,7 +67,7 @@
             android:layout_height="wrap_content"
             android:text="进度"
             android:textColor="@color/text_color_primary"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <com.yunding.dut.view.DUTHorizontalProgressBarWithNumber
             android:id="@+id/progress"
@@ -76,42 +79,122 @@
             zhy:progress_reached_color="@color/color_primary"
             zhy:progress_text_color="@color/text_color_primary"
             zhy:progress_text_visibility="visible"
-            zhy:progress_unreached_color="@color/bg_white" />
+            zhy:progress_unreached_color="@color/bg_white"/>
 
     </LinearLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        >
 
-        <LinearLayout
+        <com.yunding.dut.view.DUTScrollView
+            android:id="@+id/sv_reading"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            >
 
-            <TextView
-                android:id="@+id/tv_title"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:text="@string/hello_blank_fragment"
-                android:textColor="@color/text_color_primary"
-                android:textSize="18sp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="5dp"
-                android:padding="16dp"
-                android:text="@string/hello_blank_fragment"
-                android:textColor="#E6E6E6"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="left"
+                    android:text="@string/hello_blank_fragment"
+                    android:textColor="@color/text_color_primary"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="5dp"
+                    android:padding="16dp"
+                    android:text="@string/hello_blank_fragment"
+                    android:textColor="#E6E6E6"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+        </com.yunding.dut.view.DUTScrollView>
+
+        <LinearLayout
+            android:id="@+id/lila_translate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#99000000"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+
+            <ScrollView
+                android:layout_width="250dp"
+                android:layout_height="150dp"
+                android:background="#ffffff"
+                android:scrollbars="none"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dp_10"
+                    android:orientation="vertical"
+
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iv_voice_translate_en"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="12dp"
+                            android:src="@drawable/ic_translate_sound"/>
+
+                        <TextView
+                            android:id="@+id/tv_content_translate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_toLeftOf="@id/iv_voice_translate_en"
+                            android:text="hello"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"/>
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_soundmark_translate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_content_translate"
+                        android:layout_marginTop="12dp"
+                        android:layout_toLeftOf="@id/iv_voice_translate_en"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_translate_translate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="你好"
+                        android:textColor="@color/text_color_primary"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </ScrollView>
+
+
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -123,7 +206,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="上一句"
-            android:theme="@style/DUTButton" />
+            android:theme="@style/DUTButton"/>
 
         <Button
             android:id="@+id/btn_finish"
@@ -131,14 +214,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="结束阅读"
-            android:theme="@style/DUTButton" />
+            android:theme="@style/DUTButton"/>
 
         <Button
             android:id="@+id/btn_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="下一句"
-            android:theme="@style/DUTButton" />
+            android:theme="@style/DUTButton"/>
 
     </LinearLayout>
 

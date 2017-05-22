@@ -11,6 +11,7 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -54,6 +55,7 @@ public class SelectableTextHelper {
     private BackgroundColorSpan mSpan;
     private boolean isHideWhenScroll;
     private boolean isHide = true;
+    private static final String TAG = "SelectableTextHelper";
 
     private ViewTreeObserver.OnPreDrawListener mOnPreDrawListener;
     ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
@@ -307,6 +309,25 @@ public class SelectableTextHelper {
                     mOperateWindow.show();
                 }
             });
+            //选择翻译
+            contentView.findViewById(R.id.tv_translate).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.e(TAG, "onClick: " );
+                    mSelectListener.onTextTranslate(mSelectionInfo.mSelectionContent);
+                    SelectableTextHelper.this.resetSelectionInfo();
+                    SelectableTextHelper.this.hideSelectView();
+                }
+            });
+            contentView.findViewById(R.id.tv_collection).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mSelectListener.onTextCollect(mSelectionInfo.mSelectionContent);
+                    SelectableTextHelper.this.resetSelectionInfo();
+                    SelectableTextHelper.this.hideSelectView();
+                }
+            });
+
         }
 
         public void show() {

@@ -3,11 +3,14 @@ package com.yunding.dut.ui.reading;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +26,10 @@ import com.yunding.dut.util.third.ConstUtils;
 import com.yunding.dut.util.third.TimeUtils;
 import com.yunding.dut.view.DUTVerticalRecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +37,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.yunding.dut.ui.reading.ReadingActivity.READING_INFO;
+import static com.yunding.dut.ui.reading.ReadingActivity.READING_QUESTION;
 
 /**
  * 类 名 称：ReadingInputQuestionFragment
@@ -64,7 +74,9 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     @BindView(R.id.layout_toast)
     LinearLayout layoutToast;
     Unbinder unbinder;
-
+    @BindView(R.id.iv_to_answer)
+    ImageView mIvToAnswer;
+    private static final String TAG = "ReadingInputQuestionFra";
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.ExercisesBean mExerciseBean;
 
@@ -85,11 +97,17 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected void initView(View view, Bundle saveInstanceState) {
         //初始化参数
-        mReadingInfo = (ReadingListResp.DataBean) getArguments().getSerializable(ReadingActivity.READING_INFO);
-        if (getArguments().getSerializable(ReadingActivity.READING_QUESTION) instanceof ReadingListResp.DataBean.ExercisesBean) {
-            mExerciseBean = (ReadingListResp.DataBean.ExercisesBean) getArguments().getSerializable(ReadingActivity.READING_QUESTION);
+        mReadingInfo = (ReadingListResp.DataBean) getArguments().getSerializable(READING_INFO);
+        if (getArguments().getSerializable(READING_QUESTION) instanceof ReadingListResp.DataBean.ExercisesBean) {
+            mExerciseBean = (ReadingListResp.DataBean.ExercisesBean) getArguments().getSerializable(READING_QUESTION);
             mQuestionIndex = mReadingInfo.getExercises().indexOf(mExerciseBean);//题目编号
         }
         mPresenter = new ReadingPresenter(this);
@@ -136,7 +154,7 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         tvToast.setText(mExerciseBean.getAnalysis());
     }
 
-    @OnClick({R.id.btn_commit, R.id.btn_next, R.id.btn_go_original})
+    @OnClick({R.id.btn_commit, R.id.btn_next, R.id.btn_go_original,R.id.iv_to_answer})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_commit:
@@ -148,6 +166,15 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
             case R.id.btn_go_original:
                 mGoOriginalTime++;
                 goOriginal();
+                break;
+            case R.id.iv_to_answer:
+                ReadingInputFragment readingInputFragment = new ReadingInputFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(READING_INFO, mReadingInfo);
+                bundle.putSerializable(READING_QUESTION, mExerciseBean);
+                readingInputFragment.setArguments(bundle);
+                addFragment(readingInputFragment);
+                Log.e(TAG, "onViewClicked: "+readingInputFragment );
                 break;
         }
     }
@@ -178,6 +205,34 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         btnCommit.setVisibility(View.GONE);
         btnNext.setVisibility(View.VISIBLE);
         layoutToast.setVisibility(View.VISIBLE);
+
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getAnswer(ReadingListResp.DataBean dataBean){
+        btnGoOriginal.setVisibility(View.GONE);
+        btnCommit.setVisibility(View.GONE);
+        btnNext.setVisibility(View.VISIBLE);
+        layoutToast.setVisibility(View.VISIBLE);
+        //初始化输入框
+        mExerciseBean = dataBean.getExercises().get(mQuestionIndex);
+        String[] rightAnswerArray = mExerciseBean.getRightAnswer().split(",");
+        List<String> inputList = new ArrayList<>();
+        if (mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED) {
+            //已完成的直接显示答案
+            String[] answerContent = new Gson().fromJson(mExerciseBean.getAnswerContent(), String[].class);
+            if (answerContent == null) return;
+            for (String answer : answerContent) {
+                inputList.add(answer);
+            }
+        } else {
+            //未完成的直接显示空
+            for (String answer : rightAnswerArray) {
+                inputList.add("");
+            }
+        }
+        mInputAdapter.setNewData(inputList);
     }
 
     @Override
@@ -226,8 +281,8 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
             //还有课后小题
             ReadingListResp.DataBean.ExercisesBean bean = mReadingInfo.getExercises().get(mQuestionIndex + 1);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(ReadingActivity.READING_INFO, mReadingInfo);
-            bundle.putSerializable(ReadingActivity.READING_QUESTION, bean);
+            bundle.putSerializable(READING_INFO, mReadingInfo);
+            bundle.putSerializable(READING_QUESTION, bean);
 
             switch (bean.getQuestionType()) {
                 case ReadingActivity.TYPE_CHOICE:
@@ -272,5 +327,11 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

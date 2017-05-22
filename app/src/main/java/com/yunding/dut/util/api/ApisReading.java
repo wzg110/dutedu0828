@@ -1,5 +1,7 @@
 package com.yunding.dut.util.api;
 
+import android.util.Log;
+
 import com.yunding.dut.app.DUTApplication;
 
 /**
@@ -14,7 +16,7 @@ import com.yunding.dut.app.DUTApplication;
  */
 
 public class ApisReading extends Apis {
-
+    private static final String TAG = "ApisReading";
     public static String getReadingList() {
         long userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "/reading/courselist?studentId=" + userId
@@ -24,12 +26,14 @@ public class ApisReading extends Apis {
     }
 
     public static String commitReadingQuestion(String questionId, String answerContent, long answerTime, int backTime) {
+
         long userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "/reading/saveanswer?studentId=" + userId
                 + "&questionId=" + questionId
                 + "&answerContent=" + answerContent
                 + "&answerTime=" + answerTime
                 + "&backTime=" + backTime;
+        Log.e(TAG, "commitReadingQuestion: "+url );
         return url;
     }
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="10dp"
+    >
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_commit_answer_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提交答案"
+        android:theme="@style/DUTButton" />
+
+    <LinearLayout
+        android:layout_above="@id/btn_commit_answer_answer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+    <ScrollView
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+        <TextView
+            android:id="@+id/tv_title_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_blank_fragment"
+            android:textColor="@color/text_color_primary" />
+
+        <TextView
+            android:id="@+id/tv_question_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/hello_blank_fragment"
+            android:textColor="@color/text_color_primary" />
+        </LinearLayout>
+    </ScrollView>
+    <com.yunding.dut.view.DUTVerticalRecyclerView
+        android:id="@+id/rv_input_list_answer"
+        android:layout_weight="2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_finish_answer"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_left_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

@@ -1,5 +1,7 @@
 package com.yunding.dut.presenter.reading;
 
+import android.util.Log;
+
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.reading.ReadingListResp;
 import com.yunding.dut.presenter.base.BasePresenter;
@@ -20,7 +22,7 @@ import com.yunding.dut.util.api.ApisReading;
 public class ReadingListPresenter extends BasePresenter {
 
     private IReadingListView mView;
-
+    private static final String TAG = "ReadingListPresenter";
     public ReadingListPresenter(IReadingListView mView) {
         this.mView = mView;
     }
@@ -28,6 +30,7 @@ public class ReadingListPresenter extends BasePresenter {
     public void getReadingList() {
         mView.showProgress();
         String url = ApisReading.getReadingList();
+        Log.e(TAG, "getReadingList: "+url );
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {

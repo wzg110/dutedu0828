@@ -1,5 +1,7 @@
 package com.yunding.dut.ui.reading;
 
+import com.yunding.dut.model.resp.translate.JSTranslateBean;
+import com.yunding.dut.model.resp.translate.YDTranslateBean;
 import com.yunding.dut.ui.base.IBaseView;
 
 /**
@@ -16,4 +18,6 @@ import com.yunding.dut.ui.base.IBaseView;
 public interface IReadingArticleView extends IBaseView {
 
     void showMsg(String msg);
+    void showJsTranslate(JSTranslateBean jsTranslateBean);
+    void showYdTranslate(YDTranslateBean ydTranslateBean);
 }

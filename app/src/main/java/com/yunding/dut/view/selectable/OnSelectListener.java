@@ -9,4 +9,6 @@ package com.yunding.dut.view.selectable;
 public interface OnSelectListener {
 //    void onTextSelected(CharSequence content);
     void onTextSelected(CharSequence content,int startIndex,int endIndex);
+    void onTextTranslate(CharSequence content);
+    void onTextCollect(CharSequence content);
 }

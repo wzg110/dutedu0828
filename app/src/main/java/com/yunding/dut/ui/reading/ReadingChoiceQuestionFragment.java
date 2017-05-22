@@ -59,6 +59,8 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
     @BindView(R.id.layout_toast)
     LinearLayout layoutToast;
     Unbinder unbinder;
+    @BindView(R.id.btn_answer_where)
+    Button mBtnAnswerWhere;
 
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.ExercisesBean mExerciseBean;
@@ -161,6 +163,7 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
         btnCommit.setVisibility(View.GONE);
         btnNext.setVisibility(View.VISIBLE);
         layoutToast.setVisibility(View.VISIBLE);
+        mBtnAnswerWhere.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -168,7 +171,7 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
 
     }
 
-    @OnClick({R.id.btn_go_original, R.id.btn_commit, R.id.btn_next})
+    @OnClick({R.id.btn_go_original, R.id.btn_commit, R.id.btn_next,R.id.btn_answer_where})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_go_original:
@@ -180,6 +183,9 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
                 break;
             case R.id.btn_next:
                 goNext();
+                break;
+            //显示答案出处
+            case R.id.btn_answer_where:
                 break;
         }
     }
@@ -270,4 +276,6 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.yunding.dut.ui.discuss;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -189,12 +190,8 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_open:
-                //开启讨论
-                if (mDiscussInfo != null && mPresenter != null) {
-                    mPresenter.startDiscussion(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
-                    String content = "我已开启讨论";
-                    mPresenter.sendMsg(null, mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId(), DiscussPresenter.MSG_TYPE_TEXT, content.length(), content);
-                }
+                showDialog();
+
                 break;
             case R.id.btn_record:
                 llRecord.setVisibility(View.VISIBLE);
@@ -483,4 +480,35 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         intent.putExtra(DiscussQuestionActivity.DISCUSS_INFO, mDiscussInfo);
         startActivity(intent);
     }
+    private void showDialog() {
+  /*
+  这里使用了 android.support.v7.app.AlertDialog.Builder
+  可以直接在头部写 import android.support.v7.app.AlertDialog
+  那么下面就可以写成 AlertDialog.Builder
+  */
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+//        builder.setTitle("Material Design Dialog");
+        builder.setMessage("开启讨论后开始进入倒计时"+mDiscussInfo.getCountdownTime()+"分钟，确定开启讨论？");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //开启讨论
+                if (mDiscussInfo != null && mPresenter != null) {
+                    mPresenter.startDiscussion(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
+                    String content = "我已开启讨论";
+                    mPresenter.sendMsg(null, mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId(), DiscussPresenter.MSG_TYPE_TEXT, content.length(), content);
+                }else showMsg("开启失败");
+
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
 }

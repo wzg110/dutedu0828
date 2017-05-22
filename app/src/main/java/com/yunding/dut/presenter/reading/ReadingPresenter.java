@@ -1,10 +1,15 @@
 package com.yunding.dut.presenter.reading;
 
+import android.util.Log;
+
 import com.yunding.dut.model.resp.CommonResp;
+import com.yunding.dut.model.resp.translate.JSTranslateBean;
+import com.yunding.dut.model.resp.translate.YDTranslateBean;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.reading.IReadingArticleView;
 import com.yunding.dut.ui.reading.IReadingQuestionView;
 import com.yunding.dut.util.api.ApisReading;
+import com.yunding.dut.util.api.ApisTranslate;
 
 /**
  * 类 名 称：ReadingPresenter
@@ -18,7 +23,7 @@ import com.yunding.dut.util.api.ApisReading;
  */
 
 public class ReadingPresenter extends BasePresenter {
-
+    private static final String TAG = "ReadingPresenter";
     private IReadingQuestionView mReadingQuestionView;
     private IReadingArticleView mReadingArticleView;
 
@@ -101,5 +106,64 @@ public class ReadingPresenter extends BasePresenter {
                 mReadingArticleView.showMsg(e.getMessage());
             }
         });
+    }
+
+    /**
+     * 获取滑词翻译
+     * @param content
+     */
+    public void getTranslation(String content){
+        if (content.contains(" ")){
+            //使用有道翻译
+           request(ApisTranslate.getYDTRANSLATE(content), new DUTResp() {
+               @Override
+               public void onResp(String response) {
+                   YDTranslateBean ydTranslateBean = parseJson(response,YDTranslateBean.class);
+                    switch (ydTranslateBean.getErrorCode()){
+                        case 20: mReadingArticleView.showMsg("要翻译的文本过长");
+                            break;
+                        case 30:mReadingArticleView.showMsg("无法进行有效的翻译");
+                            break;
+                        case 40:mReadingArticleView.showMsg("不支持的语言类型");
+                            break;
+                        case 50:mReadingArticleView.showMsg("key值失效，请联系客服");
+                            break;
+                        case 60:mReadingArticleView.showMsg("无词典结果");
+                            break;
+                        case 0:mReadingArticleView.showYdTranslate(ydTranslateBean);
+
+                    }
+
+               }
+
+               @Override
+               public void onError(Exception e) {
+                    mReadingArticleView.showMsg(e.getMessage());
+               }
+           });
+        }else {
+            content = content.toLowerCase();
+            Log.e(TAG, "getTranslation: "+content );
+            //使用金山翻译
+            request(ApisTranslate.getJSTRANSLATE(content), new DUTResp() {
+                @Override
+                public void onResp(String response) {
+                    if (!response.isEmpty()){
+                        JSTranslateBean jsTranslateBean = parseJson(response,JSTranslateBean.class);
+                        Log.e(TAG, "onResp:aaaa "+jsTranslateBean );
+                        mReadingArticleView.showJsTranslate(jsTranslateBean);
+                    }
+                }
+
+                @Override
+                public void onError(Exception e) {
+                        mReadingArticleView.showMsg(e.getMessage());
+                }
+            });
+
+        }
+
+
+
     }
 }
