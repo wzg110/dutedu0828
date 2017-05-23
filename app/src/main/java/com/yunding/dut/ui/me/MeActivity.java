@@ -1,8 +1,8 @@
 package com.yunding.dut.ui.me;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +31,9 @@ public class MeActivity extends ToolBarActivity {
     LinearLayout llMyInfo;
     @BindView(R.id.tv_setting)
     TextView tvSetting;
-
+    @BindView(R.id.tv_my_word)
+    TextView mTvMyWord;
+    private static final String TAG = "MeActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,7 @@ public class MeActivity extends ToolBarActivity {
         tvClass.setText(DUTApplication.getUserInfo().getUserClass());
     }
 
-    @OnClick({R.id.img_avatar, R.id.ll_my_info, R.id.tv_setting})
+    @OnClick({R.id.img_avatar, R.id.ll_my_info, R.id.tv_setting,R.id.tv_my_word})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_my_info:
@@ -56,6 +58,10 @@ public class MeActivity extends ToolBarActivity {
                 break;
             case R.id.tv_setting:
                 startActivity(new Intent(this, MeSettingActivity.class));
+                break;
+            case R.id.tv_my_word:
+                Log.e(TAG, "onViewClicked: ");
+                startActivity(new Intent(this,MeWordsActivity.class));
                 break;
         }
     }
@@ -65,4 +71,7 @@ public class MeActivity extends ToolBarActivity {
         super.onResume();
         showUserInfo();
     }
+
+
+
 }

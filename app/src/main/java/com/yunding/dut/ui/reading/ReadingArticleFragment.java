@@ -128,7 +128,7 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
                         mLilaProgress.setVisibility(View.GONE);
                     }
 
-                } else if (y - oldy < -283) {
+                } else if (y - oldy < 0) {
                     Log.e(TAG, "onScrollChanged: " + (y - oldy));
                     if (mLilaText.getVisibility() == View.GONE) {
                         mLilaText.setVisibility(View.VISIBLE);
@@ -183,14 +183,15 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
             @Override
             public void onTextTranslate(CharSequence content) {
                 String str = (String) content;
-                Log.e(TAG, "onTextTranslate: " + str);
                 mPresenter.getTranslation(str);
+                showProgressDialog();
             }
 
             //点击收藏的回调
             @Override
             public void onTextCollect(CharSequence content) {
-
+                String str = (String) content;
+                mPresenter.collectWords(str,mReadingInfo.getCourseId(),mReadingInfo.getCourseTitle());
             }
         });
 
@@ -248,6 +249,7 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
                 tvContent.setTextSize(16);
                 break;
             case R.id.iv_voice_translate_en:
+                showProgressDialog();
                 //读单词
                 if (!readUrl.isEmpty()) {
 
@@ -257,10 +259,13 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
                         //准备
                         mMediaPlayer.prepare();
                         //播放
+                        hideProgressDialog();
                         mMediaPlayer.start();
 
                     } catch (IOException e) {
+                        hideProgressDialog();
                         e.printStackTrace();
+
                     }
                 }
                 break;
@@ -308,16 +313,17 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
 
     @Override
     public void showProgress() {
-
+        showProgressDialog();
     }
 
     @Override
     public void hideProgress() {
-
+        hideProgressDialog();
     }
 
     @Override
     public void showMsg(String msg) {
+        Log.e(TAG, "showMsg: "+msg );
         if (TextUtils.isEmpty(msg)) {
             showToast(R.string.server_error);
         } else {
@@ -335,17 +341,18 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
             mLilaTranslate.setVisibility(View.VISIBLE);
             mIvVoiceTranslateEn.setVisibility(View.VISIBLE);
             mTvSoundmarkTranslate.setVisibility(View.VISIBLE);
-            if (!jsTranslateBean.getWord_name().isEmpty()) {
+            if (jsTranslateBean.getWord_name()!=null) {
                 JSTranslateBean.SymbolsBean partsBean = jsTranslateBean.getSymbols().get(0);
                 readUrl = partsBean.getPh_tts_mp3();
                 mTvContentTranslate.setText(jsTranslateBean.getWord_name());
-                mTvSoundmarkTranslate.setText("英式发音:   " + partsBean.getPh_en() + "\n" + "美式发音：   " + partsBean.getPh_am());
-                String strTranslate = "";
+                mTvSoundmarkTranslate.setText("英式发音:   " + partsBean.getPh_en() + "\n" + "美式发音:   " + partsBean.getPh_am());
+                StringBuffer strTranslate = new StringBuffer("");
                 for (int i = 0; i < partsBean.getParts().size(); i++) {
-                    strTranslate = partsBean.getParts().get(i).getPart() + "   " + partsBean.getParts().get(i).getMeans() + "\n";
+                    strTranslate.append(partsBean.getParts().get(i).getPart() + "   " + partsBean.getParts().get(i).getMeans() + "\n");
                 }
-                if (!strTranslate.isEmpty()) {
-                    mTvTranslateTranslate.setText(strTranslate);
+                String str = strTranslate.toString();
+                if (!str.isEmpty()) {
+                    mTvTranslateTranslate.setText(str);
                 }
             } else showMsg("输入单词格式有误");
 
@@ -360,13 +367,16 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
 
     @Override
     public void showYdTranslate(YDTranslateBean ydTranslateBean) {
-        mLilaTranslate.setVisibility(View.VISIBLE);
-        mIvVoiceTranslateEn.setVisibility(View.GONE);
-        mTvSoundmarkTranslate.setVisibility(View.GONE);
-        if (ydTranslateBean != null) {
-            mTvContentTranslate.setText(ydTranslateBean.getQuery());
-            mTvTranslateTranslate.setText(ydTranslateBean.getTranslation().get(0));
-        }
+        if(ydTranslateBean!=null){
+            mLilaTranslate.setVisibility(View.VISIBLE);
+            mIvVoiceTranslateEn.setVisibility(View.GONE);
+            mTvSoundmarkTranslate.setVisibility(View.GONE);
+            if (ydTranslateBean != null) {
+                mTvContentTranslate.setText(ydTranslateBean.getQuery());
+                mTvTranslateTranslate.setText(ydTranslateBean.getTranslation().get(0));
+            }
+        }else showMsg("输入格式有误");
+
     }
 
     /**
@@ -468,7 +478,4 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
     }
 
 
-    @OnClick(R.id.iv_voice_translate_en)
-    public void onViewClicked() {
-    }
 }

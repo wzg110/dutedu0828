@@ -29,9 +29,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static com.yunding.dut.ui.reading.ReadingActivity.READING_INFO;
-import static com.yunding.dut.ui.reading.ReadingActivity.READING_QUESTION;
-
 /**
  * Created by Administrator on 2017/5/22.
  */
@@ -40,8 +37,6 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
 
     @BindView(R.id.iv_finish_answer)
     ImageView mIvFinishAnswer;
-    @BindView(R.id.btn_commit_answer_answer)
-    Button mBtnCommitAnswerAnswer;
     @BindView(R.id.rv_input_list_answer)
     DUTVerticalRecyclerView mRvInputListAnswer;
     Unbinder unbinder;
@@ -49,6 +44,11 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
     TextView mTvTitleAnswer;
     @BindView(R.id.tv_question_answer)
     TextView mTvQuestionAnswer;
+    @BindView(R.id.btn_commit_answer_answer)
+    Button mBtnCommitAnswerAnswer;
+    @BindView(R.id.btn_next_answer)
+    Button mBtnNextAnswer;
+
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.PreClassExercisesBean mPreExerciseBean;
 
@@ -61,7 +61,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_answer;
+        return R.layout.fragment_input_new;
     }
 
     @Override
@@ -105,7 +105,9 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
         }
 
         mInputAdapter.setNewData(inputList);
-
+        //初始化按钮状态
+        mBtnNextAnswer.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
+        mBtnCommitAnswerAnswer.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
 
     }
 
@@ -130,6 +132,8 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
 
     @Override
     public void commitSuccess() {
+        mBtnNextAnswer.setVisibility(View.VISIBLE);
+        mBtnCommitAnswerAnswer.setVisibility(View.GONE);
         mPreExerciseBean.setQuestionCompleted(ReadingActivity.STATE_FINISHED);
         EventBus.getDefault().post(mReadingInfo);
     }
@@ -153,7 +157,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
         unbinder.unbind();
     }
 
-    @OnClick({R.id.iv_finish_answer, R.id.btn_commit_answer_answer})
+    @OnClick({R.id.iv_finish_answer,R.id.btn_commit_answer_answer,R.id.btn_next_answer})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_finish_answer:
@@ -162,8 +166,13 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
             case R.id.btn_commit_answer_answer:
                 commitAnswer();
                 break;
+            case R.id.btn_next_answer:
+                removeFragment();
+                goNext();
+                break;
         }
     }
+
     private void commitAnswer() {
         List<String> answerList = mInputAdapter.getData();
         String answerTemp = new Gson().toJson(answerList);
@@ -182,4 +191,40 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
             mPresenter.commitAnswer(mPreExerciseBean.getQuestionId(), answerTemp, timeSpan, 0);
         }
     }
+
+    private void goNext() {
+        if (mReadingInfo.getPreClassExercises().size() > (mQuestionIndex + 1)) {
+            //还有课前小题
+            ReadingListResp.DataBean.PreClassExercisesBean bean = mReadingInfo.getPreClassExercises().get(mQuestionIndex + 1);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ReadingActivity.READING_INFO, mReadingInfo);
+            bundle.putSerializable(ReadingActivity.READING_QUESTION, bean);
+
+            switch (bean.getQuestionType()) {
+                case ReadingActivity.TYPE_CHOICE:
+                    //选择题
+                    ReadingPreClassChoiceQuestionFragment choiceQuestionFragment = new ReadingPreClassChoiceQuestionFragment();
+                    choiceQuestionFragment.setArguments(bundle);
+                    addFragment(choiceQuestionFragment);
+                    break;
+                case ReadingActivity.TYPE_INPUT:
+                    //填空题
+                    ReadingPreClassInputQuestionFragment inputQuestionFragment = new ReadingPreClassInputQuestionFragment();
+                    inputQuestionFragment.setArguments(bundle);
+                    addFragment(inputQuestionFragment);
+                    break;
+                default:
+                    showSnackBar("没有该题型，请反馈客服");
+                    break;
+            }
+        } else {
+            //课前小题已经答完，进入阅读页面
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ReadingActivity.READING_INFO, mReadingInfo);
+            ReadingArticleFragment originalFragment = new ReadingArticleFragment();
+            originalFragment.setArguments(bundle);
+            addFragment(originalFragment);
+        }
+    }
+
 }

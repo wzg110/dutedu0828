@@ -481,11 +481,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         startActivity(intent);
     }
     private void showDialog() {
-  /*
-  这里使用了 android.support.v7.app.AlertDialog.Builder
-  可以直接在头部写 import android.support.v7.app.AlertDialog
-  那么下面就可以写成 AlertDialog.Builder
-  */
+
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
 //        builder.setTitle("Material Design Dialog");
         builder.setMessage("开启讨论后开始进入倒计时"+mDiscussInfo.getCountdownTime()+"分钟，确定开启讨论？");

@@ -1,7 +1,9 @@
 package com.yunding.dut.ui.reading;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.DiscussQuestionInputAdapter;
@@ -49,6 +53,8 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
     TextView mTvTitleAnswer;
     @BindView(R.id.tv_question_answer)
     TextView mTvQuestionAnswer;
+    @BindView(R.id.btn_next_answer)
+    Button mBtnNextAnswer;
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.ExercisesBean mExerciseBean;
 
@@ -58,10 +64,10 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
 
     private long mStartTime;
     private int mGoOriginalTime = 0;
-
+    private static final String TAG = "ReadingInputFragment";
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_answer;
+        return R.layout.fragment_input_new;
     }
 
     @Override
@@ -101,7 +107,9 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
         }
         mInputAdapter.setNewData(inputList);
 
-
+        //初始化按钮状态
+        mBtnNextAnswer.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
+        mBtnCommitAnswerAnswer.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -127,6 +135,8 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
     public void commitSuccess() {
         mExerciseBean.setQuestionCompleted(ReadingActivity.STATE_FINISHED);
         EventBus.getDefault().post(mReadingInfo);
+        mBtnNextAnswer.setVisibility(View.VISIBLE);
+        mBtnCommitAnswerAnswer.setVisibility(View.GONE);
     }
 
     @Override
@@ -148,7 +158,7 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
         unbinder.unbind();
     }
 
-    @OnClick({R.id.iv_finish_answer, R.id.btn_commit_answer_answer})
+    @OnClick({R.id.iv_finish_answer, R.id.btn_commit_answer_answer,R.id.btn_next_answer})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_finish_answer:
@@ -157,9 +167,14 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
             case R.id.btn_commit_answer_answer:
                 commitAnswer();
                 break;
+            case R.id.btn_next_answer:
+                removeFragment();
+                goNext();
+                break;
         }
     }
-     /**
+
+    /**
      * 功能简述:提交答案
      */
     private void commitAnswer() {
@@ -179,6 +194,52 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
                     .setAnswerContent(answerTemp);
             mPresenter.commitAnswer(mExerciseBean.getQuestionId(), answerTemp, timeSpan, mGoOriginalTime);
         }
+        mBtnNextAnswer.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
+        mBtnCommitAnswerAnswer.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
     }
 
+    /**
+     * 功能简述:下一步
+     */
+    private void goNext() {
+        if (mReadingInfo.getExercises().size() > (mQuestionIndex + 1)) {
+            //还有课后小题
+            ReadingListResp.DataBean.ExercisesBean bean = mReadingInfo.getExercises().get(mQuestionIndex + 1);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(READING_INFO, mReadingInfo);
+            bundle.putSerializable(READING_QUESTION, bean);
+            Log.e(TAG, "goNext: " );
+            switch (bean.getQuestionType()) {
+                case ReadingActivity.TYPE_CHOICE:
+                    //选择题
+                    Log.e(TAG, "goNext: 1" );
+                    ReadingChoiceQuestionFragment choiceQuestionFragment = new ReadingChoiceQuestionFragment();
+                    choiceQuestionFragment.setArguments(bundle);
+                    addFragment(choiceQuestionFragment);
+                    break;
+                case ReadingActivity.TYPE_INPUT:
+                    //填空题
+                    Log.e(TAG, "goNext: 2" );
+                    ReadingInputQuestionFragment inputQuestionFragment = new ReadingInputQuestionFragment();
+                    inputQuestionFragment.setArguments(bundle);
+                    addFragment(inputQuestionFragment);
+                    break;
+                default:
+                    showSnackBar("没有该题型，请反馈客服");
+                    break;
+            }
+        } else {
+            //课后小题已经答完，结束
+            new MaterialDialog.Builder(getHoldingActivity()).title("恭喜").content("您已完成本次阅读，是否离开？")
+                    .positiveText("是")
+                    .negativeText("否")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            getHoldingActivity().finish();
+                        }
+                    })
+                    .show();
+        }
+    }
 }

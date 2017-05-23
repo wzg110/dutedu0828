@@ -79,7 +79,7 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_to_answer"
-        android:src="@drawable/__picker_camera"
+        android:src="@drawable/ic_to_right_arrow"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"

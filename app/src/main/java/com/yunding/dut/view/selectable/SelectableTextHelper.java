@@ -319,6 +319,7 @@ public class SelectableTextHelper {
                     SelectableTextHelper.this.hideSelectView();
                 }
             });
+            //选择收藏
             contentView.findViewById(R.id.tv_collection).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

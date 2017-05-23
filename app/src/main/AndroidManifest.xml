@@ -60,7 +60,9 @@
             android:theme="@style/TakePhotoTheme" />
         <activity android:name=".ui.account.FindPwdStep1Activity" />
         <activity android:name=".ui.account.FindPwdStep2Activity" />
-        <activity android:name=".ui.account.BindPhoneActivity"></activity>
+        <activity android:name=".ui.account.BindPhoneActivity"/>
+        <activity android:name=".ui.me.MeWordsActivity"/>
+        <activity android:name=".ui.me.MeWordTranslateActivity"/>
     </application>
 
 </manifest>

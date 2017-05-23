@@ -3,6 +3,7 @@ package com.yunding.dut.presenter.reading;
 import android.util.Log;
 
 import com.yunding.dut.model.resp.CommonResp;
+import com.yunding.dut.model.resp.collect.CollectWordsResp;
 import com.yunding.dut.model.resp.translate.JSTranslateBean;
 import com.yunding.dut.model.resp.translate.YDTranslateBean;
 import com.yunding.dut.presenter.base.BasePresenter;
@@ -119,6 +120,9 @@ public class ReadingPresenter extends BasePresenter {
                @Override
                public void onResp(String response) {
                    YDTranslateBean ydTranslateBean = parseJson(response,YDTranslateBean.class);
+                   if (ydTranslateBean!=null){
+
+
                     switch (ydTranslateBean.getErrorCode()){
                         case 20: mReadingArticleView.showMsg("要翻译的文本过长");
                             break;
@@ -133,12 +137,14 @@ public class ReadingPresenter extends BasePresenter {
                         case 0:mReadingArticleView.showYdTranslate(ydTranslateBean);
 
                     }
-
+                   }else mReadingArticleView.showMsg("翻译失败");
+                   mReadingArticleView.hideProgress();
                }
 
                @Override
                public void onError(Exception e) {
                     mReadingArticleView.showMsg(e.getMessage());
+                   mReadingArticleView.hideProgress();
                }
            });
         }else {
@@ -149,15 +155,19 @@ public class ReadingPresenter extends BasePresenter {
                 @Override
                 public void onResp(String response) {
                     if (!response.isEmpty()){
+
                         JSTranslateBean jsTranslateBean = parseJson(response,JSTranslateBean.class);
-                        Log.e(TAG, "onResp:aaaa "+jsTranslateBean );
-                        mReadingArticleView.showJsTranslate(jsTranslateBean);
-                    }
+                        if (jsTranslateBean!=null){
+                            mReadingArticleView.showJsTranslate(jsTranslateBean);
+                        }else mReadingArticleView.showMsg("翻译失败");
+                    }else mReadingArticleView.showMsg("翻译失败");
+                    mReadingArticleView.hideProgress();
                 }
 
                 @Override
                 public void onError(Exception e) {
                         mReadingArticleView.showMsg(e.getMessage());
+                    mReadingArticleView.hideProgress();
                 }
             });
 
@@ -166,4 +176,28 @@ public class ReadingPresenter extends BasePresenter {
 
 
     }
+
+    public void collectWords(String english,String courseId,String characters){
+        request(ApisReading.collectWords(english, courseId, characters), new DUTResp() {
+            @Override
+            public void onResp(String response) {
+                CollectWordsResp collectWordsResp = parseJson(response,CollectWordsResp.class);
+                if (collectWordsResp!=null){
+                    if (collectWordsResp.isResult()){
+                        mReadingArticleView.showMsg(collectWordsResp.getMsg());
+                    }else mReadingArticleView.showMsg(collectWordsResp.getMsg());
+
+                }
+
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                mReadingArticleView.showMsg(e.getMessage());
+            }
+        });
+
+    }
+
 }

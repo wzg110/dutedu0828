@@ -5,20 +5,14 @@
               android:padding="10dp"
     >
 
-    <Button
-        android:layout_alignParentBottom="true"
-        android:id="@+id/btn_commit_answer_answer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="提交答案"
-        android:theme="@style/DUTButton" />
-
     <LinearLayout
-        android:layout_above="@id/btn_commit_answer_answer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="50dp"
+        >
     <ScrollView
+        android:scrollbars="none"
         android:layout_weight="3"
         android:layout_width="0dp"
         android:layout_height="match_parent">
@@ -43,6 +37,10 @@
             android:textColor="@color/text_color_primary" />
         </LinearLayout>
     </ScrollView>
+        <TextView
+            android:background="#cc515151"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"/>
     <com.yunding.dut.view.DUTVerticalRecyclerView
         android:id="@+id/rv_input_list_answer"
         android:layout_weight="2"
@@ -57,5 +55,19 @@
         android:src="@drawable/ic_left_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_commit_answer_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提交答案"
+        android:theme="@style/DUTButton" />
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_next_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下一题"
+        android:theme="@style/DUTButton" />
 
 </RelativeLayout>
