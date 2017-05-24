@@ -4,12 +4,17 @@
               android:layout_height="match_parent"
               android:padding="10dp"
     >
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingBottom="50dp"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
         >
     <ScrollView
         android:scrollbars="none"
@@ -48,6 +53,9 @@
         android:layout_height="wrap_content" />
     </LinearLayout>
 
+
+        <include layout="@layout/layout_question_toast"/>
+    </LinearLayout>
     <ImageView
         android:id="@+id/iv_finish_answer"
         android:layout_alignParentRight="true"

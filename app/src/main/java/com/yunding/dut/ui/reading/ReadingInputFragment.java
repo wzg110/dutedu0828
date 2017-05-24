@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -55,6 +56,12 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
     TextView mTvQuestionAnswer;
     @BindView(R.id.btn_next_answer)
     Button mBtnNextAnswer;
+    @BindView(R.id.tv_right_answer)
+    TextView mTvRightAnswer;
+    @BindView(R.id.tv_toast)
+    TextView mTvToast;
+    @BindView(R.id.layout_toast)
+    LinearLayout mLayoutToast;
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.ExercisesBean mExerciseBean;
 
@@ -65,6 +72,7 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
     private long mStartTime;
     private int mGoOriginalTime = 0;
     private static final String TAG = "ReadingInputFragment";
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_input_new;
@@ -110,6 +118,11 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
         //初始化按钮状态
         mBtnNextAnswer.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
         mBtnCommitAnswerAnswer.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
+
+        //初始化提示
+        mLayoutToast.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
+        mTvRightAnswer.setText(mExerciseBean.getRightAnswer());
+        mTvToast.setText(mExerciseBean.getAnalysis());
     }
 
     @Override
@@ -137,6 +150,7 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
         EventBus.getDefault().post(mReadingInfo);
         mBtnNextAnswer.setVisibility(View.VISIBLE);
         mBtnCommitAnswerAnswer.setVisibility(View.GONE);
+        mLayoutToast.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -158,7 +172,7 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
         unbinder.unbind();
     }
 
-    @OnClick({R.id.iv_finish_answer, R.id.btn_commit_answer_answer,R.id.btn_next_answer})
+    @OnClick({R.id.iv_finish_answer, R.id.btn_commit_answer_answer, R.id.btn_next_answer})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_finish_answer:
@@ -208,18 +222,18 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
             Bundle bundle = new Bundle();
             bundle.putSerializable(READING_INFO, mReadingInfo);
             bundle.putSerializable(READING_QUESTION, bean);
-            Log.e(TAG, "goNext: " );
+            Log.e(TAG, "goNext: ");
             switch (bean.getQuestionType()) {
                 case ReadingActivity.TYPE_CHOICE:
                     //选择题
-                    Log.e(TAG, "goNext: 1" );
+                    Log.e(TAG, "goNext: 1");
                     ReadingChoiceQuestionFragment choiceQuestionFragment = new ReadingChoiceQuestionFragment();
                     choiceQuestionFragment.setArguments(bundle);
                     addFragment(choiceQuestionFragment);
                     break;
                 case ReadingActivity.TYPE_INPUT:
                     //填空题
-                    Log.e(TAG, "goNext: 2" );
+                    Log.e(TAG, "goNext: 2");
                     ReadingInputQuestionFragment inputQuestionFragment = new ReadingInputQuestionFragment();
                     inputQuestionFragment.setArguments(bundle);
                     addFragment(inputQuestionFragment);

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -48,6 +49,12 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
     Button mBtnCommitAnswerAnswer;
     @BindView(R.id.btn_next_answer)
     Button mBtnNextAnswer;
+    @BindView(R.id.tv_right_answer)
+    TextView mTvRightAnswer;
+    @BindView(R.id.tv_toast)
+    TextView mTvToast;
+    @BindView(R.id.layout_toast)
+    LinearLayout mLayoutToast;
 
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.PreClassExercisesBean mPreExerciseBean;
@@ -109,6 +116,10 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
         mBtnNextAnswer.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
         mBtnCommitAnswerAnswer.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
 
+        mLayoutToast.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
+        mTvRightAnswer.setText(mPreExerciseBean.getRightAnswer());
+        mTvToast.setText(mPreExerciseBean.getAnalysis());
+
     }
 
     @Override
@@ -134,6 +145,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
     public void commitSuccess() {
         mBtnNextAnswer.setVisibility(View.VISIBLE);
         mBtnCommitAnswerAnswer.setVisibility(View.GONE);
+        mLayoutToast.setVisibility(View.VISIBLE);
         mPreExerciseBean.setQuestionCompleted(ReadingActivity.STATE_FINISHED);
         EventBus.getDefault().post(mReadingInfo);
     }
@@ -157,7 +169,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
         unbinder.unbind();
     }
 
-    @OnClick({R.id.iv_finish_answer,R.id.btn_commit_answer_answer,R.id.btn_next_answer})
+    @OnClick({R.id.iv_finish_answer, R.id.btn_commit_answer_answer, R.id.btn_next_answer})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_finish_answer:
