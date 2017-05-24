@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -370,7 +371,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if (!RegexUtils.isMatch(REGEX_ENG, charSequence)) {
+            if (!TextUtils.isEmpty(charSequence) && !RegexUtils.isMatch(REGEX_ENG, charSequence)) {
                 showToast("只能通过英文交流");
             }
         }
@@ -480,11 +481,12 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         intent.putExtra(DiscussQuestionActivity.DISCUSS_INFO, mDiscussInfo);
         startActivity(intent);
     }
+
     private void showDialog() {
 
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
 //        builder.setTitle("Material Design Dialog");
-        builder.setMessage("开启讨论后开始进入倒计时"+mDiscussInfo.getCountdownTime()+"分钟，确定开启讨论？");
+        builder.setMessage("开启讨论后开始进入倒计时" + mDiscussInfo.getCountdownTime() + "分钟，确定开启讨论？");
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -499,7 +501,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
                     mPresenter.startDiscussion(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
                     String content = "我已开启讨论";
                     mPresenter.sendMsg(null, mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId(), DiscussPresenter.MSG_TYPE_TEXT, content.length(), content);
-                }else showMsg("开启失败");
+                } else showMsg("开启失败");
 
                 dialog.dismiss();
             }
