@@ -122,7 +122,7 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
 
                 if (y - oldy > 0) {
                     Log.e(TAG, "onScrollChanged: " + (y - oldy));
-                    if (mLilaText.getVisibility() == View.VISIBLE){
+                    if (mLilaText.getVisibility() == View.VISIBLE) {
                         mLilaText.setVisibility(View.GONE);
                         mLilaProgress.setVisibility(View.GONE);
                     }
@@ -154,13 +154,14 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
                 btnNext.setVisibility(View.GONE);
                 mIsFinished = true;
                 tvContent.setTextColor(getResources().getColor(R.color.text_color_primary));
+                mSentenceIndex = mReadingInfo.getReadingLineIndex();
             } else {
                 btnLast.setVisibility(View.VISIBLE);
                 btnNext.setVisibility(View.VISIBLE);
                 mIsFinished = false;//初始化阅读状态
                 mSentenceIndex = mReadingInfo.getReadingLineIndex();//
                 mReadingStartTime = System.currentTimeMillis();//初始化时间
-                moveToPosition(mSentenceIndex);
+//                moveToPosition(mSentenceIndex);
             }
         }
 
@@ -190,7 +191,7 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
             @Override
             public void onTextCollect(CharSequence content) {
                 String str = (String) content;
-                mPresenter.collectWords(str,mReadingInfo.getCourseId(),mReadingInfo.getCourseTitle());
+                mPresenter.collectWords(str, mReadingInfo.getCourseId(), mReadingInfo.getCourseTitle());
             }
         });
 
@@ -218,7 +219,7 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
                 }
                 break;
             case R.id.btn_finish:
-                if (mIsFinished) {
+                if (mSentenceIndex == mReadingInfo.getSentenceInfo().size() - 1) {
                     goNext();
                     if (mReadingInfo.getArticleFinish() == 0) {
                         commitNextSentenceTime();
@@ -231,9 +232,9 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
                 if (mSentenceIndex < (mReadingInfo.getSentenceInfo().size() - 1)) {
                     commitNextSentenceTime();
                     mSentenceIndex += 1;
-                    if (mSentenceIndex == mReadingInfo.getSentenceInfo().size() - 1) {
-                        mIsFinished = true;
-                    }
+//                    if (mSentenceIndex == mReadingInfo.getSentenceInfo().size() - 1) {
+//                        mIsFinished = true;
+//                    }
                     moveToPosition(mSentenceIndex);
                 } else {
                     showToast("已经到最后一句了");
@@ -323,7 +324,7 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
 
     @Override
     public void showMsg(String msg) {
-        Log.e(TAG, "showMsg: "+msg );
+        Log.e(TAG, "showMsg: " + msg);
         if (TextUtils.isEmpty(msg)) {
             showToast(R.string.server_error);
         } else {
@@ -341,7 +342,7 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
             mLilaTranslate.setVisibility(View.VISIBLE);
             mIvVoiceTranslateEn.setVisibility(View.VISIBLE);
             mTvSoundmarkTranslate.setVisibility(View.VISIBLE);
-            if (jsTranslateBean.getWord_name()!=null) {
+            if (jsTranslateBean.getWord_name() != null) {
                 JSTranslateBean.SymbolsBean partsBean = jsTranslateBean.getSymbols().get(0);
                 readUrl = partsBean.getPh_tts_mp3();
                 mTvContentTranslate.setText(jsTranslateBean.getWord_name());
@@ -367,7 +368,7 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
 
     @Override
     public void showYdTranslate(YDTranslateBean ydTranslateBean) {
-        if(ydTranslateBean!=null){
+        if (ydTranslateBean != null) {
             mLilaTranslate.setVisibility(View.VISIBLE);
             mIvVoiceTranslateEn.setVisibility(View.GONE);
             mTvSoundmarkTranslate.setVisibility(View.GONE);
@@ -375,7 +376,7 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
                 mTvContentTranslate.setText(ydTranslateBean.getQuery());
                 mTvTranslateTranslate.setText(ydTranslateBean.getTranslation().get(0));
             }
-        }else showMsg("输入格式有误");
+        } else showMsg("输入格式有误");
 
     }
 
@@ -389,16 +390,21 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
         if (sentenceInfoList == null) return;
         if (currentPosition >= sentenceInfoList.size() || currentPosition < 0) return;
 
-        ReadingListResp.DataBean.SentenceInfoBean sentenceInfo = sentenceInfoList.get(mSentenceIndex);
-        int startIndex = sentenceInfo.getIndex();
-        int endIndex = sentenceInfo.getIndex() + sentenceInfo.getLength();
-
         SpannableStringBuilder builder = new SpannableStringBuilder(tvContent.getText().toString());
-        ForegroundColorSpan blackSpan = new ForegroundColorSpan(Color.BLACK);
-        ForegroundColorSpan graySpan = new ForegroundColorSpan(Color.rgb(230, 230, 230));
-        builder.setSpan(graySpan, 0, startIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        builder.setSpan(blackSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        builder.setSpan(graySpan, endIndex, tvContent.getText().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (!mIsFinished) {
+            ReadingListResp.DataBean.SentenceInfoBean sentenceInfo = sentenceInfoList.get(mSentenceIndex);
+            int startIndex = sentenceInfo.getIndex();
+            int endIndex = sentenceInfo.getIndex() + sentenceInfo.getLength();
+
+            ForegroundColorSpan blackSpan = new ForegroundColorSpan(Color.BLACK);
+            ForegroundColorSpan graySpan = new ForegroundColorSpan(Color.rgb(230, 230, 230));
+            builder.setSpan(graySpan, 0, startIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(blackSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(graySpan, endIndex, tvContent.getText().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }else{
+            ForegroundColorSpan blackSpan = new ForegroundColorSpan(Color.BLACK);
+            builder.setSpan(blackSpan, 0, tvContent.getText().toString().length()-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
 
         //改变生词底色
         List<ReadingListResp.DataBean.NewWordsBean> newWords = mReadingInfo.getNewWords();
