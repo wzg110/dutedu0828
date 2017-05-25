@@ -36,6 +36,11 @@ public class DiscussQuestionInputAdapter extends BaseQuickAdapter<String, BaseVi
         mState = state;
     }
 
+    public void setState(int state) {
+        mState = state;
+        notifyDataSetChanged();
+    }
+
     @Override
     protected void convert(final BaseViewHolder helper, String item) {
         ((EditText) helper.getView(R.id.et_answer)).setTextColor(Color.BLACK);

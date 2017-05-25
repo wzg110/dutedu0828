@@ -59,8 +59,8 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     TextView tvTitle;
     @BindView(R.id.tv_question)
     TextView tvQuestion;
-    @BindView(R.id.rv_input_list)
-    DUTVerticalRecyclerView rvInputList;
+//    @BindView(R.id.rv_input_list)
+//    DUTVerticalRecyclerView rvInputList;
     @BindView(R.id.btn_commit)
     Button btnCommit;
     @BindView(R.id.btn_next)
@@ -87,6 +87,8 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
 
     private long mStartTime;
     private int mGoOriginalTime = 0;
+    private ReadingInputFragment mReadingInputFragment;
+    private Bundle mBundle;
 
     public ReadingInputQuestionFragment() {
     }
@@ -122,26 +124,26 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         }
         tvQuestion.setText(mExerciseBean.getQuestionContent());
 
-        //初始化输入框
-        String[] rightAnswerArray = mExerciseBean.getRightAnswer().split(",");
-        List<String> inputList = new ArrayList<>();
-        mInputAdapter = new DiscussQuestionInputAdapter(inputList, mExerciseBean.getQuestionCompleted());
-        rvInputList.setAdapter(mInputAdapter);
-
-        if (mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED) {
-            //已完成的直接显示答案
-            String[] answerContent = new Gson().fromJson(mExerciseBean.getAnswerContent(), String[].class);
-            if (answerContent == null) return;
-            for (String answer : answerContent) {
-                inputList.add(answer);
-            }
-        } else {
-            //未完成的直接显示空
-            for (String answer : rightAnswerArray) {
-                inputList.add("");
-            }
-        }
-        mInputAdapter.setNewData(inputList);
+//        //初始化输入框
+//        String[] rightAnswerArray = mExerciseBean.getRightAnswer().split(",");
+//        List<String> inputList = new ArrayList<>();
+//        mInputAdapter = new DiscussQuestionInputAdapter(inputList, mExerciseBean.getQuestionCompleted());
+//        rvInputList.setAdapter(mInputAdapter);
+//
+//        if (mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED) {
+//            //已完成的直接显示答案
+//            String[] answerContent = new Gson().fromJson(mExerciseBean.getAnswerContent(), String[].class);
+//            if (answerContent == null) return;
+//            for (String answer : answerContent) {
+//                inputList.add(answer);
+//            }
+//        } else {
+//            //未完成的直接显示空
+//            for (String answer : rightAnswerArray) {
+//                inputList.add("");
+//            }
+//        }
+//        mInputAdapter.setNewData(inputList);
 
         //初始化按钮状态
         btnNext.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
@@ -150,7 +152,16 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
 
         //初始化提示
         layoutToast.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
-        tvRightAnswer.setText(mExerciseBean.getRightAnswer());
+
+
+        String answer =  mExerciseBean.getRightAnswer().substring( mExerciseBean.getRightAnswer().indexOf("[")+1, mExerciseBean.getRightAnswer().indexOf("]"));
+        String[] sourceStrArray = answer.split(",");
+        StringBuffer stringBuffer = new StringBuffer("");
+        for (int i = 0; i < sourceStrArray.length; i++) {
+            int a = i+1;
+            stringBuffer.append(a+": "+sourceStrArray[i]+"\n");
+        }
+        tvRightAnswer.setText(stringBuffer.toString());
         tvToast.setText(mExerciseBean.getAnalysis());
     }
 
@@ -158,7 +169,13 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_commit:
-                commitAnswer();
+//                commitAnswer();
+                mReadingInputFragment = new ReadingInputFragment();
+                mBundle = new Bundle();
+                mBundle.putSerializable(READING_INFO, mReadingInfo);
+                mBundle.putSerializable(READING_QUESTION, mExerciseBean);
+                mReadingInputFragment.setArguments(mBundle);
+                addFragment(mReadingInputFragment);
                 break;
             case R.id.btn_next:
                 goNext();
@@ -168,12 +185,12 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
                 goOriginal();
                 break;
             case R.id.iv_to_answer:
-                ReadingInputFragment readingInputFragment = new ReadingInputFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(READING_INFO, mReadingInfo);
-                bundle.putSerializable(READING_QUESTION, mExerciseBean);
-                readingInputFragment.setArguments(bundle);
-                addFragment(readingInputFragment);
+                mReadingInputFragment = new ReadingInputFragment();
+                mBundle = new Bundle();
+                mBundle.putSerializable(READING_INFO, mReadingInfo);
+                mBundle.putSerializable(READING_QUESTION, mExerciseBean);
+                mReadingInputFragment.setArguments(mBundle);
+                addFragment(mReadingInputFragment);
                 break;
         }
     }
@@ -204,6 +221,7 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         btnCommit.setVisibility(View.GONE);
         btnNext.setVisibility(View.VISIBLE);
         layoutToast.setVisibility(View.VISIBLE);
+        mInputAdapter.setState(1);
 
 
     }

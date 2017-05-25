@@ -55,6 +55,8 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
     TextView mTvToast;
     @BindView(R.id.layout_toast)
     LinearLayout mLayoutToast;
+    @BindView(R.id.btn_go_original)
+    Button mBtnGoOriginal;
 
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.PreClassExercisesBean mPreExerciseBean;
@@ -65,6 +67,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
 
     private long mStartTime;
     private int mGoOriginalTime = 0;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_input_new;
@@ -109,7 +112,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
                 inputList.add("");
             }
         }
-        if (getArguments().getStringArrayList("answer")!=null){
+        if (getArguments().getStringArrayList("answer") != null) {
             List<String> list = getArguments().getStringArrayList("answer");
             inputList.clear();
             for (int i = 0; i < list.size(); i++) {
@@ -121,9 +124,16 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
         //初始化按钮状态
         mBtnNextAnswer.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
         mBtnCommitAnswerAnswer.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
-
+        mBtnGoOriginal.setVisibility(view.GONE);
         mLayoutToast.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
-        mTvRightAnswer.setText(mPreExerciseBean.getRightAnswer());
+        String answer =  mPreExerciseBean.getRightAnswer().substring( mPreExerciseBean.getRightAnswer().indexOf("[")+1, mPreExerciseBean.getRightAnswer().indexOf("]"));
+        String[] sourceStrArray = answer.split(",");
+        StringBuffer stringBuffer = new StringBuffer("");
+        for (int i = 0; i < sourceStrArray.length; i++) {
+            int a = i + 1;
+            stringBuffer.append(a + ": " + sourceStrArray[i] + "\n");
+        }
+        mTvRightAnswer.setText(stringBuffer.toString());
         mTvToast.setText(mPreExerciseBean.getAnalysis());
 
     }
@@ -149,6 +159,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
 
     @Override
     public void commitSuccess() {
+        mInputAdapter.setState(1);
         mBtnNextAnswer.setVisibility(View.VISIBLE);
         mBtnCommitAnswerAnswer.setVisibility(View.GONE);
         mLayoutToast.setVisibility(View.VISIBLE);
@@ -248,7 +259,6 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
     @Override
     public void onPause() {
         super.onPause();
-
 
 
     }

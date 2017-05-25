@@ -157,9 +157,14 @@ public class ReadingPreClassChoiceQuestionFragment extends BaseFragmentInReading
             showToast(msg);
         }
     }
-
+    public void disableRadioGroup(RadioGroup testRadioGroup) {
+        for (int i = 0; i < testRadioGroup.getChildCount(); i++) {
+            testRadioGroup.getChildAt(i).setEnabled(false);
+        }
+    }
     @Override
     public void commitSuccess() {
+        disableRadioGroup(rgOptions);
         mPreExerciseBean.setQuestionCompleted(ReadingActivity.STATE_FINISHED);
         btnCommit.setVisibility(View.GONE);
         btnNext.setVisibility(View.VISIBLE);

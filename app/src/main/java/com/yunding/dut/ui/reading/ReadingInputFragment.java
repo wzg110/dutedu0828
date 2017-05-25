@@ -137,7 +137,15 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
         mBtnGoOriginal.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
         //初始化提示
         mLayoutToast.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
-        mTvRightAnswer.setText(mExerciseBean.getRightAnswer());
+
+        String answer =  mExerciseBean.getRightAnswer().substring( mExerciseBean.getRightAnswer().indexOf("[")+1, mExerciseBean.getRightAnswer().indexOf("]"));
+        String[] sourceStrArray = answer.split(",");
+        StringBuffer stringBuffer = new StringBuffer("");
+        for (int i = 0; i < sourceStrArray.length; i++) {
+            int a = i+1;
+            stringBuffer.append(a+": "+sourceStrArray[i]+"\n");
+        }
+        mTvRightAnswer.setText(stringBuffer.toString());
         mTvToast.setText(mExerciseBean.getAnalysis());
     }
 
@@ -162,6 +170,7 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
 
     @Override
     public void commitSuccess() {
+        mInputAdapter.setState(1);
         mExerciseBean.setQuestionCompleted(ReadingActivity.STATE_FINISHED);
         EventBus.getDefault().post(mReadingInfo);
         mBtnNextAnswer.setVisibility(View.VISIBLE);

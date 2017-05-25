@@ -59,8 +59,7 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
     @BindView(R.id.layout_toast)
     LinearLayout layoutToast;
     Unbinder unbinder;
-    @BindView(R.id.btn_answer_where)
-    Button mBtnAnswerWhere;
+
 
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.ExercisesBean mExerciseBean;
@@ -155,15 +154,20 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
     public void showMsg(String msg) {
 
     }
-
+    public void disableRadioGroup(RadioGroup testRadioGroup) {
+        for (int i = 0; i < testRadioGroup.getChildCount(); i++) {
+            testRadioGroup.getChildAt(i).setEnabled(false);
+        }
+    }
     @Override
     public void commitSuccess() {
+        disableRadioGroup(rgOptions);
         mExerciseBean.setQuestionCompleted(ReadingActivity.STATE_FINISHED);
         btnGoOriginal.setVisibility(View.GONE);
         btnCommit.setVisibility(View.GONE);
         btnNext.setVisibility(View.VISIBLE);
         layoutToast.setVisibility(View.VISIBLE);
-        mBtnAnswerWhere.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -183,9 +187,6 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
                 break;
             case R.id.btn_next:
                 goNext();
-                break;
-            //显示答案出处
-            case R.id.btn_answer_where:
                 break;
         }
     }

@@ -313,8 +313,10 @@ public class SelectableTextHelper {
             contentView.findViewById(R.id.tv_translate).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e(TAG, "onClick: " );
-                    mSelectListener.onTextTranslate(mSelectionInfo.mSelectionContent);
+                    if (mSelectListener != null) {
+                        mSelectListener.onTextTranslate(mSelectionInfo.mSelectionContent);;
+                    }
+
                     SelectableTextHelper.this.resetSelectionInfo();
                     SelectableTextHelper.this.hideSelectView();
                 }
@@ -323,7 +325,10 @@ public class SelectableTextHelper {
             contentView.findViewById(R.id.tv_collection).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mSelectListener.onTextCollect(mSelectionInfo.mSelectionContent);
+                    if (mSelectListener != null) {
+                        mSelectListener.onTextSelected(mSelectionInfo.mSelectionContent, mSelectionInfo.mStart, mSelectionInfo.mEnd);
+                        mSelectListener.onTextCollect(mSelectionInfo.mSelectionContent);
+                    }
                     SelectableTextHelper.this.resetSelectionInfo();
                     SelectableTextHelper.this.hideSelectView();
                 }
