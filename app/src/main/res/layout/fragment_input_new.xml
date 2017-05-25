@@ -55,6 +55,15 @@
 
 
         <include layout="@layout/layout_question_toast"/>
+        <Button
+            android:id="@+id/btn_go_original"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@color/transparent"
+            android:text="阅读原文"
+            android:textColor="@color/text_color_primary"
+            android:visibility="visible" />
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_finish_answer"

@@ -61,7 +61,7 @@ public class ApisReading extends Apis {
     public static String collectWords(String english, String courseid, String characters) {
 //        http://localhost:8080/edu/reading/addcollecation?english=why&courseid=1&characters=为什么&studentid=1
         long userId = DUTApplication.getUserInfo().getUserId();
-        String url = "http://172.16.0.88:8080/edu/" + "/reading/addcollecation?english=" + english+"&courseid="+courseid+
+        String url = SERVER_URL + "/reading/addcollecation?english=" + english+"&courseid="+courseid+
                 "&characters="+characters+
                 "&studentid="+userId;
         Log.e(TAG, "collectWords: "+url );
@@ -70,14 +70,14 @@ public class ApisReading extends Apis {
     public static String delCollectWord(int collectionid) {
 //        http://localhost:8080/edu/reading/delcollecation?collectionid=3
         long userId = DUTApplication.getUserInfo().getUserId();
-        String url = "http://172.16.0.88:8080/edu/" + "/reading/delcollecation?collectionid=" + collectionid;
+        String url = SERVER_URL + "/reading/delcollecation?collectionid=" + collectionid;
         Log.e(TAG, "delCollectWord: "+url );
         return url;
     }
     public static String getCollectWords() {
 //        http://localhost:8080/edu/reading/getcollecationlist?studentid=1
         long userId = DUTApplication.getUserInfo().getUserId();
-        String url = "http://172.16.0.88:8080/edu/" + "/reading/getcollecationlist?studentid=" + userId;
+        String url = SERVER_URL + "/reading/getcollecationlist?studentid=" + userId;
         Log.e(TAG, "getCollectWords: "+url );
         return url;
     }

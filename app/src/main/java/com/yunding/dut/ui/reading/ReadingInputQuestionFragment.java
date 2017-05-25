@@ -174,7 +174,6 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
                 bundle.putSerializable(READING_QUESTION, mExerciseBean);
                 readingInputFragment.setArguments(bundle);
                 addFragment(readingInputFragment);
-                Log.e(TAG, "onViewClicked: "+readingInputFragment );
                 break;
         }
     }
@@ -334,4 +333,6 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+
 }

@@ -125,7 +125,7 @@ public class MeWordsActivity extends ToolBarActivity implements IMeWordsView{
                 builder.show();
 
 
-                return false;
+                return true;
             }
         });
     }

@@ -64,7 +64,6 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
     Button btnNext;
     @BindView(R.id.progress)
     DUTHorizontalProgressBarWithNumber progressBar;
-
     @BindView(R.id.tv_content_translate)
     TextView mTvContentTranslate;
     @BindView(R.id.tv_soundmark_translate)

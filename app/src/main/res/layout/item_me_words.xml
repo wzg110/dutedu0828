@@ -5,6 +5,8 @@
                 android:padding="16dp"
     >
         <TextView
+            android:ellipsize="end"
+            android:maxLines="2"
             android:id="@+id/tv_me_word"
            android:layout_centerVertical="true"
             android:layout_width="wrap_content"

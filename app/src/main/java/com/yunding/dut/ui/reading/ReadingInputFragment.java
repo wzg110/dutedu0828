@@ -62,6 +62,8 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
     TextView mTvToast;
     @BindView(R.id.layout_toast)
     LinearLayout mLayoutToast;
+    @BindView(R.id.btn_go_original)
+    Button mBtnGoOriginal;
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.ExercisesBean mExerciseBean;
 
@@ -91,8 +93,12 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
 
         //初始化UI
         if (mExerciseBean == null) return;
-        mTvTitleAnswer.setText(mReadingInfo.getCourseTitle());
-        mTvQuestionAnswer.setText(mReadingInfo.getCourseContent());
+        if (mExerciseBean.getQuestionType() == ReadingActivity.TYPE_CHOICE) {
+            mTvTitleAnswer.setText("课后小题第" + (1 + mQuestionIndex) + "题" + "（共" + mReadingInfo.getExercises().size() + "题）");
+        } else {
+            mTvTitleAnswer.setText("课后小题第" + (1 + mQuestionIndex) + "题" + "（共" + mReadingInfo.getExercises().size() + "题）");
+        }
+        mTvQuestionAnswer.setText(mExerciseBean.getQuestionContent());
 
         //初始化输入框
         String[] rightAnswerArray = mExerciseBean.getRightAnswer().split(",");
@@ -113,12 +119,22 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
                 inputList.add("");
             }
         }
+        if (getArguments().getStringArrayList("answer") != null) {
+            ArrayList<String> list = getArguments().getStringArrayList("answer");
+            inputList.clear();
+            for (int i = 0; i < list.size(); i++) {
+
+                inputList.add(list.get(i));
+            }
+
+
+        }
         mInputAdapter.setNewData(inputList);
 
         //初始化按钮状态
         mBtnNextAnswer.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
         mBtnCommitAnswerAnswer.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
-
+        mBtnGoOriginal.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
         //初始化提示
         mLayoutToast.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
         mTvRightAnswer.setText(mExerciseBean.getRightAnswer());
@@ -172,7 +188,7 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
         unbinder.unbind();
     }
 
-    @OnClick({R.id.iv_finish_answer, R.id.btn_commit_answer_answer, R.id.btn_next_answer})
+    @OnClick({R.id.iv_finish_answer, R.id.btn_commit_answer_answer, R.id.btn_next_answer,R.id.btn_go_original})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_finish_answer:
@@ -185,6 +201,10 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
                 removeFragment();
                 goNext();
                 break;
+            case R.id.btn_go_original:
+                mGoOriginalTime++;
+                goOriginal();
+                break;
         }
     }
 
@@ -192,6 +212,7 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
      * 功能简述:提交答案
      */
     private void commitAnswer() {
+        mBtnGoOriginal.setVisibility(View.GONE);
         List<String> answerList = mInputAdapter.getData();
         String answerTemp = new Gson().toJson(answerList);
 
@@ -255,5 +276,12 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
                     })
                     .show();
         }
+    }
+    private void goOriginal() {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getHoldingActivity());
+        builder.title(mReadingInfo.getCourseTitle());
+        builder.content(mReadingInfo.getCourseContent());
+        builder.positiveText("确定");
+        builder.show();
     }
 }

@@ -65,7 +65,6 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
 
     private long mStartTime;
     private int mGoOriginalTime = 0;
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_input_new;
@@ -108,6 +107,13 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
             //未完成的直接显示空
             for (String answer : rightAnswerArray) {
                 inputList.add("");
+            }
+        }
+        if (getArguments().getStringArrayList("answer")!=null){
+            List<String> list = getArguments().getStringArrayList("answer");
+            inputList.clear();
+            for (int i = 0; i < list.size(); i++) {
+                inputList.add(list.get(i));
             }
         }
 
@@ -239,4 +245,11 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+
+
+    }
 }

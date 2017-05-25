@@ -80,6 +80,8 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
     private ReadingPresenter mPresenter;
 
     private long mStartTime;
+    private List<String> mStringList;
+    private List<String> mInputList;
 
     public ReadingPreClassInputQuestionFragment() {
     }
@@ -117,8 +119,8 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
 
         //初始化输入框
         String[] rightAnswerArray = mPreExerciseBean.getRightAnswer().split(",");
-        List<String> inputList = new ArrayList<>();
-        mInputAdapter = new DiscussQuestionInputAdapter(inputList, mPreExerciseBean.getQuestionCompleted());
+        mInputList = new ArrayList<>();
+        mInputAdapter = new DiscussQuestionInputAdapter(mInputList, mPreExerciseBean.getQuestionCompleted());
         rvInputList.setAdapter(mInputAdapter);
 
         if (mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED) {
@@ -126,16 +128,16 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
             String[] answerContent = new Gson().fromJson(mPreExerciseBean.getAnswerContent(), String[].class);
             if (answerContent == null) return;
             for (String answer : answerContent) {
-                inputList.add(answer);
+                mInputList.add(answer);
             }
         } else {
             //未完成的直接显示空
             for (String answer : rightAnswerArray) {
-                inputList.add("");
+                mInputList.add("");
             }
         }
 
-        mInputAdapter.setNewData(inputList);
+        mInputAdapter.setNewData(mInputList);
 
         //初始化按钮状态
         btnNext.setVisibility(mPreExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
@@ -157,11 +159,16 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
                 goNext();
                 break;
             case R.id.iv_to_answer_pre:
-
                 ReadingListResp.DataBean.PreClassExercisesBean bean = mReadingInfo.getPreClassExercises().get(mQuestionIndex);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(ReadingActivity.READING_INFO, mReadingInfo);
                 bundle.putSerializable(ReadingActivity.READING_QUESTION, bean);
+                mStringList = new ArrayList<>();
+                mStringList.clear();
+                mStringList = mInputAdapter.getData();
+                if (mStringList!=null){
+                    bundle.putStringArrayList("answer", (ArrayList<String>) mStringList);
+                }
                 ReadingPreInputFragment readingPreInputFragment = new ReadingPreInputFragment();
                 readingPreInputFragment.setArguments(bundle);
                 addFragment(readingPreInputFragment);
@@ -301,5 +308,15 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mPreExerciseBean.getQuestionCompleted() != ReadingActivity.STATE_FINISHED){
+            mInputAdapter.setNewData(mStringList);
+        }
     }
 }
