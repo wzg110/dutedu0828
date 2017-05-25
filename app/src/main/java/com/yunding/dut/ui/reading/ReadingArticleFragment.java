@@ -194,7 +194,8 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
             }
         });
 
-        initMarkerWords();
+//        initMarkerWords();
+        moveToPosition(mSentenceIndex);
 
         refreshProgress();
     }
@@ -398,8 +399,16 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
         builder.setSpan(graySpan, 0, startIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setSpan(blackSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setSpan(graySpan, endIndex, tvContent.getText().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tvContent.setText(builder);
 
+        //改变生词底色
+        List<ReadingListResp.DataBean.NewWordsBean> newWords = mReadingInfo.getNewWords();
+        for (ReadingListResp.DataBean.NewWordsBean newWord : newWords) {
+            int wordStartIndex = newWord.getWordIndex();
+            int wordEndIndex = wordStartIndex + newWord.getWordLength();
+            BackgroundColorSpan yellowSpan = new BackgroundColorSpan(Color.YELLOW);
+            builder.setSpan(yellowSpan, wordStartIndex, wordEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        tvContent.setText(builder);
         refreshProgress();
     }
 
@@ -415,23 +424,24 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
         newWordsBean.setWordIndex(startIndex);
         newWordsBean.setWordLength(endIndex - startIndex);
         mReadingInfo.getNewWords().add(newWordsBean);
-        initMarkerWords();
+//        initMarkerWords();
+        moveToPosition(mSentenceIndex);
     }
 
     /**
      * 功能简述:初始话已标记生词的位置
      */
-    private void initMarkerWords() {
-        List<ReadingListResp.DataBean.NewWordsBean> newWords = mReadingInfo.getNewWords();
-        SpannableStringBuilder builder = new SpannableStringBuilder(tvContent.getText().toString());
-        for (ReadingListResp.DataBean.NewWordsBean newWord : newWords) {
-            int startIndex = newWord.getWordIndex();
-            int endIndex = startIndex + newWord.getWordLength();
-            BackgroundColorSpan yellowSpan = new BackgroundColorSpan(Color.YELLOW);
-            builder.setSpan(yellowSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        tvContent.setText(builder);
-    }
+//    private void initMarkerWords() {
+//        List<ReadingListResp.DataBean.NewWordsBean> newWords = mReadingInfo.getNewWords();
+//        SpannableStringBuilder builder = new SpannableStringBuilder(tvContent.getText().toString());
+//        for (ReadingListResp.DataBean.NewWordsBean newWord : newWords) {
+//            int startIndex = newWord.getWordIndex();
+//            int endIndex = startIndex + newWord.getWordLength();
+//            BackgroundColorSpan yellowSpan = new BackgroundColorSpan(Color.YELLOW);
+//            builder.setSpan(yellowSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        }
+//        tvContent.setText(builder);
+//    }
 
     /**
      * 功能简述:点击下一句提交
@@ -462,7 +472,6 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
