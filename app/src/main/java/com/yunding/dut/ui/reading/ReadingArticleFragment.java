@@ -184,7 +184,7 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
             public void onTextTranslate(CharSequence content) {
                 String str = (String) content;
                 mPresenter.getTranslation(str);
-                showProgressDialog();
+
             }
 
             //点击收藏的回调
@@ -268,6 +268,9 @@ public class ReadingArticleFragment extends BaseFragmentInReading implements IRe
                         e.printStackTrace();
 
                     }
+                }else {
+                    hideProgressDialog();
+                    showMsg("该单词无发音");
                 }
                 break;
             case R.id.lila_translate:

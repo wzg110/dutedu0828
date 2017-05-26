@@ -2,37 +2,35 @@ package com.yunding.dut.ui.me;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.MeWordsAdapter;
 import com.yunding.dut.model.resp.collect.CollectAllWordsResp;
-import com.yunding.dut.presenter.discuss.DiscussPresenter;
 import com.yunding.dut.presenter.me.MeWordsPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.yunding.dut.util.third.ConvertUtils.dp2px;
-
 /**
  * Created by Administrator on 2017/5/17.
  */
 
-public class MeWordsActivity extends ToolBarActivity implements IMeWordsView{
+public class MeWordsActivity extends ToolBarActivity implements IMeWordsView {
 
 
     @BindView(R.id.list_me_word)
     ListView mListMeWord;
+    @BindView(R.id.lila_no_data)
+    LinearLayout mLilaNoData;
     private MeWordsAdapter mMeWordsAdapter;
     private MeWordsPresenter mMeWordsPresenter;
     private CollectAllWordsResp mCollectAllWordsResp;
@@ -104,7 +102,7 @@ public class MeWordsActivity extends ToolBarActivity implements IMeWordsView{
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 final int collectionId = mCollectAllWordsResp.getData().get(position).getCollectionId();
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(MeWordsActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MeWordsActivity.this);
                 builder.setMessage("确定删除？");
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
@@ -120,6 +118,9 @@ public class MeWordsActivity extends ToolBarActivity implements IMeWordsView{
                         mCollectAllWordsResp.getData().remove(position);
                         mMeWordsAdapter.setCollectAllWordsResp(mCollectAllWordsResp);
                         dialog.dismiss();
+                        if (mCollectAllWordsResp.getData().size()==0){
+                            mLilaNoData.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 builder.show();
@@ -142,7 +143,10 @@ public class MeWordsActivity extends ToolBarActivity implements IMeWordsView{
 
     @Override
     public void showWordsList(CollectAllWordsResp collectAllWordsResp) {
-        Log.e(TAG, "showWordsList: " );
+        if (collectAllWordsResp.getData().size() == 0) {
+            mLilaNoData.setVisibility(View.VISIBLE);
+        }
+        Log.e(TAG, "showWordsList: ");
         mCollectAllWordsResp = collectAllWordsResp;
         mMeWordsAdapter.setCollectAllWordsResp(collectAllWordsResp);
     }

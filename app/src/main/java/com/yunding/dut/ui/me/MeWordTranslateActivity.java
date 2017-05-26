@@ -66,9 +66,9 @@ public class MeWordTranslateActivity extends ToolBarActivity implements IMeWordT
                 mMediaPlayer.setDataSource(readUrl);
                 //准备
                 mMediaPlayer.prepare();
-                hideProgressDialog();
                 //播放
                 mMediaPlayer.start();
+                hideProgressDialog();
 
             } catch (IOException e) {
                 e.printStackTrace();

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.yunding.dut.app.DUTApplication;
+import com.yunding.dut.view.DUTProgressDialog;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -115,12 +116,18 @@ public abstract class BaseFragmentInReading extends BaseFragment {
         Snackbar.make(getHoldingActivity().getWindow().getDecorView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 
-    protected void showProgressDialog() {
+    DUTProgressDialog progress;
 
+    protected void showProgressDialog() {
+        progress = new DUTProgressDialog()
+                .show(getHoldingActivity().getSupportFragmentManager());
+        progress.setCancelable(false);
     }
 
     protected void hideProgressDialog() {
-
+        if (progress != null) {
+            progress.dismissAllowingStateLoss();
+        }
     }
 
     protected void showProgressBar() {

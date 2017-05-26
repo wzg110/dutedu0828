@@ -114,6 +114,7 @@ public class ReadingPresenter extends BasePresenter {
      * @param content
      */
     public void getTranslation(String content){
+        mReadingArticleView.showProgress();
         if (content.contains(" ")){
             //使用有道翻译
            request(ApisTranslate.getYDTRANSLATE(content), new DUTResp() {
@@ -184,8 +185,8 @@ public class ReadingPresenter extends BasePresenter {
                 CollectWordsResp collectWordsResp = parseJson(response,CollectWordsResp.class);
                 if (collectWordsResp!=null){
                     if (collectWordsResp.isResult()){
-                        mReadingArticleView.showMsg(collectWordsResp.getMsg());
-                    }else mReadingArticleView.showMsg(collectWordsResp.getMsg());
+                        mReadingArticleView.showMsg("收藏成功");
+                    }else mReadingArticleView.showMsg("收藏失败");
 
                 }
 
