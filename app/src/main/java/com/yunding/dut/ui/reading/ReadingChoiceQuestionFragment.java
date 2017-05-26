@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -57,7 +58,7 @@ public class ReadingChoiceQuestionFragment extends BaseFragmentInReading impleme
     @BindView(R.id.tv_toast)
     TextView tvToast;
     @BindView(R.id.layout_toast)
-    LinearLayout layoutToast;
+    ScrollView layoutToast;
     Unbinder unbinder;
 
 

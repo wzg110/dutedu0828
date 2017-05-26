@@ -76,7 +76,6 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     Unbinder unbinder;
     @BindView(R.id.iv_to_answer)
     ImageView mIvToAnswer;
-    private static final String TAG = "ReadingInputQuestionFra";
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.ExercisesBean mExerciseBean;
 

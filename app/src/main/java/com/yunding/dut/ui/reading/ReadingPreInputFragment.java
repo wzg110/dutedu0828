@@ -1,5 +1,7 @@
 package com.yunding.dut.ui.reading;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.DiscussQuestionInputAdapter;
 import com.yunding.dut.model.resp.reading.ReadingListResp;
@@ -54,7 +58,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
     @BindView(R.id.tv_toast)
     TextView mTvToast;
     @BindView(R.id.layout_toast)
-    LinearLayout mLayoutToast;
+    ScrollView mLayoutToast;
     @BindView(R.id.btn_go_original)
     Button mBtnGoOriginal;
 
@@ -64,10 +68,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
     private int mQuestionIndex;
     private DiscussQuestionInputAdapter mInputAdapter;
     private ReadingPresenter mPresenter;
-
     private long mStartTime;
-    private int mGoOriginalTime = 0;
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_input_new;
@@ -108,17 +109,23 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
             }
         } else {
             //未完成的直接显示空
-            for (String answer : rightAnswerArray) {
-                inputList.add("");
+            if (!mPreExerciseBean.getAnswerContent().isEmpty()){
+                String[] answerContent = new Gson().fromJson(mPreExerciseBean.getAnswerContent(), String[].class);
+                for (String answer : answerContent) {
+                    inputList.add(answer);
+                }
+
+            }else {
+
+                for (String answer : rightAnswerArray) {
+
+                    inputList.add("");
+                }
             }
+
         }
-        if (getArguments().getStringArrayList("answer") != null) {
-            List<String> list = getArguments().getStringArrayList("answer");
-            inputList.clear();
-            for (int i = 0; i < list.size(); i++) {
-                inputList.add(list.get(i));
-            }
-        }
+
+
 
         mInputAdapter.setNewData(inputList);
         //初始化按钮状态
@@ -204,8 +211,8 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
 
     private void commitAnswer() {
         List<String> answerList = mInputAdapter.getData();
-        String answerTemp = new Gson().toJson(answerList);
 
+        String answerTemp = new Gson().toJson(answerList);
         long commitTime = System.currentTimeMillis();
         long timeSpan = TimeUtils.getTimeSpan(commitTime, mStartTime, ConstUtils.TimeUnit.MIN);
 
@@ -254,6 +261,19 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
             originalFragment.setArguments(bundle);
             addFragment(originalFragment);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mPreExerciseBean.getQuestionCompleted() != ReadingActivity.STATE_FINISHED){
+            List<String> answerList = mInputAdapter.getData();
+
+            String answerTemp = new Gson().toJson(answerList);
+            mPreExerciseBean.setAnswerContent(answerTemp);
+        }
+
+
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -61,7 +62,7 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
     @BindView(R.id.tv_toast)
     TextView mTvToast;
     @BindView(R.id.layout_toast)
-    LinearLayout mLayoutToast;
+    ScrollView mLayoutToast;
     @BindView(R.id.btn_go_original)
     Button mBtnGoOriginal;
     private ReadingListResp.DataBean mReadingInfo;
@@ -115,20 +116,22 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
             }
         } else {
             //未完成的直接显示空
-            for (String answer : rightAnswerArray) {
-                inputList.add("");
+            if (!mExerciseBean.getAnswerContent().isEmpty()){
+                String[] answerContent = new Gson().fromJson(mExerciseBean.getAnswerContent(), String[].class);
+                for (String answer : answerContent) {
+                    inputList.add(answer);
+                }
+
+            }else {
+
+                for (String answer : rightAnswerArray) {
+
+                    inputList.add("");
+                }
             }
-        }
-        if (getArguments().getStringArrayList("answer") != null) {
-            ArrayList<String> list = getArguments().getStringArrayList("answer");
-            inputList.clear();
-            for (int i = 0; i < list.size(); i++) {
-
-                inputList.add(list.get(i));
-            }
-
 
         }
+
         mInputAdapter.setNewData(inputList);
 
         //初始化按钮状态
@@ -292,5 +295,16 @@ public class ReadingInputFragment extends BaseFragmentInReading implements IRead
         builder.content(mReadingInfo.getCourseContent());
         builder.positiveText("确定");
         builder.show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mExerciseBean.getQuestionType() != ReadingActivity.TYPE_CHOICE){
+            List<String> answerList = mInputAdapter.getData();
+            String answerTemp = new Gson().toJson(answerList);
+            mExerciseBean.setAnswerContent(answerTemp);
+        }
+
     }
 }

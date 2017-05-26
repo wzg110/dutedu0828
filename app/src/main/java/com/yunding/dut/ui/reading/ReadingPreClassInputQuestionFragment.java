@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -66,7 +67,7 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
     @BindView(R.id.tv_toast)
     TextView tvToast;
     @BindView(R.id.layout_toast)
-    LinearLayout layoutToast;
+    ScrollView layoutToast;
     Unbinder unbinder;
     @BindView(R.id.iv_to_answer_pre)
     ImageView mIvToAnswerPre;
