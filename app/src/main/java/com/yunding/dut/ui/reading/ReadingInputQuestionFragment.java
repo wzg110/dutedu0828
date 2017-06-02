@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -72,7 +73,7 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     @BindView(R.id.tv_toast)
     TextView tvToast;
     @BindView(R.id.layout_toast)
-    LinearLayout layoutToast;
+    ScrollView layoutToast;
     Unbinder unbinder;
     @BindView(R.id.iv_to_answer)
     ImageView mIvToAnswer;
