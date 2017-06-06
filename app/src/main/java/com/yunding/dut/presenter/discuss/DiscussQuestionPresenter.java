@@ -1,5 +1,7 @@
 package com.yunding.dut.presenter.discuss;
 
+import android.util.Log;
+
 import com.yunding.dut.model.resp.CommonResp;
 import com.yunding.dut.model.resp.discuss.DiscussQuestionListResp;
 import com.yunding.dut.presenter.base.BasePresenter;
@@ -18,7 +20,7 @@ import com.yunding.dut.util.api.ApisDiscuss;
  */
 
 public class DiscussQuestionPresenter extends BasePresenter {
-
+    private static final String TAG = "DiscussQuestionPresente";
     private IDiscussQuestionView mView;
 
     public DiscussQuestionPresenter(IDiscussQuestionView mView) {
@@ -28,6 +30,7 @@ public class DiscussQuestionPresenter extends BasePresenter {
     public void getSubjectQuestions(long subjectId,long groupId) {
         mView.showProgress();
         String url = ApisDiscuss.getSubjectQuestion(subjectId,groupId);
+        Log.e(TAG, "getSubjectQuestions: "+url );
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {

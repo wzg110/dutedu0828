@@ -23,21 +23,13 @@ import com.yunding.dut.model.resp.discuss.DiscussQuestionParam;
 import com.yunding.dut.ui.discuss.DiscussQuestionActivity;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
- * 类 名 称：DiscussQuestionListAdapter
- * <P/>描    述：讨论组题目列表
- * <P/>创 建 人：msy
- * <P/>创建时间：2017/4/23 18:50
- * <P/>修 改 人：msy
- * <P/>修改时间：2017/4/23 18:50
- * <P/>修改备注：
- * <P/>版    本：1.0
+ * Created by Administrator on 2017/6/6.
  */
 
-public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
+public class DiscussKeepQuestionAdapter extends RecyclerView.Adapter{
 
     private final int TYPE_CHOICE = 0;
     private final int TYPE_INPUT = 1;
@@ -45,33 +37,17 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
     private List<DiscussQuestionListResp.DataBean> mDatas;
     private List<DiscussAnswerCache> mDataCache;
     private Context mContext;
-    private int a ;
+    private int a = -1;
     private DiscussListResp.DataBean mResp;
-    private static final String TAG = "DiscussQuestionListAdap";
-    public DiscussQuestionListAdapter(List<DiscussQuestionListResp.DataBean> mDatas, Context mContext, DiscussListResp.DataBean resp) {
-        this.mDatas = mDatas;
-        this.mContext = mContext;
-        this.mResp = resp;
-        initCache();
+    private static final String TAG = "DiscussKeepQuestionAdap";
+    public DiscussKeepQuestionAdapter(List<DiscussQuestionListResp.DataBean> datas, List<DiscussAnswerCache> dataCache, Context context, DiscussListResp.DataBean resp) {
+        mDatas = datas;
+        mDataCache = dataCache;
+        mContext = context;
+        mResp = resp;
     }
 
-    private void initCache() {
-        if (mDatas != null) {
-            mDataCache = new ArrayList<>();
-            for (DiscussQuestionListResp.DataBean data : mDatas) {
-                DiscussAnswerCache answerCache = new DiscussAnswerCache();
-                answerCache.setQuestion(data);
-                answerCache.setQuestionType(data.getType());
-                answerCache.setChoiceAnswer("");
-                List<String> inputCache = new ArrayList<>();
-                for (String answer : data.getAnswer().split(",")) {
-                    inputCache.add("");
-                }
-                answerCache.setInputAnswer(inputCache);
-                mDataCache.add(answerCache);
-            }
-        }
-    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -81,12 +57,12 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
             case TYPE_CHOICE:
                 view = LayoutInflater.from(DUTApplication.getInstance().getApplicationContext())
                         .inflate(R.layout.item_discuss_question_choice, parent, false);
-                holder = new ChoiceViewHolder(view);
+                holder = new DiscussKeepQuestionAdapter.ChoiceViewHolder(view);
                 break;
             case TYPE_INPUT:
                 view = LayoutInflater.from(DUTApplication.getInstance().getApplicationContext())
                         .inflate(R.layout.item_discuss_question_input, parent, false);
-                holder = new InputViewHolder(view);
+                holder = new DiscussKeepQuestionAdapter.InputViewHolder(view);
                 break;
             default:
                 holder = null;
@@ -99,41 +75,40 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final DiscussQuestionListResp.DataBean item = mDatas.get(holder.getAdapterPosition());
         if (mDataCache != null && mDataCache.size() > holder.getAdapterPosition())
-            if (holder instanceof ChoiceViewHolder) {
-                ((ChoiceViewHolder) holder).tvQuestionNo.setText("第" + ++position + "题");
-                ((ChoiceViewHolder) holder).tvQuestionContent.setText(item.getContent());
+            if (holder instanceof DiscussKeepQuestionAdapter.ChoiceViewHolder) {
+                ((DiscussKeepQuestionAdapter.ChoiceViewHolder) holder).tvQuestionNo.setText("第" + ++position + "题");
+                ((DiscussKeepQuestionAdapter.ChoiceViewHolder) holder).tvQuestionContent.setText(item.getContent());
                 String options = item.getSelectOptions();
                 if (!TextUtils.isEmpty(options)) {
                     final String[] optionArray = options.split("㊎");
-                    if (((ChoiceViewHolder) holder).rgAnswer.getChildCount() >= optionArray.length)
+                    if (((DiscussKeepQuestionAdapter.ChoiceViewHolder) holder).rgAnswer.getChildCount() >= optionArray.length)
                         return;
-                    for (int i=0;i<optionArray.length;i++) {
-                        String option = optionArray[i];
+                    for (String option : optionArray) {
                         RadioButton rbChoice = new RadioButton(mContext);
+
                         rbChoice.setText(option);
                         if (mDataCache.get(holder.getAdapterPosition()) != null && TextUtils.equals(mDataCache.get(holder.getAdapterPosition()).getChoiceAnswer(), option)) {
-                           a = i;
+                           a= rbChoice.getId();
                         }
                         if (TextUtils.equals(option, mDataCache.get(holder.getAdapterPosition()).getQuestion().getStudentAnswer())) {
-                            rbChoice.setChecked(true);
+                            a= rbChoice.getId();
                         }
-                        ((ChoiceViewHolder) holder).rgAnswer.addView(rbChoice,
+                        ((DiscussKeepQuestionAdapter.ChoiceViewHolder) holder).rgAnswer.addView(rbChoice,
                                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     }
-                    ((ChoiceViewHolder) holder).rgAnswer.check(-1);
-                    ((ChoiceViewHolder) holder).rgAnswer.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    ((DiscussKeepQuestionAdapter.ChoiceViewHolder) holder).rgAnswer.check(-1);
+                    ((DiscussKeepQuestionAdapter.ChoiceViewHolder) holder).rgAnswer.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                            Log.e(TAG, "onCheckedChanged: "+i );
                             RadioButton rbSelected = (RadioButton) radioGroup.findViewById(i);
                             if (mDataCache.get(holder.getAdapterPosition()) != null)
                                 mDataCache.get(holder.getAdapterPosition()).setChoiceAnswer(rbSelected.getText().toString());
                         }
                     });
                 }
-            } else if (holder instanceof InputViewHolder) {
-                ((InputViewHolder) holder).tvQuestionNo.setText("第" + ++position + "题");
-                ((InputViewHolder) holder).tvQuestionContent.setText(item.getContent());
+            } else if (holder instanceof DiscussKeepQuestionAdapter.InputViewHolder) {
+                ((DiscussKeepQuestionAdapter.InputViewHolder) holder).tvQuestionNo.setText("第" + ++position + "题");
+                ((DiscussKeepQuestionAdapter.InputViewHolder) holder).tvQuestionContent.setText(item.getContent());
                 if (mDataCache.get(holder.getAdapterPosition()) != null) {
                     List<String> dataList = new ArrayList<>();
                     if (!TextUtils.isEmpty(mDataCache.get(holder.getAdapterPosition()).getQuestion().getStudentAnswer())) {
@@ -145,7 +120,7 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
                     } else {
                         dataList = mDataCache.get(holder.getAdapterPosition()).getInputAnswer();
                     }
-                    ((InputViewHolder) holder).rvAnswer.setAdapter(new DiscussQuestionInputAdapter(dataList, 0));
+                    ((DiscussKeepQuestionAdapter.InputViewHolder) holder).rvAnswer.setAdapter(new DiscussQuestionInputAdapter(dataList, 0));
                 }
             }
     }
@@ -222,8 +197,8 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
 
         ((DiscussQuestionActivity) mContext).commitAnswer(paramStr);
     }
+
     public List<DiscussAnswerCache> keepAnswer(){
         return mDataCache;
     }
-
 }

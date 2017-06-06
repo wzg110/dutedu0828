@@ -2,6 +2,7 @@ package com.yunding.dut.model.data.discuss;
 
 import com.yunding.dut.model.resp.discuss.DiscussQuestionListResp;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  * <P/>版    本：
  */
 
-public class DiscussAnswerCache {
+public class DiscussAnswerCache implements Serializable{
 
     private int questionType;
 

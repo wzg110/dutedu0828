@@ -10,6 +10,7 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -26,6 +27,7 @@ import com.lqr.audio.IAudioRecordListener;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.DiscussListMsgAdapter;
+import com.yunding.dut.model.data.discuss.DiscussAnswerCache;
 import com.yunding.dut.model.resp.discuss.DiscussListResp;
 import com.yunding.dut.model.resp.discuss.DiscussMsgListResp;
 import com.yunding.dut.model.resp.discuss.DiscussSubjectResp;
@@ -82,12 +84,12 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     ExpandableTextView tvQuestion;
     @BindView(R.id.tv_go_answer)
     TextView tvGoAnswer;
-
+    private ArrayList<DiscussAnswerCache> mDataCache;
     private DiscussListResp.DataBean mDiscussInfo;
     private DiscussListMsgAdapter mAdapter;
 
     private DiscussPresenter mPresenter;
-
+    private static final String TAG = "DiscussActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,7 +194,6 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         switch (view.getId()) {
             case R.id.btn_open:
                 showDialog();
-
                 break;
             case R.id.btn_record:
                 llRecord.setVisibility(View.VISIBLE);
@@ -479,13 +480,16 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     private void showQuestions() {
         Intent intent = new Intent(this, DiscussQuestionActivity.class);
         intent.putExtra(DiscussQuestionActivity.DISCUSS_INFO, mDiscussInfo);
-        startActivity(intent);
+        if (mDataCache!=null){
+            intent.putExtra("datas",mDataCache);
+        }
+        startActivityForResult(intent,100);
     }
 
     private void showDialog() {
 
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-//        builder.setTitle("Material Design Dialog");
+        builder.setTitle("温馨提示");
         builder.setMessage("开启讨论后开始进入倒计时" + mDiscussInfo.getCountdownTime() + "分钟，确定开启讨论？");
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -509,4 +513,13 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         builder.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==100){
+            mDataCache = new ArrayList<>();
+            mDataCache.clear();
+            mDataCache = (ArrayList<DiscussAnswerCache>) data.getSerializableExtra("datas");
+        }
+    }
 }
