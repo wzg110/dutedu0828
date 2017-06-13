@@ -90,6 +90,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
 
     private DiscussPresenter mPresenter;
     private static final String TAG = "DiscussActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -263,6 +264,8 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
 
     @Override
     public void showDiscussFinished() {
+        isRefreshing = false;
+        tvCountDown.setVisibility(View.GONE);
         setTitle(mDiscussInfo.getGroupName() + "（已结束)");
         llInput.setVisibility(View.GONE);
         llRecord.setVisibility(View.GONE);
@@ -290,7 +293,15 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
         public void onTick(long l) {
             long spanToNow = TimeUtils.getTimeSpanByNow(mDiscussInfo.getOpeningTime(), ConstUtils.TimeUnit.MIN);
             long timeLeft = mDiscussInfo.getCountdownTime() - spanToNow;
+            Log.e("onTick", "spanToNow=" + spanToNow
+                    + "\n"
+                    + "timeLeft=" + timeLeft
+                    + "\n"
+                    + "countDownTime=" + mDiscussInfo.getCountdownTime()
+                    + "\n"
+                    + "openingTime=" + mDiscussInfo.getOpeningTime());
             if (timeLeft <= 0) {
+                showDiscussFinished();
                 tvCountDown.setVisibility(View.GONE);
                 if (mCountDown != null)
                     mCountDown.cancel();
@@ -480,10 +491,10 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     private void showQuestions() {
         Intent intent = new Intent(this, DiscussQuestionActivity.class);
         intent.putExtra(DiscussQuestionActivity.DISCUSS_INFO, mDiscussInfo);
-        if (mDataCache!=null){
-            intent.putExtra("datas",mDataCache);
+        if (mDataCache != null) {
+            intent.putExtra("datas", mDataCache);
         }
-        startActivityForResult(intent,100);
+        startActivityForResult(intent, 100);
     }
 
     private void showDialog() {
@@ -504,6 +515,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
                 if (mDiscussInfo != null && mPresenter != null) {
                     mPresenter.startDiscussion(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
                     String content = "我已开启讨论";
+                    mDiscussInfo.setOpeningTime(TimeUtils.millis2String(System.currentTimeMillis()));
                     mPresenter.sendMsg(null, mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId(), DiscussPresenter.MSG_TYPE_TEXT, content.length(), content);
                 } else showMsg("开启失败");
 
@@ -516,7 +528,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==100){
+        if (resultCode == 100) {
             mDataCache = new ArrayList<>();
             mDataCache.clear();
             mDataCache = (ArrayList<DiscussAnswerCache>) data.getSerializableExtra("datas");
