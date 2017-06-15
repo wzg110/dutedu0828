@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    android:background="@color/bg_white"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="1dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:maxEms="10"
+            android:text="time" />
+
+        <TextView
+            android:id="@+id/tv_page_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_time"
+            android:layout_marginTop="10dp"
+            android:maxEms="10"
+            android:text="page no" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/img_ppt"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_page_no"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@color/bg_gray"
+            fresco:placeholderImage="@color/bg_gray" />
+
+        <TextView
+            android:id="@+id/tv_question_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_ppt"
+            android:layout_marginTop="6dp"
+            android:maxEms="10"
+            android:text="question no" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -82,8 +82,8 @@ public class SelectableTextHelper {
         mTextView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                mTouchX = (int) event.getX();
-                mTouchY = (int) event.getY();
+                mTouchX = (int) event.getX()-5;
+                mTouchY = (int) event.getY()-5;
                 return false;
             }
         });

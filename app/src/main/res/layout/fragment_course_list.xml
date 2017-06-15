@@ -1,0 +1,18 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yunding.dut.ui.ppt.CourseListFragment">
+
+    <com.yunding.dut.view.DUTSwipeRefreshLayout
+        android:id="@+id/srl_course_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.yunding.dut.view.DUTVerticalRecyclerView
+            android:id="@+id/rv_course_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.yunding.dut.view.DUTSwipeRefreshLayout>
+
+</FrameLayout>

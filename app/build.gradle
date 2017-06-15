@@ -43,8 +43,8 @@ dependencies {
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
     compile 'com.github.glassLake:PhotoPicker:1.0.3'
     compile 'com.github.yalantis:ucrop:2.2.1'
-    testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.yydcdut.sdlv:sdlv:0.6.1'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

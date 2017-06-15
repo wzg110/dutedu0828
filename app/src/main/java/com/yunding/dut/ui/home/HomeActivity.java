@@ -30,6 +30,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         initBottomNavigationView();
         HomePagerAdapter adapter = new HomePagerAdapter(getSupportFragmentManager());
         vpHome.setAdapter(adapter);
+        vpHome.setOffscreenPageLimit(2);
         vpHome.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -40,9 +41,12 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
-                        bnvHome.setSelectedItemId(R.id.action_reading);
+                        bnvHome.setSelectedItemId(R.id.action_course);
                         break;
                     case 1:
+                        bnvHome.setSelectedItemId(R.id.action_reading);
+                        break;
+                    case 2:
                         bnvHome.setSelectedItemId(R.id.action_discuss);
                         break;
                 }
@@ -75,11 +79,14 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_reading:
+            case R.id.action_course:
                 vpHome.setCurrentItem(0, false);
                 return true;
-            case R.id.action_discuss:
+            case R.id.action_reading:
                 vpHome.setCurrentItem(1, false);
+                return true;
+            case R.id.action_discuss:
+                vpHome.setCurrentItem(2, false);
                 return true;
         }
         return false;
