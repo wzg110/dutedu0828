@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_window_background"
+    android:layout_height="match_parent">
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_marginTop="25dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:background="@color/bg_white"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/tv_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:padding="16dp"
+                android:background="@color/bg_white"
+                android:lineSpacingExtra="6dp"
+                android:textColor="@color/text_color"
+                android:text="@string/hello_blank_fragment"
+                android:textSize="14sp" />
+
+            <ListView
+
+                android:id="@+id/lv_options"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:divider="#00000000"
+                android:padding="16dp" />
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:background="@null"
+                android:id="@+id/btn_last"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorShow"
+                android:text="上一题"/>
+            <Button
+                android:id="@+id/btn_next"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorShow"
+                android:text="下一题"/>
+            <TextView
+                android:layout_toLeftOf="@id/btn_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0分钟"
+                android:id="@+id/tv_time"
+                android:textColor="@color/textColorShow"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:id="@+id/iv_blue"
+                android:layout_toLeftOf="@id/tv_time"
+                android:layout_width="12dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/iv_sandglass_blue"
+                android:layout_centerVertical="true"
+                android:layout_height="15dp" />
+
+        </RelativeLayout>
+
+
+        <Button
+            android:layout_marginTop="30dp"
+            android:id="@+id/btn_commit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="提交答案"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+
+            android:textColor="@color/bg_white"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_corners" />
+
+    </LinearLayout>
+
+
+
+
+    <TextView
+
+        android:id="@+id/tv_title"
+        android:textColor="@color/bg_white"
+        android:text="sdadssd"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:layout_marginLeft="16dp"
+        android:padding="1dp"
+        android:textSize="12sp"
+        android:layout_width="70dp"
+        android:layout_height="20dp"
+        android:background="@drawable/bg_question_title"/>
+
+</RelativeLayout>

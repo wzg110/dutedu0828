@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.yunding.dut">
+    package="com.yunding.dut"
+    android:versionCode="6"
+    android:versionName="1.1.1">
 
     <uses-sdk tools:overrideLibrary="com.lqr.audio" />
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 
+    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 录音 -->
@@ -13,6 +29,7 @@
     <!-- 播音 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
         android:name=".app.DUTApplication"
@@ -35,7 +52,9 @@
         <activity android:name=".ui.me.MeActivity" />
         <activity android:name=".ui.me.MeInfoActivity" />
         <activity android:name=".ui.me.MeSettingActivity" />
-        <activity android:name=".ui.discuss.DiscussActivity" />
+        <activity
+            android:name=".ui.discuss.DiscussActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.discuss.DiscussGroupActivity" />
         <activity
             android:name=".ui.LaunchActivity"
@@ -47,7 +66,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.discuss.DiscussQuestionActivity" />
-        <activity android:name=".ui.reading.ReadingActivity" />
+        <activity
+            android:name=".ui.reading.ReadingActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/TakePhotoTheme" />
@@ -64,7 +85,25 @@
         <activity android:name=".ui.me.MeWordsActivity" />
         <activity android:name=".ui.me.MeWordTranslateActivity" />
         <activity android:name=".ui.ppt.PPTListActivity" />
-        <activity android:name=".ui.ppt.PPTInfoActivity"></activity>
+        <activity android:name=".ui.ppt.PPTInfoActivity" />
+        <activity
+            android:name=".ui.discuss.DiscussQuestionNewActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.ppt.PPTActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 高德地图 -->
+        <service android:name="com.amap.api.location.APSService" />
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="084f1f1b0dfb176d27e57f1721fc23d0" />
+
+        <activity
+            android:name=".ui.ppt.PPTSelfActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name="com.yunding.dut.ui.ppt.PPTListForTeacherActivity"></activity>
+        <activity android:name="com.yunding.dut.ui.ppt.PPTTeacherActivity"></activity>
     </application>
 
 </manifest>

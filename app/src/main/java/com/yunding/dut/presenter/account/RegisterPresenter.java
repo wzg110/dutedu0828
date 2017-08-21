@@ -29,6 +29,13 @@ public class RegisterPresenter extends BasePresenter {
         this.mView = mView;
     }
 
+    /**
+     * 功能描述 : 注册
+     * @param account   [用户名]
+     * @param name      [真实姓名]
+     * @param pwd       [密码]
+     * @param confirmPwd    [确认密码]
+     */
     public void register(String account, String name, String pwd, String confirmPwd) {
         account = trimStr(account);
         name = trimStr(name);

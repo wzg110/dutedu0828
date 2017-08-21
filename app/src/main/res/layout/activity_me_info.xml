@@ -6,10 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.yunding.dut.ui.me.MeInfoActivity">
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="88dp"
         android:background="@color/bg_white"
         android:gravity="center_vertical"
         android:padding="16dp">
@@ -19,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/me_info_avatar"
+
             android:theme="@style/text_style_common_black" />
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -27,16 +31,23 @@
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="@color/bg_gray"
             android:scaleType="centerInside"
-            fresco:placeholderImage="@drawable/ic_default_head" />
+            fresco:placeholderImage="@drawable/ic_userhead"
+            fresco:actualImageScaleType="fitCenter"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:roundAsCircle="true"
+
+            fresco:roundingBorderColor="@color/bg_white"
+            fresco:roundingBorderWidth="1.5dp"
+            />
     </RelativeLayout>
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height_in_page" />
+        android:layout_height="10dp" />
 
     <LinearLayout
+        android:id="@+id/ll_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_white"
@@ -44,6 +55,7 @@
         android:padding="16dp">
 
         <TextView
+            android:id="@+id/tv_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/me_info_account"
@@ -54,14 +66,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:theme="@style/text_style_common_black" />
+            android:theme="@style/text_style_common_gray_light" />
     </LinearLayout>
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height_in_page" />
+        android:layout_height="1dp" />
 
     <LinearLayout
+        android:id="@+id/ll_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_white"
@@ -79,14 +92,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:theme="@style/text_style_common_black" />
+            android:theme="@style/text_style_common_gray_light" />
     </LinearLayout>
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height_in_page" />
-
+        android:layout_height="1dp" />
     <LinearLayout
+        android:id="@+id/ll_grade"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_white"
@@ -104,14 +117,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:theme="@style/text_style_common_black" />
+            android:theme="@style/text_style_common_gray_light" />
     </LinearLayout>
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height_in_page" />
-
+        android:layout_height="1dp" />
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_white"
@@ -129,11 +142,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:theme="@style/text_style_common_black" />
+            android:theme="@style/text_style_common_gray_light" />
     </LinearLayout>
-
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height_in_page" />
+        android:layout_height="1dp" />
 
 </LinearLayout>

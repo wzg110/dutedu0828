@@ -19,6 +19,7 @@ public interface IDiscussView extends IBaseListView {
     void showDiscussNotStart();
 
     void showDiscussing();
+    void showDiscussingN(String opentime);
 
     void showDiscussFinished();
 

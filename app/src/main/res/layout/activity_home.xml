@@ -13,12 +13,61 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <android.support.design.widget.BottomNavigationView
+    <!--<android.support.design.widget.BottomNavigationView-->
+        <!--android:id="@+id/bnv_home"-->
+        <!--style="@style/DUTBottomNavigation"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/bg_white"-->
+        <!--app:menu="@menu/menu_home_bottom_navigation" />-->
+
+    <RadioGroup
         android:id="@+id/bnv_home"
-        style="@style/DUTBottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:background="@color/bg_white"
-        app:menu="@menu/menu_home_bottom_navigation" />
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/home_radio_course"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:padding="3dp"
+            android:checked="true"
+            android:drawablePadding="2dp"
+            android:drawableTop="@drawable/selector_home_bottom_course"
+            android:gravity="center"
+            android:text="课堂"
+            android:textColor="@drawable/on_check_text_color"
+            android:textSize="12sp"/>
+        <RadioButton
+            android:id="@+id/home_radio_reading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:padding="3dp"
+            android:drawablePadding="2dp"
+            android:drawableTop="@drawable/selector_home_bottom_reading"
+            android:gravity="center"
+            android:text="阅读课"
+            android:textColor="@drawable/on_check_text_color"
+            android:textSize="12sp" />
+        <RadioButton
+            android:id="@+id/home_radio_discuss"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:padding="3dp"
+            android:drawablePadding="2dp"
+            android:drawableTop="@drawable/selector_home_bottom_discuss"
+            android:gravity="center"
+            android:text="讨论组"
+            android:textColor="@drawable/on_check_text_color"
+            android:textSize="12sp" />
+
+    </RadioGroup>
 
 </LinearLayout>

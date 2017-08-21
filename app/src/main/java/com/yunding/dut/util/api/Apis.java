@@ -13,7 +13,27 @@ package com.yunding.dut.util.api;
 
 public class Apis {
 
-    public static final String SERVER_URL = "http://xue.yinle.cc/";//http://172.16.0.78:8080/www-0.0.1
-    public static final String TEST_URL = "http://172.16.0.52:8080/edu/";//http://172.16.0.78:8080/www-0.0.1
+    public static final String SERVER_URL = "http://xue.yinle.cc/";
+    public static final String TEST_URL ="http://xue.yinle.cc/";
+    public static final String TEST_URL2 ="http://xue.yinle.cc/";
+
+
+//    public static final String SERVER_URL = "http://60.205.201.58:8080/edu/";
+//    public static final String TEST_URL = "http://60.205.201.58:8080/edu/";
+//    public static final String TEST_URL2 = "http://60.205.201.58:8080/edu/";
+
+
+//    public static final String SERVER_URL = "http://172.16.0.171:8083/edu/";
+//    public static final String TEST_URL ="http://172.16.0.171:8083/edu/";
+//    public static final String TEST_URL2 = "http://172.16.0.171:8083/edu/";
+////
+//    public static final String SERVER_URL = "http://172.16.0.222:8080/edu/";
+//    public static final String TEST_URL ="http://172.16.0.222:8080/edu/";
+//    public static final String TEST_URL2 = "http://172.16.0.222:8080/edu/";
+
+//    public static final String SERVER_URL = "http://172.16.0.72:7080/edu/";
+//    public static final String TEST_URL ="http://172.16.0.72:7080/edu/";
+//    public static final String TEST_URL2 = "http://172.16.0.72:7080/edu/";
+
 
 }

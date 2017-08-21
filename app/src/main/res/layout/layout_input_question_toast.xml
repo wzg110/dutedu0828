@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_toast"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+ android:padding="5dp"
+    android:layout_marginRight="55dp"
+    android:scrollbars="none"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorShow"
+                android:textSize="14sp"
+
+                android:id="@+id/tv_answer_tips"
+                android:text="参考答案"/>
+
+            <TextView
+                android:layout_toRightOf="@id/tv_answer_tips"
+                android:id="@+id/tv_right_answer"
+android:layout_marginTop="3dp"
+                android:textSize="14sp"
+                android:text="A"
+                android:lineSpacingExtra="6dp"
+                android:textColor="@color/text_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:layout_marginTop="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/textColorShow"
+            android:text="答案解析"/>
+
+        <TextView
+            android:id="@+id/tv_toast"
+            android:layout_marginTop="3dp"
+            android:textSize="14sp"
+            android:text="A"
+            android:lineSpacingExtra="6dp"
+            android:textColor="@color/text_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</ScrollView>

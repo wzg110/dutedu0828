@@ -2,10 +2,7 @@ package com.yunding.dut.ui.discuss;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v7.widget.LinearSnapHelper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +15,6 @@ import com.yunding.dut.model.resp.discuss.DiscussListResp;
 import com.yunding.dut.model.resp.discuss.DiscussQuestionListResp;
 import com.yunding.dut.presenter.discuss.DiscussQuestionPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
-import com.yunding.dut.view.DUTHorizontalRecyclerView;
 import com.yunding.dut.view.DUTVerticalRecyclerView;
 
 import java.util.ArrayList;
@@ -26,18 +22,27 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+/**
+ * 类 名 称：DiscussQuestionActivity
+ * <P/>描    述：废弃
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 12:01
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 12:01
+ * <P/>修改备注：
+ * <P/>版    本：
+ */
 public class DiscussQuestionActivity extends ToolBarActivity implements IDiscussQuestionView {
 
     @BindView(R.id.rv_question_list)
     DUTVerticalRecyclerView rvQuestionList;
-
     public static String DISCUSS_INFO = "DISCUSS_INFO";
     private DiscussListResp.DataBean mResp;
-
-    private DiscussQuestionPresenter mPresenter;
     private ArrayList<DiscussAnswerCache> mDataCache;
+    private DiscussQuestionPresenter mPresenter;
+
     private static final String TAG = "DiscussQuestionActivity";
+    private String serverTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class DiscussQuestionActivity extends ToolBarActivity implements IDiscuss
             mDataCache = (ArrayList<DiscussAnswerCache>) intent.getSerializableExtra("datas");
         }
         mPresenter = new DiscussQuestionPresenter(this);
+        mPresenter.getServerTime();
         if (mResp != null) {
             mPresenter.getSubjectQuestions(mResp.getThemeId(),mResp.getGroupId());
         }
@@ -62,7 +68,6 @@ public class DiscussQuestionActivity extends ToolBarActivity implements IDiscuss
 
                 }else {
                     mDataCache = (ArrayList<DiscussAnswerCache>) mDiscussKeepQuestionAdapter.keepAnswer();
-                    Log.e(TAG, "onClick: "+mDataCache.size() );
                 }
                 Intent intent = new Intent();
                 intent.putExtra("datas",mDataCache);
@@ -155,6 +160,11 @@ public class DiscussQuestionActivity extends ToolBarActivity implements IDiscuss
     public void commitAnswerSuccess() {
         showSnackBar("提交成功");
         finish();
+    }
+
+    @Override
+    public void getServerTime(String time) {
+        serverTime=time;
     }
 
     public void commitAnswer(String jsonParam) {

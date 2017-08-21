@@ -16,5 +16,6 @@ import com.yunding.dut.ui.base.IBaseView;
 public interface IFindPwdViewStep1 extends IBaseView{
 
     void showMsg(String msg);
+    void checkSuccess();
 
 }

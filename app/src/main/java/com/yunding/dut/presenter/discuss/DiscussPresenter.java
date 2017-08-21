@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.CommonResp;
+import com.yunding.dut.model.resp.CommonRespNew;
 import com.yunding.dut.model.resp.discuss.DiscussMsgListResp;
 import com.yunding.dut.model.resp.discuss.DiscussSubjectResp;
 import com.yunding.dut.presenter.base.BasePresenter;
@@ -36,7 +37,7 @@ public class DiscussPresenter extends BasePresenter {
     public static final int STATE_DISCUSS_NOT_START = 0;
     public static final int STATE_DISCUSSING = 1;
     public static final int STATE_DISCUSS_FINISHED = 2;
-
+    public static final int STATE_DISCUSS_OUTOFDATE = 3;
     public static final int MSG_TYPE_TEXT = 0;
     public static final int MSG_TYPE_VOICE = 1;
     public static final int MSG_TYPE_IMAGE = 2;
@@ -47,16 +48,22 @@ public class DiscussPresenter extends BasePresenter {
         this.mView = mView;
     }
 
+    /**
+     * 功能描述：开启讨论组
+     *
+     * @param subjectId [主题ID]
+     * @param groupId   [讨论组ID]
+     */
     public void startDiscussion(long subjectId, long groupId) {
         String url = ApisDiscuss.startDiscussion(subjectId, groupId);
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {
-                CommonResp resp = parseJson(response, CommonResp.class);
+                CommonRespNew resp = parseJson(response, CommonRespNew.class);
                 if (resp != null) {
                     if (resp.isResult()) {
                         mView.showMsg("开启成功");
-                        mView.showDiscussing();
+                        mView.showDiscussingN(resp.getData());
                     } else {
                         mView.showMsg(resp.getMsg());
                     }
@@ -72,6 +79,12 @@ public class DiscussPresenter extends BasePresenter {
         });
     }
 
+    /**
+     * 功能描述： 刷新消息
+     *
+     * @param subjectId [主题ID]
+     * @param groupId       [讨论组ID]
+     */
     public void refreshMsg(long subjectId, long groupId) {
         String url = ApisDiscuss.discussGroupMsgListUrl(subjectId, groupId);
         request(url, new DUTResp() {
@@ -113,6 +126,16 @@ public class DiscussPresenter extends BasePresenter {
     public void stopRefreshMsg() {
         OkHttpUtils.getInstance().cancelTag(this);
     }
+
+    /**
+     *  功能描述： 发送消息
+     * @param file      [语音文件路径]
+     * @param subjectId [主题ID]
+     * @param groupId   [讨论组ID]
+     * @param msgType   [消息类别]
+     * @param length    [语音时长]
+     * @param content   [文本内容]
+     */
 
     public void sendMsg(File file, long subjectId, long groupId, final int msgType, int length, String content) {
         if (msgType == MSG_TYPE_TEXT && TextUtils.isEmpty(content)) {
@@ -169,6 +192,10 @@ public class DiscussPresenter extends BasePresenter {
         });
     }
 
+    /**
+     * 功能描述：加载主题信息
+     * @param subjectId  [主题ID]
+     */
     public void loadSubjectInfo(long subjectId) {
         String url = ApisDiscuss.getSubjectInfo(subjectId);
         request(url, new DUTResp() {

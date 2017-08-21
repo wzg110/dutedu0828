@@ -7,8 +7,12 @@ package com.yunding.dut.view.selectable;
  * GitHub: https://github.com/laobie
  */
 public interface OnSelectListener {
-//    void onTextSelected(CharSequence content);
-    void onTextSelected(CharSequence content,int startIndex,int endIndex);
-    void onTextTranslate(CharSequence content);
-    void onTextCollect(CharSequence content);
+    void onTextSelected(CharSequence content,int startIndex,int endIndex,String  color);
+    void onTextTranslate(CharSequence content,float [] position);
+    void onTextCollect(CharSequence content,String id);
+    void onTextNote(CharSequence content,int postion);
+    void onTextDelete(String position);
+    void onChangeColor(int position,int color,String id,String colorid);
+    void onTextClick(int x,int y);
+
 }

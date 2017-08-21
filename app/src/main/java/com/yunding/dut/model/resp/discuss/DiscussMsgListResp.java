@@ -16,7 +16,13 @@ import java.util.List;
 public class DiscussMsgListResp {
 
     /**
-     * data : {"datas":[{"content":"你乱写就乱写","createTime":"2017-04-20 14:14:47","fileUrl":"","groupId":1,"messageId":4,"messageLength":5,"messageType":0,"studentId":2,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:42:02","fileUrl":"","groupId":1,"messageId":5,"messageLength":0,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:05","fileUrl":"","groupId":1,"messageId":6,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:06","fileUrl":"","groupId":1,"messageId":7,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:07","fileUrl":"","groupId":1,"messageId":8,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:38","fileUrl":"www.baidu.com","groupId":1,"messageId":9,"messageLength":15,"messageType":1,"studentId":1,"themeId":1}],"total":6}
+     * data : {"datas":[{"content":"你乱写就乱写",
+     * "createTime":"2017-04-20 14:14:47","fileUrl":"
+     * ","groupId":1,"messageId":4,"messageLength":5,
+     * "messageType":0,"studentId":2,"themeId":1},
+     * {"content":"kaokaokaokao"
+     * ,"createTime":"2017-04-20 16:42:02","
+     * fileUrl":"","groupId":1,"messageId":5,"messageLength":0,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:05","fileUrl":"","groupId":1,"messageId":6,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:06","fileUrl":"","groupId":1,"messageId":7,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:07","fileUrl":"","groupId":1,"messageId":8,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:38","fileUrl":"www.baidu.com","groupId":1,"messageId":9,"messageLength":15,"messageType":1,"studentId":1,"themeId":1}],"total":6}
      * errors : {}
      * msg : ok
      * result : true
@@ -71,7 +77,17 @@ public class DiscussMsgListResp {
 
     public static class DataBean {
         /**
-         * datas : [{"content":"你乱写就乱写","createTime":"2017-04-20 14:14:47","fileUrl":"","groupId":1,"messageId":4,"messageLength":5,"messageType":0,"studentId":2,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:42:02","fileUrl":"","groupId":1,"messageId":5,"messageLength":0,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:05","fileUrl":"","groupId":1,"messageId":6,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:06","fileUrl":"","groupId":1,"messageId":7,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:07","fileUrl":"","groupId":1,"messageId":8,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:38","fileUrl":"www.baidu.com","groupId":1,"messageId":9,"messageLength":15,"messageType":1,"studentId":1,"themeId":1}]
+         * datas : [{"content":"你乱写就乱写",
+         * "createTime":"2017-04-20 14:14:47","fileUrl":"","
+         * groupId":1,"messageId":4,"messageLength":5,"messageType
+         * ":0,"studentId":2,"themeId":1},{"content":"kaokaokaokao",
+         * "createTime":"2017-04-20 16:42:02","fileUrl":"","groupId":1,
+         * "messageId":5,"messageLength":0,"messageType":0,"studentId":1,
+         * "themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:05",
+         * "fileUrl":"","groupId":1,"messageId":6,"messageLength":15,"messageType":0,"studentId":1,
+         * "themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:06","fileUrl":"",
+         * "groupId":1,"messageId":7,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},
+         * {"content":"kaokaokaokao","createTime":"2017-04-20 16:45:07","fileUrl":"","groupId":1,"messageId":8,"messageLength":15,"messageType":0,"studentId":1,"themeId":1},{"content":"kaokaokaokao","createTime":"2017-04-20 16:45:38","fileUrl":"www.baidu.com","groupId":1,"messageId":9,"messageLength":15,"messageType":1,"studentId":1,"themeId":1}]
          * total : 6
          */
 
@@ -108,6 +124,15 @@ public class DiscussMsgListResp {
              * "themeId": 1  // 主题ID
              * }
              */
+            private String platformTime;
+
+            public String getPlatformTime() {
+                return platformTime;
+            }
+
+            public void setPlatformTime(String platformTime) {
+                this.platformTime = platformTime;
+            }
 
             private String content;
             private String createTime;

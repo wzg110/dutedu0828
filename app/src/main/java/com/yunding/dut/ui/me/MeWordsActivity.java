@@ -1,16 +1,17 @@
 package com.yunding.dut.ui.me;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.MeWordsAdapter;
 import com.yunding.dut.model.resp.collect.CollectAllWordsResp;
@@ -20,6 +21,8 @@ import com.yunding.dut.ui.base.ToolBarActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.yunding.dut.util.third.SizeUtils.dp2px;
+
 /**
  * Created by Administrator on 2017/5/17.
  */
@@ -27,10 +30,11 @@ import butterknife.ButterKnife;
 public class MeWordsActivity extends ToolBarActivity implements IMeWordsView {
 
 
-    @BindView(R.id.list_me_word)
-    ListView mListMeWord;
+
     @BindView(R.id.lila_no_data)
-    LinearLayout mLilaNoData;
+    LinearLayout lilaNoData;
+    @BindView(R.id.list_me_word)
+    SwipeMenuListView listMeWord;
     private MeWordsAdapter mMeWordsAdapter;
     private MeWordsPresenter mMeWordsPresenter;
     private CollectAllWordsResp mCollectAllWordsResp;
@@ -40,93 +44,77 @@ public class MeWordsActivity extends ToolBarActivity implements IMeWordsView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(TAG, "onCreate: ");
         setContentView(R.layout.activity_me_word);
         ButterKnife.bind(this);
-        setTitle(getString(R.string.my_word));
+        setTitleInCenter(getString(R.string.my_word));
         mMeWordsPresenter = new MeWordsPresenter(this);
         mMeWordsPresenter.getCollectWordsList();
         mMeWordsAdapter = new MeWordsAdapter(this);
-        mListMeWord.setAdapter(mMeWordsAdapter);
-        setItemClick();
-//        SwipeMenuCreator creator = new SwipeMenuCreator() {
-//
-//
-//            @Override
-//            public void create(SwipeMenu menu) {
-//                    // create "open" item
-//                    SwipeMenuItem openItem = new SwipeMenuItem(
-//                            getApplicationContext());
-//                    // set item background
-//                    openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-//                            0xCE)));
-//                    // set item width
-//                    openItem.setWidth(dp2px(90));
-//                    // set item title
-//                    openItem.setTitle("Open");
-//                    // set item title fontsize
-//                    openItem.setTitleSize(18);
-//                    // set item title font color
-//                    openItem.setTitleColor(Color.WHITE);
-//                    // add to menu
-//                    menu.addMenuItem(openItem);
-//
-//                    // create "delete" item
-//                    SwipeMenuItem deleteItem = new SwipeMenuItem(
-//                            getApplicationContext());
-//                    // set item background
-//                    deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-//                            0x3F, 0x25)));
-//                    // set item width
-//                    deleteItem.setWidth(dp2px(90));
-//                    // set a icon
-//
-//                    // add to menu
-//                    menu.addMenuItem(deleteItem);
-//
-//
-//            }
-//        };
+
+//        setItemClick();
+
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "open" item
+                SwipeMenuItem openItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                openItem.setBackground(R.color.orange);
+                // set item width
+                openItem.setWidth(dp2px(70));
+                // set item title
+                openItem.setTitle("取消收藏");
+                // set item title fontsize
+                openItem.setTitleSize(12);
+                // set item title font color
+                openItem.setTitleColor(Color.WHITE);
+                // add to menu
+                menu.addMenuItem(openItem);
+
+
+
+            }
+        };
+        listMeWord.setMenuCreator(creator);
+        listMeWord.setAdapter(mMeWordsAdapter);
+        listMeWord.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index){
+                    case 0:
+                        final int collectionId = mCollectAllWordsResp.getData().get(position).getCollectionId();
+                        mMeWordsPresenter.delCollectWords(collectionId);
+                        mCollectAllWordsResp.getData().remove(position);
+                        mMeWordsAdapter.setCollectAllWordsResp(mCollectAllWordsResp);
+                        if (mCollectAllWordsResp.getData().size() == 0) {
+                            lilaNoData.setVisibility(View.VISIBLE);
+                        }
+                        break;
+
+
+
+
+                }
+                return false;
+            }
+        });
+        listMeWord.setSwipeDirection(SwipeMenuListView.DIRECTION_RIGHT);
+
+        // Left
+        listMeWord.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+
     }
 
     private void setItemClick() {
-        mListMeWord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listMeWord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent toMeWordsTranslate = new Intent(MeWordsActivity.this, MeWordTranslateActivity.class);
                 toMeWordsTranslate.putExtra(MEWORD, mCollectAllWordsResp.getData().get(position).getEnglish());
                 startActivity(toMeWordsTranslate);
-            }
-        });
-        mListMeWord.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                final int collectionId = mCollectAllWordsResp.getData().get(position).getCollectionId();
-                AlertDialog.Builder builder = new AlertDialog.Builder(MeWordsActivity.this);
-                builder.setMessage("确定删除？");
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //开启讨论
-                        mMeWordsPresenter.delCollectWords(collectionId);
-                        mCollectAllWordsResp.getData().remove(position);
-                        mMeWordsAdapter.setCollectAllWordsResp(mCollectAllWordsResp);
-                        dialog.dismiss();
-                        if (mCollectAllWordsResp.getData().size()==0){
-                            mLilaNoData.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                builder.show();
-
-
-                return true;
             }
         });
     }
@@ -144,9 +132,8 @@ public class MeWordsActivity extends ToolBarActivity implements IMeWordsView {
     @Override
     public void showWordsList(CollectAllWordsResp collectAllWordsResp) {
         if (collectAllWordsResp.getData().size() == 0) {
-            mLilaNoData.setVisibility(View.VISIBLE);
+            lilaNoData.setVisibility(View.VISIBLE);
         }
-        Log.e(TAG, "showWordsList: ");
         mCollectAllWordsResp = collectAllWordsResp;
         mMeWordsAdapter.setCollectAllWordsResp(collectAllWordsResp);
     }

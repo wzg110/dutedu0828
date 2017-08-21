@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<item-->
+        <!--android:id="@+id/action_show_reading"-->
+        <!--android:title="提示"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--/>-->
 
     <item
         android:id="@+id/action_close_reading"
-        android:icon="@drawable/ic_menu_close"
-        android:title="关闭"
+        android:title="退出"
         app:showAsAction="ifRoom" />
 </menu>

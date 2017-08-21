@@ -20,7 +20,7 @@ public class ApisDiscuss extends Apis {
      */
     public static String discussGroupListUrl() {
         long userId = DUTApplication.getUserInfo().getUserId();
-        String url = SERVER_URL + "/student/getstudentthemelist?studentid=" + userId;
+        String url = SERVER_URL + "/student/getstudentthemelist?studentid=" + userId + "&userType=" + DUTApplication.getUserInfo().getUSER_TYPE();
         return url;
     }
 
@@ -126,7 +126,42 @@ public class ApisDiscuss extends Apis {
      */
     public static String commitAnswer(String jsonParams) {
         long userId = DUTApplication.getUserInfo().getUserId();
-        String url = SERVER_URL + "/student/submitanswer?json=" + jsonParams;
+        String url = SERVER_URL + "student/submitanswer?json=" + jsonParams;
+        return url;
+    }
+
+    /**
+     * 功能简述:提交答案 post提交
+     *
+     * @return
+     */
+    public static String commitAnswer() {
+        long userId = DUTApplication.getUserInfo().getUserId();
+        String url = SERVER_URL + "student/submitanswer";
+        return url;
+    }
+
+    /**
+     * 功能描述：获取服务端时间 进行倒计时 防止本地时间与服务时间有差距
+     *
+     * @return
+     */
+    public static String serverTime() {
+
+        String url = SERVER_URL + "student/servertime";
+        return url;
+    }
+
+    /**
+     * 功能描述：更改讨论组结束状态
+     *
+     * @param groupid
+     * @param themeid
+     * @return
+     */
+    public static String changeDissTA(String groupid, String themeid) {
+
+        String url = SERVER_URL + "student/updaterelationshutstart?groupid=" + groupid + "&themeid=" + themeid;
         return url;
     }
 }

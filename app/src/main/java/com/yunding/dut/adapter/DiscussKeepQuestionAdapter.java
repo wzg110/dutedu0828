@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +25,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/6/6.
+ * 类 名 称：DiscussKeepQuestionAdapter
+ * <P/>描    述：保存输入答案adapter（废弃）
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 9:50
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 9:50
+ * <P/>修改备注：
+ * <P/>版    本：
  */
 
-public class DiscussKeepQuestionAdapter extends RecyclerView.Adapter{
+public class DiscussKeepQuestionAdapter extends RecyclerView.Adapter {
 
     private final int TYPE_CHOICE = 0;
     private final int TYPE_INPUT = 1;
@@ -40,13 +46,13 @@ public class DiscussKeepQuestionAdapter extends RecyclerView.Adapter{
     private int a = -1;
     private DiscussListResp.DataBean mResp;
     private static final String TAG = "DiscussKeepQuestionAdap";
+
     public DiscussKeepQuestionAdapter(List<DiscussQuestionListResp.DataBean> datas, List<DiscussAnswerCache> dataCache, Context context, DiscussListResp.DataBean resp) {
         mDatas = datas;
         mDataCache = dataCache;
         mContext = context;
         mResp = resp;
     }
-
 
 
     @Override
@@ -77,6 +83,8 @@ public class DiscussKeepQuestionAdapter extends RecyclerView.Adapter{
         if (mDataCache != null && mDataCache.size() > holder.getAdapterPosition())
             if (holder instanceof DiscussKeepQuestionAdapter.ChoiceViewHolder) {
                 ((DiscussKeepQuestionAdapter.ChoiceViewHolder) holder).tvQuestionNo.setText("第" + ++position + "题");
+
+
                 ((DiscussKeepQuestionAdapter.ChoiceViewHolder) holder).tvQuestionContent.setText(item.getContent());
                 String options = item.getSelectOptions();
                 if (!TextUtils.isEmpty(options)) {
@@ -88,10 +96,10 @@ public class DiscussKeepQuestionAdapter extends RecyclerView.Adapter{
 
                         rbChoice.setText(option);
                         if (mDataCache.get(holder.getAdapterPosition()) != null && TextUtils.equals(mDataCache.get(holder.getAdapterPosition()).getChoiceAnswer(), option)) {
-                           a= rbChoice.getId();
+                            a = rbChoice.getId();
                         }
                         if (TextUtils.equals(option, mDataCache.get(holder.getAdapterPosition()).getQuestion().getStudentAnswer())) {
-                            a= rbChoice.getId();
+                            a = rbChoice.getId();
                         }
                         ((DiscussKeepQuestionAdapter.ChoiceViewHolder) holder).rgAnswer.addView(rbChoice,
                                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -108,6 +116,7 @@ public class DiscussKeepQuestionAdapter extends RecyclerView.Adapter{
                 }
             } else if (holder instanceof DiscussKeepQuestionAdapter.InputViewHolder) {
                 ((DiscussKeepQuestionAdapter.InputViewHolder) holder).tvQuestionNo.setText("第" + ++position + "题");
+
                 ((DiscussKeepQuestionAdapter.InputViewHolder) holder).tvQuestionContent.setText(item.getContent());
                 if (mDataCache.get(holder.getAdapterPosition()) != null) {
                     List<String> dataList = new ArrayList<>();
@@ -174,7 +183,7 @@ public class DiscussKeepQuestionAdapter extends RecyclerView.Adapter{
                 dataBean.setStudentId(String.valueOf(DUTApplication.getUserInfo().getUserId()));
                 dataBean.setThemeId(String.valueOf(cache.getQuestion().getThemeId()));
                 dataBean.setTopicId(String.valueOf(cache.getQuestion().getTopicId()));
-                Log.e("Answer", cache.getChoiceAnswer());
+
             } else {
                 List<String> inputAnswer = cache.getInputAnswer();
                 String answerStr = "";
@@ -187,18 +196,18 @@ public class DiscussKeepQuestionAdapter extends RecyclerView.Adapter{
                 dataBean.setStudentId(String.valueOf(DUTApplication.getUserInfo().getUserId()));
                 dataBean.setThemeId(String.valueOf(cache.getQuestion().getThemeId()));
                 dataBean.setTopicId(String.valueOf(cache.getQuestion().getTopicId()));
-                Log.e("Answer", cache.getInputAnswer().toString());
+
             }
             list.add(dataBean);
         }
         param.setData(list);
         String paramStr = new Gson().toJson(param);
-        Log.e("Answer", paramStr);
+
 
         ((DiscussQuestionActivity) mContext).commitAnswer(paramStr);
     }
 
-    public List<DiscussAnswerCache> keepAnswer(){
+    public List<DiscussAnswerCache> keepAnswer() {
         return mDataCache;
     }
 }

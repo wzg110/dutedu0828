@@ -91,6 +91,9 @@ public abstract class BaseFragmentInReading extends BaseFragment {
     protected void removeFragment() {
         getHoldingActivity().removeFragment();
     }
+    protected void removeAllFragment() {
+        getHoldingActivity().removeALLFragment();
+    }
 
     protected BaseFragmentActivity getHoldingActivity() {
         return mActivity;

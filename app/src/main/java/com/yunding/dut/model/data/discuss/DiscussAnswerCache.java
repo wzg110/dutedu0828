@@ -4,6 +4,7 @@ import com.yunding.dut.model.resp.discuss.DiscussQuestionListResp;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 类 名 称：DiscussAnswerCache
@@ -20,6 +21,15 @@ public class DiscussAnswerCache implements Serializable{
 
     private int questionType;
 
+    public String getTranslateAnswer() {
+        return translateAnswer;
+    }
+
+    public void setTranslateAnswer(String translateAnswer) {
+        this.translateAnswer = translateAnswer;
+    }
+
+    private String  translateAnswer;
     private String choiceAnswer;
 
     private List<String> inputAnswer;
@@ -57,4 +67,14 @@ public class DiscussAnswerCache implements Serializable{
     public void setQuestion(DiscussQuestionListResp.DataBean question) {
         this.question = question;
     }
+
+    public Map<Integer, String> getInputStudentAnswer() {
+        return inputStudentAnswer;
+    }
+
+    public void setInputStudentAnswer(Map<Integer, String> inputStudentAnswer) {
+        this.inputStudentAnswer = inputStudentAnswer;
+    }
+
+    private Map<Integer,String> inputStudentAnswer;
 }

@@ -30,9 +30,16 @@ public class LoginPresenter extends BasePresenter {
         this.mView = mView;
     }
 
-    public void login(String account, String pwd) {
+    /**
+     * 功能描述： 登录
+     * @param account [用户名]
+     * @param pwd   [密码]
+     * @param userType  [用户类别]
+     */
+    public void login(String account, String pwd,String userType) {
         account = trimStr(account);
         pwd = trimStr(pwd);
+
         if (!isValidAccount(account)) {
             mView.invalidAccount();
             return;
@@ -42,7 +49,8 @@ public class LoginPresenter extends BasePresenter {
             return;
         }
         mView.showProgress();
-        String url = ApisAccount.loginUrl(account, pwd);
+        String url = ApisAccount.loginUrl(account, pwd,userType);
+//        Log.e("login",url);
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {
@@ -50,7 +58,8 @@ public class LoginPresenter extends BasePresenter {
                 LoginResp resp = parseJson(response, LoginResp.class);
                 if (resp != null) {
                     if (resp.isResult()) {
-                        UserInfo.saveUserInfo(resp);//保存用户信息
+//                        Log.e("login",resp.getData().toString());
+                        UserInfo.saveUserInfo(resp,"正常");//保存用户信息
                         if (TextUtils.isEmpty(DUTApplication.getUserInfo().getUserPhone())) {
                             //未绑定
                             mView.goBindPhone();
@@ -72,5 +81,78 @@ public class LoginPresenter extends BasePresenter {
                 mView.loginFailed(e.toString());
             }
         });
+    }
+
+    /**
+     *  功能描述： 游客二维码登录
+     * @param classId   [课程Id]
+     * @param teacherId [教师I]
+     */
+    public void visitorLogin(String classId,String teacherId,String teachingId){
+        mView.showProgress();
+        String url = ApisAccount.visitorLogin(classId,teacherId,teachingId);
+        request(url, new DUTResp() {
+            @Override
+            public void onResp(String response) {
+                mView.hideProgress();
+                LoginResp resp = parseJson(response, LoginResp.class);
+                if (resp != null) {
+                    if (resp.isResult()) {
+//
+                        UserInfo.saveUserInfo(resp,"游客");//保存用户信息
+                            //已绑定
+                            mView.loginSuccess();
+
+                    } else {
+                        mView.loginFailed(resp.getMsg());
+                    }
+                } else {
+                    mView.loginFailed(((Context) mView).getString(R.string.server_error));
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                mView.hideProgress();
+                mView.loginFailed(e.toString());
+            }
+        });
+
+    }
+
+    /**
+     * 功能描述：游客邀请码登录
+     * @param inviteCode    [邀请码]
+     */
+    public void visitorLoginWithInviteCode(String inviteCode){
+        mView.showProgress();
+        String url = ApisAccount.visitorLoginWithInviteCode(inviteCode);
+        request(url, new DUTResp() {
+            @Override
+            public void onResp(String response) {
+                mView.hideProgress();
+                LoginResp resp = parseJson(response, LoginResp.class);
+                if (resp != null) {
+                    if (resp.isResult()) {
+//
+                        UserInfo.saveUserInfo(resp,"游客");//保存用户信息
+                        //已绑定
+                        mView.loginSuccess();
+
+                    } else {
+                        mView.loginFailed(resp.getMsg());
+                    }
+                } else {
+                    mView.loginFailed(((Context) mView).getString(R.string.server_error));
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                mView.hideProgress();
+                mView.loginFailed(e.toString());
+            }
+        });
+
     }
 }

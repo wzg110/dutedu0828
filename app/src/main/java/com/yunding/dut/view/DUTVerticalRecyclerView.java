@@ -38,4 +38,5 @@ public class DUTVerticalRecyclerView extends RecyclerView {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         setLayoutManager(manager);
     }
+
 }

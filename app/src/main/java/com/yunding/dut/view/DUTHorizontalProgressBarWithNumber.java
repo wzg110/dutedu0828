@@ -10,7 +10,16 @@ import android.widget.ProgressBar;
 
 import com.yunding.dut.R;
 
-
+/**
+ * 类 名 称：DUTHorizontalProgressBarWithNumber
+ * <P/>描    述： 开源 带数字progeressbar
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/21 11:45
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/21 11:45
+ * <P/>修改备注：
+ * <P/>版    本：
+ */
 public class DUTHorizontalProgressBarWithNumber extends ProgressBar {
 
     private static final int DEFAULT_TEXT_SIZE = 10;

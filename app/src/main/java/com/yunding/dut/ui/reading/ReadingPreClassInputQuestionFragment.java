@@ -4,7 +4,6 @@ package com.yunding.dut.ui.reading;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,12 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.DiscussQuestionInputAdapter;
+import com.yunding.dut.model.resp.reading.ReadingDataResp;
 import com.yunding.dut.model.resp.reading.ReadingListResp;
 import com.yunding.dut.presenter.reading.ReadingPresenter;
 import com.yunding.dut.ui.base.BaseFragmentInReading;
 import com.yunding.dut.util.third.ConstUtils;
 import com.yunding.dut.util.third.TimeUtils;
-import com.yunding.dut.view.DUTVerticalRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,8 +35,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static com.yunding.dut.ui.reading.ReadingActivity.READING_INFO;
-
 /**
  * 类 名 称：ReadingInputQuestionFragment
  * <P/>描    述：阅读课前填空题页面
@@ -45,7 +42,7 @@ import static com.yunding.dut.ui.reading.ReadingActivity.READING_INFO;
  * <P/>创建时间：2017/4/24 18:50
  * <P/>修 改 人：msy
  * <P/>修改时间：2017/4/24 18:50
- * <P/>修改备注：
+ * <P/>修改备注： 暂时废了
  * <P/>版    本：1.0
  */
 public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading implements IReadingQuestionView {
@@ -86,7 +83,7 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
     private Bundle mBundle;
     private ReadingPreInputFragment mReadingPreInputFragment;
     private ReadingListResp.DataBean.PreClassExercisesBean mBean;
-
+    private ReadingActivity ra;
     public ReadingPreClassInputQuestionFragment() {
     }
 
@@ -94,6 +91,7 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+
     }
 
     @Override
@@ -109,17 +107,23 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
             mPreExerciseBean = (ReadingListResp.DataBean.PreClassExercisesBean) getArguments().getSerializable(ReadingActivity.READING_QUESTION);
             mQuestionIndex = mReadingInfo.getPreClassExercises().indexOf(mPreExerciseBean);//题目编号
         }
+        ra= (ReadingActivity) getActivity();
+
+        ra.setToolbarTitle("填空题");
+        ra.setToolbarBGC(getResources().getColor(R.color.bg_white));
+        ra.setToolbarTitleColor(getResources().getColor(R.color.textColorShow));
         mPresenter = new ReadingPresenter(this);
         mStartTime = System.currentTimeMillis();
-
-        //初始化UI
-        if (mPreExerciseBean == null) return;
-        if (mPreExerciseBean.getQuestionType() == ReadingActivity.TYPE_CHOICE) {
-            tvTitle.setText("课前小题第" + (mQuestionIndex + 1) + "题" + "（共" + mReadingInfo.getPreClassExercises().size() + "题）");
+        if (mPreExerciseBean.getQuestionType() == ReadingActivity.TYPE_INPUT) {
+//            tvTitle.setText("课前小题第" + (mQuestionIndex + 1) + "题（翻译）" + "（共" + mReadingInfo.getPreClassExercises().size() + "题）");
+            tvTitle.setText("课前小题"+ (mQuestionIndex + 1));
         } else {
-            tvTitle.setText("课前小题第" + (mQuestionIndex + 1) + "题" + "（共" + mReadingInfo.getPreClassExercises().size() + "题）");
+            tvTitle.setText("课前小题" + (mQuestionIndex + 1));
         }
+
+
         tvQuestion.setText(mPreExerciseBean.getQuestionContent());
+
 
 //        //初始化输入框
 //        String[] rightAnswerArray = mPreExerciseBean.getRightAnswer().split(",");
@@ -184,7 +188,7 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
                 mReadingPreInputFragment = new ReadingPreInputFragment();
                 mReadingPreInputFragment.setArguments(mBundle);
                 addFragment(mReadingPreInputFragment);
-                Log.e(TAG, "onViewClicked: "+ mReadingPreInputFragment);
+//                Log.e(TAG, "onViewClicked: "+ mReadingPreInputFragment);
                 break;
         }
     }
@@ -247,6 +251,11 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
 
     }
 
+    @Override
+    public void showReadingDataSuccess(ReadingDataResp.DataBean resp) {
+
+    }
+
     /**
      * 功能简述:提交答案
      */
@@ -255,7 +264,7 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
         String answerTemp = new Gson().toJson(answerList);
 
         long commitTime = System.currentTimeMillis();
-        long timeSpan = TimeUtils.getTimeSpan(commitTime, mStartTime, ConstUtils.TimeUnit.MIN);
+        long timeSpan = TimeUtils.getTimeSpan(commitTime, mStartTime, ConstUtils.TimeUnit.MSEC);
 
         if (timeSpan == 0) {
             timeSpan = 1;
@@ -265,7 +274,7 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
             mReadingInfo.getPreClassExercises()
                     .get(mReadingInfo.getPreClassExercises().indexOf(mPreExerciseBean))
                     .setAnswerContent(answerTemp);
-            mPresenter.commitAnswer(mPreExerciseBean.getQuestionId(), answerTemp, timeSpan, 0);
+            mPresenter.commitAnswer(mPreExerciseBean.getQuestionId(), answerTemp, timeSpan, 0,mReadingInfo.getClassId());
         }
     }
 
@@ -280,15 +289,29 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
             switch (bean.getQuestionType()) {
                 case ReadingActivity.TYPE_CHOICE:
                     //选择题
+//                    ra.setToolbarTitle("选择题");
                     ReadingPreClassChoiceQuestionFragment choiceQuestionFragment = new ReadingPreClassChoiceQuestionFragment();
                     choiceQuestionFragment.setArguments(bundle);
                     addFragment(choiceQuestionFragment);
                     break;
                 case ReadingActivity.TYPE_INPUT:
                     //填空题
+//                    ra.setToolbarTitle("填空题");
                     ReadingPreClassInputQuestionFragment inputQuestionFragment = new ReadingPreClassInputQuestionFragment();
                     inputQuestionFragment.setArguments(bundle);
                     addFragment(inputQuestionFragment);
+                    break;
+                case ReadingActivity.TYPE_MULTI_CHOICE:
+//                    ra.setToolbarTitle("选择题");
+                    ReadingPreClassMultiChoiceQuestionFragment multiChoiceFragment = new ReadingPreClassMultiChoiceQuestionFragment();
+                    multiChoiceFragment.setArguments(bundle);
+                    addFragment(multiChoiceFragment);
+                    break;
+                case ReadingActivity.TYPE_TRANSLATE:
+//                    ra.setToolbarTitle("翻译题");
+                    ReadingPreClassTranslateQuestionFragment translateQuestionFragment = new ReadingPreClassTranslateQuestionFragment();
+                    translateQuestionFragment.setArguments(bundle);
+                    addFragment(translateQuestionFragment);
                     break;
                 default:
                     showSnackBar("没有该题型，请反馈客服");
@@ -296,6 +319,7 @@ public class ReadingPreClassInputQuestionFragment extends BaseFragmentInReading 
             }
         } else {
             //课前小题已经答完，进入阅读页面
+//            ra.setToolbarTitle("阅读原文");
             Bundle bundle = new Bundle();
             bundle.putSerializable(ReadingActivity.READING_INFO, mReadingInfo);
             ReadingArticleFragment originalFragment = new ReadingArticleFragment();

@@ -4,13 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.KeyEvent;
 
 import com.yunding.dut.R;
 
 import java.util.List;
-
-import butterknife.ButterKnife;
 
 
 /**
@@ -24,6 +21,7 @@ public abstract class BaseFragmentActivity extends ToolBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(getContentViewId());
 //        ButterKnife.bind(this);
 
@@ -34,15 +32,7 @@ public abstract class BaseFragmentActivity extends ToolBarActivity {
                 addFragment(firstFragment);
             }
         }
-    }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (KeyEvent.KEYCODE_BACK == keyCode) {
-            removeFragment();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     /**
@@ -118,11 +108,20 @@ public abstract class BaseFragmentActivity extends ToolBarActivity {
     public void removeFragment() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             getSupportFragmentManager().popBackStack();
+
         } else {
             finish();
         }
     }
 
+    public void removeALLFragment() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStackImmediate(null,1);
+
+        } else {
+            finish();
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();

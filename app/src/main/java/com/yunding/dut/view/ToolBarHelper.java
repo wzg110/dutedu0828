@@ -1,14 +1,16 @@
 package com.yunding.dut.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.yunding.dut.R;
 
 /**
@@ -28,7 +30,11 @@ public class ToolBarHelper {
     private FrameLayout mContentView;
     private Toolbar mToolBar;
     private TextView mTitle;
+    private RelativeLayout mExit;
+    private  TextView mFeedBack;
     private LayoutInflater mInflater;
+    private SimpleDraweeView iv_me;
+    private ImageView iv_ppt_list;
 
     public ToolBarHelper(Context context, int layoutId) {
         this.mContext = context;
@@ -64,18 +70,27 @@ public class ToolBarHelper {
         //通过inflater获取toolbar的布局文件
         View toolbar = mInflater.inflate(R.layout.layout_toolbar, mContentView);
         mToolBar = (Toolbar) toolbar.findViewById(R.id.toolbar);
+        iv_me= (SimpleDraweeView) toolbar.findViewById(R.id.iv_me);
         mTitle = (TextView) toolbar.findViewById(R.id.tv_title);
+        mExit= (RelativeLayout) toolbar.findViewById(R.id.tv_exit);
+        mFeedBack= (TextView) toolbar.findViewById(R.id.tv_exit1);
+        iv_ppt_list= (ImageView) toolbar.findViewById(R.id.iv_ppt_list);
     }
-
     public FrameLayout getContentView() {
         return mContentView;
     }
-
     public Toolbar getToolBar() {
         return mToolBar;
     }
-
     public TextView getTitle() {
         return mTitle;
     }
+    public RelativeLayout getExit(){
+        return mExit;
+    }
+    public SimpleDraweeView getIvMe(){return iv_me;}
+    public TextView getmFeedBack(){
+        return mFeedBack;
+    }
+    public ImageView getIvPPTList(){return iv_ppt_list;}
 }

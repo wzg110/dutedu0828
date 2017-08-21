@@ -18,4 +18,5 @@ public interface IMeInfoView extends IBaseView{
     void showAvatar();
 
     void showMsg(String msg);
+    void changeNameSuccess();
 }

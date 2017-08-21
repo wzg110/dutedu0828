@@ -24,6 +24,9 @@ public class DiscussGroupListPresenter extends BasePresenter {
         this.mView = mView;
     }
 
+    /**
+     * 功能描述：获取讨论组列表
+     */
     public void loadDiscussGroupList() {
         mView.showProgress();
         String url = ApisDiscuss.discussGroupListUrl();

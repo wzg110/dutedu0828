@@ -70,10 +70,11 @@
                     android:textSize="18sp"/>
 
                 <TextView
+
                     android:id="@+id/tv_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="6dp"
                     android:padding="16dp"
                     android:text="@string/hello_blank_fragment"
                     android:textColor="#E6E6E6"
@@ -206,7 +207,7 @@
         android:id="@+id/lila_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg_white"
+android:background="@color/bg_white"
         android:gravity="center_vertical"
         android:padding="5dp"
         android:layout_below="@id/lila_text"
@@ -225,8 +226,8 @@
             android:layout_height="10dp"
             android:layout_marginLeft="10dp"
             android:progress="30"
-            zhy:progress_reached_bar_height="20dp"
-            zhy:progress_reached_color="@color/color_primary"
+            zhy:progress_reached_bar_height="10dp"
+            zhy:progress_reached_color="@color/orange"
             zhy:progress_text_color="@color/text_color_primary"
             zhy:progress_text_visibility="visible"
             zhy:progress_unreached_color="@color/bg_white"/>

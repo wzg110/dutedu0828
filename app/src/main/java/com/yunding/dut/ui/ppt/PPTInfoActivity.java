@@ -22,7 +22,16 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+/**
+ * 类 名 称：PPTInfoActivity
+ * <P/>描    述：废弃
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 16:58
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 16:58
+ * <P/>修改备注：
+ * <P/>版    本：
+ */
 public class PPTInfoActivity extends ToolBarActivity implements IPPTInfoView {
 
     @BindView(R.id.tv_page_no)

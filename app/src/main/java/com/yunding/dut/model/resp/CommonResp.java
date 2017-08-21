@@ -25,7 +25,7 @@ public class CommonResp {
     private String msg;
     private boolean result;
     private String version;
-//    private String data;
+    private Object data;
 
     public ErrorsBean getErrors() {
         return errors;
@@ -62,11 +62,11 @@ public class CommonResp {
     public static class ErrorsBean {
     }
 
-//    public String getData() {
-//        return data;
-//    }
-//
-//    public void setData(String data) {
-//        this.data = data;
-//    }
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 }

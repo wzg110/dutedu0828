@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yunding.dut.view.DUTSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/srl_course_list"
+    tools:context="com.yunding.dut.ui.ppt.CourseListFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/bg_white"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/rl_doing"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_on_course"
+                    android:textSize="14sp"
+                    android:textColor="@color/orange"
+                    android:text="课  上"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:id="@+id/line_doing"
+                    android:layout_below="@id/tv_on_course"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/orange"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_height="2dp"></View>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_done"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_done"
+                    android:textSize="14sp"
+                    android:textColor="@color/tab_text"
+                    android:text="自  学"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:id="@+id/line_done"
+                    android:layout_below="@id/tv_done"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/bg_white"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_height="2dp"></View>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lila_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+            <ImageView
+                android:src="@drawable/ic_no_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:scrollbars="none"
+            android:id="@+id/rv_course_list"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+</com.yunding.dut.view.DUTSwipeRefreshLayout>

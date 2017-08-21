@@ -7,7 +7,14 @@ import com.yunding.dut.ui.me.IMeWordsView;
 import com.yunding.dut.util.api.ApisReading;
 
 /**
- * Created by Administrator on 2017/5/23.
+ * 类 名 称：MeWordsPresenter
+ * <P/>描    述： 收藏业务处理
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 10:48
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 10:48
+ * <P/>修改备注：
+ * <P/>版    本：
  */
 
 public class MeWordsPresenter extends BasePresenter{
@@ -17,6 +24,10 @@ public class MeWordsPresenter extends BasePresenter{
     public MeWordsPresenter(IMeWordsView IMeWordsView) {
         mIMeWordsView = IMeWordsView;
     }
+
+    /**
+     * 功能描述：获取收藏列表
+     */
     public void  getCollectWordsList(){
         mIMeWordsView.showProgress();
         request(ApisReading.getCollectWords(), new DUTResp() {
@@ -41,6 +52,11 @@ public class MeWordsPresenter extends BasePresenter{
 
 
     }
+
+    /**
+     * 功能描述： 删除收藏
+     * @param id    [收藏ID]
+     */
     public void delCollectWords(int id){
         mIMeWordsView.showProgress();
         request(ApisReading.delCollectWord(id), new DUTResp() {

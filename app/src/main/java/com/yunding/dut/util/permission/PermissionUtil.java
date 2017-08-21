@@ -28,27 +28,13 @@ public class PermissionUtil {
 
     public static int PERMISSION_REQUEST_CODE = 1001;
 
-//    public static boolean checkStoragePermission(Context context) {
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-//            int readPermission = ContextCompat.checkSelfPermission(DUTApplication.getInstance().getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
-//            if (readPermission != PackageManager.PERMISSION_GRANTED) {
-//                requestStoragePermission(context);
-//                return false;
-//            }
-//        }
-//        int writePermission = ContextCompat.checkSelfPermission(DUTApplication.getInstance().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//        if (writePermission != PackageManager.PERMISSION_GRANTED) {
-//            requestStoragePermission(context);
-//            return false;
-//        }
-//        return true;
-//    }
-
     private static void requestDUTPermission(Context context) {
         List<String> permissionsNeeded = new ArrayList<>();
         permissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         permissionsNeeded.add(Manifest.permission.RECORD_AUDIO);
         permissionsNeeded.add(Manifest.permission.WAKE_LOCK);
+        permissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        permissionsNeeded.add(Manifest.permission.CAMERA);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             permissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
@@ -59,7 +45,17 @@ public class PermissionUtil {
         int recordAudioPermission = ContextCompat.checkSelfPermission(DUTApplication.getInstance().getApplicationContext(),Manifest.permission.RECORD_AUDIO);
         int wakeLockPermission = ContextCompat.checkSelfPermission(DUTApplication.getInstance().getApplicationContext(),Manifest.permission.WAKE_LOCK);
         int writePermission = ContextCompat.checkSelfPermission(DUTApplication.getInstance().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int locationfPermission=ContextCompat.checkSelfPermission(DUTApplication.getInstance().getApplicationContext(),Manifest.permission.ACCESS_COARSE_LOCATION);
+        int cameraPermission=ContextCompat.checkSelfPermission(DUTApplication.getInstance().getApplicationContext(),Manifest.permission.CAMERA);
+        if(cameraPermission!=PackageManager.PERMISSION_GRANTED){
+            requestDUTPermission(context);
+            return false;
+        }
         if(recordAudioPermission!=PackageManager.PERMISSION_GRANTED){
+            requestDUTPermission(context);
+            return false;
+        }
+        if (locationfPermission!=PackageManager.PERMISSION_GRANTED){
             requestDUTPermission(context);
             return false;
         }

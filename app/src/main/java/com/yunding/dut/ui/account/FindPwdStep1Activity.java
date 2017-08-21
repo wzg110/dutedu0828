@@ -2,15 +2,16 @@ package com.yunding.dut.ui.account;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.yunding.dut.R;
 import com.yunding.dut.presenter.account.FindPwdPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
+import com.yunding.dut.util.third.BarUtils;
 import com.yunding.dut.util.third.RegexUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -23,22 +24,29 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
+/**
+ * 类 名 称：FindPwdStep1Activity
+ * <P/>描    述： 修改密码
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 11:13
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 11:13
+ * <P/>修改备注：
+ * <P/>版    本：
+ */
 public class FindPwdStep1Activity extends ToolBarActivity implements IFindPwdViewStep1 {
 
+
     @BindView(R.id.et_phone)
-    TextInputEditText etPhone;
-    @BindView(R.id.til_phone)
-    TextInputLayout tilPhone;
+    EditText etPhone;
+    @BindView(R.id.et_sms_code)
+    EditText etSmsCode;
     @BindView(R.id.btn_send_sms_code)
     Button btnSendSmsCode;
-    @BindView(R.id.et_sms_code)
-    TextInputEditText etSmsCode;
-    @BindView(R.id.til_sms_code)
-    TextInputLayout tilSmsCode;
+    @BindView(R.id.ll_sms_code)
+    LinearLayout llSmsCode;
     @BindView(R.id.btn_next)
     Button btnNext;
-
     private FindPwdPresenter mPresenter;
 
     @Override
@@ -47,7 +55,11 @@ public class FindPwdStep1Activity extends ToolBarActivity implements IFindPwdVie
         setContentView(R.layout.activity_find_pwd_step_1);
         ButterKnife.bind(this);
 
-        setTitle("修改密码");
+//        setTitle("修改密码");
+        setTitleInCenter(getResources().getString(R.string.register_forgetpwd_title));
+        getmToolbar().setBackgroundColor(getResources().getColor(R.color.bg_white));
+        getmToolbarTitle().setTextColor(getResources().getColor(R.color.textColorShow));
+        BarUtils.setColor(this, getResources().getColor(R.color.bg_white));
         mPresenter = new FindPwdPresenter(this);
     }
 
@@ -65,7 +77,8 @@ public class FindPwdStep1Activity extends ToolBarActivity implements IFindPwdVie
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_send_sms_code:
-                countDown();
+                mPresenter.checkPhone(etPhone.getText().toString());
+
                 break;
             case R.id.btn_next:
                 nextStep();
@@ -109,7 +122,7 @@ public class FindPwdStep1Activity extends ToolBarActivity implements IFindPwdVie
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(@NonNull Long aLong) throws Exception {
-                        btnSendSmsCode.setText(String.valueOf(aLong) + "s");
+                        btnSendSmsCode.setText((60-aLong)+ "s");
                         if (aLong == 60) {
                             btnSendSmsCode.setText("重新发送");
                         }
@@ -121,4 +134,11 @@ public class FindPwdStep1Activity extends ToolBarActivity implements IFindPwdVie
     public void showMsg(String msg) {
         showToast(msg);
     }
+
+    @Override
+    public void checkSuccess() {
+        countDown();
+    }
+
+
 }

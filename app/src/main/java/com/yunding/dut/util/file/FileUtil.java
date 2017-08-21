@@ -1,8 +1,6 @@
 package com.yunding.dut.util.file;
 
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +47,7 @@ public class FileUtil {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                Log.e("getAvatarPath", e.toString());
+//                Log.e("getAvatarPath", e.toString());
             }
         }
         return avatarDir;

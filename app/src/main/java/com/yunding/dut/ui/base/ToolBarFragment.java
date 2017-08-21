@@ -4,10 +4,14 @@ package com.yunding.dut.ui.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.yunding.dut.app.DUTApplication;
+import com.yunding.dut.util.FontsUtils;
 import com.yunding.dut.view.ToolBarHelper;
 
 /**
@@ -53,6 +57,11 @@ public abstract class ToolBarFragment extends BaseFragment {
     }
 
     protected void setTitleInCenter(String title) {
+        if (FontsUtils.isContainChinese(title)|| TextUtils.isEmpty(title)){
+
+        }else{
+            mHelper.getTitle().setTypeface(DUTApplication.getHsbwTypeFace());
+        }
         mHelper.getTitle().setText(title);
     }
 
@@ -72,5 +81,8 @@ public abstract class ToolBarFragment extends BaseFragment {
 
     public Toolbar getmToolbar() {
         return mToolbar;
+    }
+    public SimpleDraweeView getmToolbarIvMe(){
+        return  mHelper.getIvMe();
     }
 }

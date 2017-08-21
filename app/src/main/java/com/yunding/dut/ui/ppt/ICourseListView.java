@@ -1,6 +1,8 @@
 package com.yunding.dut.ui.ppt;
 
+import com.yunding.dut.model.resp.appupdate.versionUpdateResp;
 import com.yunding.dut.model.resp.ppt.CourseListResp;
+import com.yunding.dut.model.resp.ppt.pptSelfListResp;
 import com.yunding.dut.ui.base.IBaseView;
 
 /**
@@ -15,10 +17,13 @@ import com.yunding.dut.ui.base.IBaseView;
  */
 
 public interface ICourseListView extends IBaseView {
-
     void showCourseList(CourseListResp resp);
-
     void showNoData();
-
     void showListFailed();
+    void showMsg();
+    void showPPTList(pptSelfListResp resp);
+    void showDiyProgress();
+    void hideDiyProgress();
+    void deleteSuccess();
+    void versionUpdate(versionUpdateResp.DataBean resp);
 }

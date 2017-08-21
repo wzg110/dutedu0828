@@ -1,126 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.yunding.dut.ui.me.MeActivity">
 
-    <android.support.v7.widget.CardView
+    tools:context="com.yunding.dut.ui.me.MeActivity">
+    <ImageView
+        android:id="@+id/test"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="1dp">
+        android:layout_height="174dp"
+        />
+    <android.support.v4.widget.Space
+        android:id="@+id/space8"
+        android:layout_below="@id/test"
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+    <RelativeLayout
+        android:id="@+id/rl_infos"
+        android:background="@color/bg_white"
+        android:layout_below="@id/space8"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <Button
+            android:id="@+id/btn_change_info"
+            android:layout_marginTop="7dp"
+            android:layout_width="65dp"
+            android:text="编辑资料"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:textColor="@color/bg_white"
+            android:background="@drawable/bg_left_round"
+            android:layout_height="20dp" />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_change_info"
+            android:layout_centerHorizontal="true"
+            android:text="username"
+            android:textSize="14sp"
+            android:layout_marginTop="15dp"
+            android:textColor="#969696"/>
+        <TextView
+            android:id="@+id/tv_grade"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:textColor="#c7c7c7"
+            android:layout_centerHorizontal="true"
+            android:text="20170707"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"/>
+
+    </RelativeLayout>
+    <android.support.v4.widget.Space
+
+        android:id="@+id/space2"
+        android:layout_below="@id/rl_infos"
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+    <LinearLayout
+        android:layout_below="@id/space2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="90.5dp">
+
 
         <LinearLayout
-            android:id="@+id/ll_my_info"
+
+            android:background="@color/bg_white"
+            android:layout_weight="1"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_ripple"
-            android:padding="16dp">
-
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/img_avatar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@color/bg_gray"
-                android:scaleType="centerInside"
-                fresco:placeholderImage="@drawable/ic_default_head" />
-
-            <RelativeLayout
+            android:layout_height="0dp">
+            
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_me_words_new"
+            android:layout_height="18dp" />
+            <TextView
+                android:id="@+id/tv_my_word"
+                android:text="我的词库"
+                android:layout_marginLeft="14dp"
+                android:layout_gravity="center_vertical"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:gravity="left|center_vertical"
+                android:textSize="14sp"
+                android:textColor="#969696"
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:text="Name"
-                    android:theme="@style/text_style_common_black" />
-
-                <TextView
-                    android:id="@+id/tv_grade"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_name"
-                    android:layout_marginTop="10dp"
-                    android:maxLines="1"
-                    android:text="Grade"
-                    android:theme="@style/text_style_common_black" />
-
-                <TextView
-                    android:id="@+id/tv_class"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/tv_grade"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_toEndOf="@+id/tv_grade"
-                    android:layout_toRightOf="@+id/tv_grade"
-                    android:maxLines="1"
-                    android:text="Class"
-                    android:theme="@style/text_style_common_black" />
-
-            </RelativeLayout>
-
+                android:layout_height="match_parent" />
             <ImageView
+                android:layout_gravity="center_vertical"
+
+                android:layout_marginRight="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_right_arrow" />
+                android:src="@drawable/ic_me_arrow"
+                android:layout_height="wrap_content" />
+
+
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="1dp">
-
-        <TextView
-            android:id="@+id/tv_my_word"
+        <View
+            android:background="#f8f8f8"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_ripple"
-            android:drawableLeft="@drawable/ic_me_words"
-            android:drawablePadding="16dp"
-            android:drawableStart="@drawable/ic_me_words"
-            android:gravity="center_vertical"
-            android:padding="16dp"
-            android:text="@string/my_word"
-            android:theme="@style/text_style_common_black" />
+            android:layout_height="0.5dp"></View>
 
-    </android.support.v7.widget.CardView>
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp" />
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="1dp">
+        <LinearLayout
 
-        <TextView
-            android:id="@+id/tv_setting"
+            android:orientation="horizontal"
+            android:background="@color/bg_white"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_ripple"
-            android:drawableLeft="@drawable/ic_me_setting"
-            android:drawablePadding="16dp"
-            android:drawableStart="@drawable/ic_me_setting"
-            android:gravity="center_vertical"
-            android:padding="16dp"
-            android:text="@string/me_center_setting"
-            android:theme="@style/text_style_common_black" />
+            android:layout_height="0dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_setting"
+                android:layout_height="20dp" />
+            <TextView
+                android:id="@+id/tv_setting"
+                android:text="设置"
+                android:layout_marginLeft="14dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:textSize="14sp"
+                android:textColor="#969696"
 
-    </android.support.v7.widget.CardView>
+                android:layout_height="match_parent" />
+            <ImageView
+                android:layout_gravity="center_vertical"
+
+                android:layout_marginRight="15dp"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_me_arrow"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+<RelativeLayout
+    android:id="@+id/rl_title"
+    android:layout_marginTop="20dp"
+    android:layout_width="match_parent"
+    android:background="@color/transparent"
+    android:layout_height="50dp">
+    
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/arrow_back"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btn_back"
+        android:background="@null"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+    <TextView
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:textColor="@color/bg_white"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:text="个人中心"/>
+
+</RelativeLayout>
 
 
-</LinearLayout>
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_below="@id/rl_title"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="97dp"
+        android:layout_height="97dp"
+        android:scaleType="centerInside"
+        android:id="@+id/iv_avatar"
+        fresco:placeholderImage="@drawable/ic_userhead"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImageScaleType="fitCenter"
+        fresco:roundAsCircle="true"
+        fresco:roundingBorderColor="@color/bg_white"
+        fresco:roundingBorderWidth="1.5dp"
+        >
+    </com.facebook.drawee.view.SimpleDraweeView>
+
+
+
+</RelativeLayout>

@@ -2,13 +2,14 @@ package com.yunding.dut.ui.account;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.yunding.dut.R;
 import com.yunding.dut.presenter.account.FindPwdPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
+import com.yunding.dut.util.third.BarUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,17 +17,15 @@ import butterknife.OnClick;
 
 public class FindPwdStep2Activity extends ToolBarActivity implements IFindPwdViewStep2 {
 
+
     @BindView(R.id.et_new_pwd)
-    TextInputEditText etNewPwd;
-    @BindView(R.id.til_new_pwd)
-    TextInputLayout tilNewPwd;
+    EditText etNewPwd;
     @BindView(R.id.et_confirm_pwd)
-    TextInputEditText etConfirmPwd;
-    @BindView(R.id.til_confirm_pwd)
-    TextInputLayout tilConfirmPwd;
+    EditText etConfirmPwd;
+    @BindView(R.id.ll_sms_code)
+    LinearLayout llSmsCode;
     @BindView(R.id.btn_ok)
     Button btnOk;
-
     private FindPwdPresenter mPresenter;
 
     public static final String SMS_CODE = "sms_code";
@@ -37,8 +36,11 @@ public class FindPwdStep2Activity extends ToolBarActivity implements IFindPwdVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_pwd_step_2);
         ButterKnife.bind(this);
+        setTitleInCenter(getResources().getString(R.string.register_forgetpwd_title));
 
-        setTitle("修改密码");
+        getmToolbar().setBackgroundColor(getResources().getColor(R.color.bg_white));
+        getmToolbarTitle().setTextColor(getResources().getColor(R.color.textColorShow));
+        BarUtils.setColor(this, getResources().getColor(R.color.bg_white));
         mPresenter = new FindPwdPresenter(this);
     }
 

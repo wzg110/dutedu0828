@@ -3,25 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
+    android:layout_height="70dp"
     android:layout_marginTop="5dp"
     android:orientation="vertical"
     app:cardBackgroundColor="@color/bg_white"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp">
 
-    <RelativeLayout
+    >
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/bg_ripple">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_ripple"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/img_group_logo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="32dp"
+            android:layout_height="40dp"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="6dp"
+
+            android:layout_gravity="center"
             android:padding="5dp"
             android:src="@drawable/ic_reading_list" />
 
@@ -30,46 +33,114 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/img_group_logo"
             android:layout_toRightOf="@+id/img_group_logo"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_reading_name"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:text="Group Name"
-                android:theme="@style/text_style_common_black" />
-        </LinearLayout>
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/tv_unit_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+android:layout_marginTop="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:text="Group Name"
+                    android:theme="@style/text_unit_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/img_group_logo"
+                android:layout_toEndOf="@+id/img_group_logo"
+                android:layout_toRightOf="@+id/img_group_logo"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_reading_valid_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:paddingBottom="5dp"
+                    android:text="My father was a self-taught mandolin player. He was one of the best string instrument players in our town"
+                    android:textSize="12sp"
+                    android:textColor="#969696"/>
+            </LinearLayout>
+        </LinearLayout>
+        <!--<ImageView-->
+        <!--android:id="@+id/img_group_state"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:src="@drawable/ic_finished" />-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img_group_logo"
-            android:layout_toEndOf="@+id/img_group_logo"
-            android:layout_toRightOf="@+id/img_group_logo"
-            android:orientation="horizontal">
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+android:layout_marginLeft="10dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_reading_valid_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:text="Latest msg"
-                android:theme="@style/text_style_common_gray" />
-        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/img_group_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_finished" />
-    </RelativeLayout>
+                android:id="@+id/tv_reading_status"
+                android:visibility="gone"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right|center"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_reading_list_status"
+                android:gravity="center"
+                android:text="已完成"
+                android:textStyle="bold"
+                android:textColor="@color/bg_white"
+                android:textSize="10sp" />
+            <LinearLayout
+               android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+
+                >
+                <ImageView
+
+                    android:layout_width="12dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="bottom"
+                    android:src="@drawable/ic_hourglass"
+                    />
+                <TextView
+                    android:id="@+id/tv_time_left"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:textSize="11sp"
+                    android:ellipsize="end"
+                    android:textColor="#aeaeae"
+                    android:layout_marginLeft="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|bottom"
+                    android:layout_gravity="bottom"
+
+                    />
+                
+                
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 
 </android.support.v7.widget.CardView>

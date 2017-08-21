@@ -75,6 +75,14 @@ public class DiscussQuestionListResp implements Serializable{
     }
 
     public static class DataBean implements Serializable{
+        public String getUserAnswer() {
+            return userAnswer;
+        }
+
+        public void setUserAnswer(String userAnswer) {
+            this.userAnswer = userAnswer;
+        }
+
         /**
          * {
          * "answer": "不知道怎么回答",     // 正确答案
@@ -97,7 +105,7 @@ public class DiscussQuestionListResp implements Serializable{
          * "type": 0类型 0-选择题 1填空题
          * }
          */
-
+        private String userAnswer;
         private String answer;
         private String content;
         private String createTime;
@@ -107,6 +115,36 @@ public class DiscussQuestionListResp implements Serializable{
         private int topicId;
         private int type;
         private String studentAnswer;
+
+        public List<InputBlank> getBlanksInfo() {
+            return blanksInfo;
+        }
+
+        public void setBlanksInfo(List<InputBlank> blanksInfo) {
+            this.blanksInfo = blanksInfo;
+        }
+
+        private List<InputBlank>blanksInfo;
+        public static class InputBlank implements Serializable{
+            public int getIndex() {
+                return index;
+            }
+
+            public void setIndex(int index) {
+                this.index = index;
+            }
+
+            public int getLength() {
+                return length;
+            }
+
+            public void setLength(int length) {
+                this.length = length;
+            }
+
+            private int index;
+            private int length;
+        }
 
         public String getAnswer() {
             return answer;

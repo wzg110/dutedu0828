@@ -1,5 +1,6 @@
 package com.yunding.dut.model.resp.ppt;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,27 +16,20 @@ import java.util.List;
 
 public class CourseListResp {
 
+
     /**
-     * data : {"datas":[{"classId":3,"className":"英语口语","createTime":"2017-06-07 15:45:07","gradeId":6,"gradeName":"英语一班","id":2,"status":0},{"classId":1,"className":"软件技术","createTime":"2017-06-05 19:47:56","gradeId":1,"gradeName":"一班","id":1,"status":0}],"total":2}
+     * data : [{"endDate":"2017-07-07 11:35:00","fileName":"英语unit1","speciality":"英语阅读与写作","startDate":"2017-07-07 11:15:00","status":2,"studyMode":1,"teachingId":1},{"endDate":"2017-07-07 11:35:00","fileName":"英语unit2","speciality":"英语阅读与写作","startDate":"2017-07-07 11:15:00","status":2,"studyMode":0,"teachingId":2},{"fileName":"英语阅读（二）UNIT2.pptx","speciality":"机械原理","startDate":"2017-07-15 11:01:24","status":1,"studyMode":0,"teachingId":59},{"endDate":"2017-07-15 11:03:18","fileName":"英语阅读（二）UNIT2.pptx","speciality":"机械原理","startDate":"2017-07-15 11:02:52","status":2,"studyMode":0,"teachingId":60}]
      * errors : {}
      * msg : ok
      * result : true
-     * version : 20170607,linfeng
+     * version : 20170715, linhai
      */
 
-    private DataBean data;
     private ErrorsBean errors;
     private String msg;
     private boolean result;
     private String version;
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
+    private List<DataBean> data;
 
     public ErrorsBean getErrors() {
         return errors;
@@ -69,108 +63,136 @@ public class CourseListResp {
         this.version = version;
     }
 
-    public static class DataBean {
-        /**
-         * datas : [{"classId":3,"className":"英语口语","createTime":"2017-06-07 15:45:07","gradeId":6,"gradeName":"英语一班","id":2,"status":0},{"classId":1,"className":"软件技术","createTime":"2017-06-05 19:47:56","gradeId":1,"gradeName":"一班","id":1,"status":0}]
-         * total : 2
-         */
+    public List<DataBean> getData() {
+        return data;
+    }
 
-        private int total;
-        private List<DatasBean> datas;
-
-        public int getTotal() {
-            return total;
-        }
-
-        public void setTotal(int total) {
-            this.total = total;
-        }
-
-        public List<DatasBean> getDatas() {
-            return datas;
-        }
-
-        public void setDatas(List<DatasBean> datas) {
-            this.datas = datas;
-        }
-
-        public static class DatasBean {
-            /**
-             * classId : 3
-             * className : 英语口语
-             * createTime : 2017-06-07 15:45:07
-             * gradeId : 6
-             * gradeName : 英语一班
-             * id : 2
-             * status : 0
-             */
-
-            private int classId;
-            private String className;
-            private String createTime;
-            private int gradeId;
-            private String gradeName;
-            private int id;
-            private int status;
-
-            public int getClassId() {
-                return classId;
-            }
-
-            public void setClassId(int classId) {
-                this.classId = classId;
-            }
-
-            public String getClassName() {
-                return className;
-            }
-
-            public void setClassName(String className) {
-                this.className = className;
-            }
-
-            public String getCreateTime() {
-                return createTime;
-            }
-
-            public void setCreateTime(String createTime) {
-                this.createTime = createTime;
-            }
-
-            public int getGradeId() {
-                return gradeId;
-            }
-
-            public void setGradeId(int gradeId) {
-                this.gradeId = gradeId;
-            }
-
-            public String getGradeName() {
-                return gradeName;
-            }
-
-            public void setGradeName(String gradeName) {
-                this.gradeName = gradeName;
-            }
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public int getStatus() {
-                return status;
-            }
-
-            public void setStatus(int status) {
-                this.status = status;
-            }
-        }
+    public void setData(List<DataBean> data) {
+        this.data = data;
     }
 
     public static class ErrorsBean {
+    }
+
+    public static class DataBean implements Serializable{
+        public String getSpecialityId() {
+            return specialityId;
+        }
+
+        public void setSpecialityId(String specialityId) {
+            this.specialityId = specialityId;
+        }
+
+        /**
+         * endDate : 2017-07-07 11:35:00
+         * fileName : 英语unit1
+         * speciality : 英语阅读与写作
+         * startDate : 2017-07-07 11:15:00
+         * status : 2
+         * studyMode : 1
+         * teachingId : 1
+         */
+private  String specialityId;
+
+        public String getClassId() {
+            return classId;
+        }
+
+        public void setClassId(String classId) {
+            this.classId = classId;
+        }
+
+        private  String classId;
+        private String endDate;
+        private String fileName;
+        private String speciality;
+        private String startDate;
+        private int status;
+        private int studyMode;
+        private int teachingId;
+
+        public String getCover() {
+            return cover;
+        }
+
+        public void setCover(String cover) {
+            this.cover = cover;
+        }
+
+        private  String  cover;
+        public String getTeacherName() {
+            return teacherName;
+        }
+
+        public void setTeacherName(String teacherName) {
+            this.teacherName = teacherName;
+        }
+
+        public String getPlatformTime() {
+            return platformTime;
+        }
+
+        public void setPlatformTime(String platformTime) {
+            this.platformTime = platformTime;
+        }
+
+        private  String teacherName;
+        private String platformTime;
+
+        public String getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(String endDate) {
+            this.endDate = endDate;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
+
+        public String getSpeciality() {
+            return speciality;
+        }
+
+        public void setSpeciality(String speciality) {
+            this.speciality = speciality;
+        }
+
+        public String getStartDate() {
+            return startDate;
+        }
+
+        public void setStartDate(String startDate) {
+            this.startDate = startDate;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public int getStudyMode() {
+            return studyMode;
+        }
+
+        public void setStudyMode(int studyMode) {
+            this.studyMode = studyMode;
+        }
+
+        public int getTeachingId() {
+            return teachingId;
+        }
+
+        public void setTeachingId(int teachingId) {
+            this.teachingId = teachingId;
+        }
     }
 }

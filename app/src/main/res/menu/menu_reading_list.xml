@@ -6,6 +6,7 @@
         android:id="@+id/action_me"
         android:icon="@drawable/ic_menu_me"
         android:title="@string/menu_me"
+
         app:showAsAction="ifRoom" />
 
 </menu>

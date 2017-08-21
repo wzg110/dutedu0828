@@ -18,4 +18,5 @@ public interface IBindPhoneView extends IBaseView {
     void showMsg(String msg);
 
     void bindSuccess();
+    void checkSuccess();
 }

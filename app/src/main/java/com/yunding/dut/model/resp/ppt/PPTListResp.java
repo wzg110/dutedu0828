@@ -76,13 +76,21 @@ public class PPTListResp implements Serializable{
     }
 
     public static class DataBean implements Serializable{
+        public String getPageString() {
+            return pageString;
+        }
+
+        public void setPageString(String pageString) {
+            this.pageString = pageString;
+        }
+
         /**
          * createTime : 2017-06-06 18:10:31
          * id : 3
          * pPTImgUrl : upload/pptimgs/2017/06/06/1496743828125.jpg
          * subjectId : 1
          */
-
+        private String pageString;//页码
         private String createTime;
         private int id;
         @SerializedName("pPTImgUrl")

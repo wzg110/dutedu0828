@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">以为英语学习平台</string>
+    <string name="app_name">以为学习</string>
 
     <string name="server_error">服务器内部错误</string>
     <string name="net_work_error">网络不给力，请检查网络</string>
@@ -11,7 +11,7 @@
     <string name="invalid_name">姓名不合法</string>
     <string name="login_success">登录成功</string>
     <string name="register_success">注册成功</string>
-    <string name="reset_pwd_success">密码修改成功</string>
+    <string name="reset_pwd_success">密码修改成功，请重新登录</string>
 
     <string name="login_btn_login">登录</string>
     <string name="login_title">学生登录</string>
@@ -30,7 +30,8 @@
     <string name="register_hint_pwd">请设置6~16位密码</string>
     <string name="register_hint_confirm_pwd">请确认密码</string>
     <string name="register_btn_register">注册</string>
-
+    <string name="register_changepwd_title">修改密码</string>
+    <string name="register_forgetpwd_title">忘记密码</string>
     <string name="reset_pwd_title">重置密码</string>
     <string name="reset_pwd_input_old_pwd">请输入原密码</string>
     <string name="reset_pwd_input_new_pwd">请输入6~16位新密码</string>
@@ -38,7 +39,7 @@
     <string name="reset_pwd_btn_confirm_update">确认修改</string>
 
     <string name="find_pwd_step_1_input_phone">请输入您的手机号</string>
-    <string name="find_pwd_step_1_input_sms_code">请输入6位数字验证码</string>
+    <string name="find_pwd_step_1_input_sms_code">请输入6位验证码</string>
     <string name="find_pwd_step_1_btn_send_code">获取验证码</string>
     <string name="find_pwd_step_1_btn_next">下一步</string>
     <string name="find_pwd_step_2_input_new_pwd">请输入6~16位新密码</string>
@@ -71,4 +72,10 @@
     <string name="discuss_msg_btn_start_discuss">开启讨论</string>
 
     <string name="discuss_questions_commit">提交</string>
+    <string name="text_last_sentence">&lt;  上一句 </string>
+    <string name="text_next_sentence">下一句  &gt;</string>
+    <string name="text_last_paragraph">&lt;  上一段 </string>
+    <string name="text_next_paragraph">下一段  &gt;</string>
+    <string name="text_next_finish">结束阅读  &gt;</string>
+
 </resources>

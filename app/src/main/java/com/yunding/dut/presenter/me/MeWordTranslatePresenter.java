@@ -1,15 +1,19 @@
 package com.yunding.dut.presenter.me;
 
-import android.util.Log;
-
 import com.yunding.dut.model.resp.translate.JSTranslateBean;
 import com.yunding.dut.model.resp.translate.YDTranslateBean;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.me.IMeWordTranslateView;
 import com.yunding.dut.util.api.ApisTranslate;
-
 /**
- * Created by Administrator on 2017/5/23.
+ * 类 名 称：MeWordTranslatePresenter
+ * <P/>描    述： 翻译(暂时废用)
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 10:49
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 10:49
+ * <P/>修改备注：
+ * <P/>版    本：
  */
 
 public class MeWordTranslatePresenter extends BasePresenter{

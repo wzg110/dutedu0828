@@ -15,9 +15,9 @@ import com.yunding.dut.ui.base.IBaseView;
  */
 
 public interface IReadingListView extends IBaseView {
-
+//显示接口返回的数据列表
     void showReadingList(ReadingListResp resp);
-
+//给出相应的提示
     void showMsg(String msg);
 
 }

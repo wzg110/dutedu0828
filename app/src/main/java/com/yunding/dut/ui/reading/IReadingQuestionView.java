@@ -1,5 +1,6 @@
 package com.yunding.dut.ui.reading;
 
+import com.yunding.dut.model.resp.reading.ReadingDataResp;
 import com.yunding.dut.ui.base.IBaseView;
 
 /**
@@ -20,5 +21,5 @@ public interface IReadingQuestionView extends IBaseView{
     void commitSuccess();
 
     void showRightAnswer();
-
+    void showReadingDataSuccess(ReadingDataResp.DataBean resp);
 }

@@ -30,6 +30,6 @@ public class DUTSwipeRefreshLayout extends SwipeRefreshLayout {
     }
 
     private void initSchemeColors(Context context) {
-        setColorSchemeColors(getResources().getColor(R.color.color_primary));
+        setColorSchemeColors(getResources().getColor(R.color.textColorShow));
     }
 }

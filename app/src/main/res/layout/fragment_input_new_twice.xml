@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/color_window_background"
+    android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:background="@color/color_window_background"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:background="@color/bg_white"
+                android:layout_width="match_parent"
+                android:layout_marginTop="25dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <ScrollView
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/scrollView"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/bg_white"
+                android:orientation="vertical">
+                <android.support.v4.widget.NestedScrollView
+
+                    android:background="@color/bg_white"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <AbsoluteLayout
+                        android:id="@+id/content"
+                        android:background="@color/bg_white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="15dp">
+
+
+
+
+                        <TextView
+                            android:id="@+id/tv_question"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:textSize="14sp"
+                            android:textColor="@color/text_color"
+                            android:lineSpacingExtra="10dp"
+                            android:text="@string/hello_blank_fragment" />
+
+
+                    </AbsoluteLayout>
+                </android.support.v4.widget.NestedScrollView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="120dp">
+                    <include layout="@layout/layout_translate_question_toast" />
+                    <ImageView
+                        android:id="@+id/iv_go_back_reading"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/ic_back_reading"/>
+
+                    <ImageView
+                        android:id="@+id/iv_go_answer_where"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:visibility="gone"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/ic_back_reading"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+                </ScrollView>
+                <Button
+
+                    android:id="@+id/btn_commit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="提交答案"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/bg_white"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/button_corners" />
+
+                <Button
+
+                    android:id="@+id/btn_next"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="下一题"
+                    android:textSize="16sp"
+                    android:textColor="@color/bg_white"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/button_corners" />
+
+            </LinearLayout>
+            <TextView
+
+                android:id="@+id/tv_title"
+                android:textColor="@color/bg_white"
+                android:text=""
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:layout_marginLeft="16dp"
+                android:padding="1dp"
+                android:textSize="12sp"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:background="@drawable/bg_question_title"/>
+
+        </RelativeLayout>
+
+
+
+
+</FrameLayout>

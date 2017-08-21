@@ -97,4 +97,35 @@ public class FindPwdPresenter extends BasePresenter {
             }
         });
     }
+    /**
+     * 功能描述：验证手机号是否存在
+     * @param phone [手机号]
+     */
+    public void checkPhone(String phone){
+        if (!RegexUtils.isMobileSimple(phone)) {
+            mView1.showMsg("手机号码不合法");
+            return;
+        }
+        String url = ApisAccount.checkPhone(phone);
+        request(url, new DUTResp() {
+            @Override
+            public void onResp(String response) {
+                CommonResp resp = parseJson(response, CommonResp.class);
+                if (resp != null) {
+                    if (resp.isResult()) {
+                        mView1.checkSuccess();
+                    } else {
+                        mView1.showMsg(resp.getMsg());
+                    }
+                } else {
+                    mView1.showMsg(((Context) mView1).getString(R.string.server_error));
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                mView1.showMsg(e.toString());
+            }
+        });
+    }
 }

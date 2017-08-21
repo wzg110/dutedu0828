@@ -1,7 +1,5 @@
 package com.yunding.dut.ui.reading;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -9,14 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.DiscussQuestionInputAdapter;
+import com.yunding.dut.model.resp.reading.ReadingDataResp;
 import com.yunding.dut.model.resp.reading.ReadingListResp;
 import com.yunding.dut.presenter.reading.ReadingPresenter;
 import com.yunding.dut.ui.base.BaseFragmentInReading;
@@ -36,6 +33,7 @@ import butterknife.Unbinder;
 
 /**
  * Created by Administrator on 2017/5/22.
+ * 暂时废了
  */
 
 public class ReadingPreInputFragment extends BaseFragmentInReading implements IReadingQuestionView {
@@ -69,6 +67,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
     private DiscussQuestionInputAdapter mInputAdapter;
     private ReadingPresenter mPresenter;
     private long mStartTime;
+    private ReadingActivity ra;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_input_new;
@@ -87,12 +86,16 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
 
         //初始化UI
         if (mPreExerciseBean == null) return;
-        if (mPreExerciseBean.getQuestionType() == ReadingActivity.TYPE_CHOICE) {
-            mTvTitleAnswer.setText("课前小题第" + (mQuestionIndex + 1) + "题" + "（共" + mReadingInfo.getPreClassExercises().size() + "题）");
+        if (mPreExerciseBean.getQuestionType() == ReadingActivity.TYPE_INPUT) {
+            mTvTitleAnswer.setText("课前小题第" + (mQuestionIndex + 1) + "题（填空）" + "（共" + mReadingInfo.getPreClassExercises().size() + "题）");
         } else {
             mTvTitleAnswer.setText("课前小题第" + (mQuestionIndex + 1) + "题" + "（共" + mReadingInfo.getPreClassExercises().size() + "题）");
         }
         mTvQuestionAnswer.setText(mPreExerciseBean.getQuestionContent());
+        ra= (ReadingActivity) getActivity();
+        ra.setToolbarTitle("填空题");
+        ra.setToolbarBGC(getResources().getColor(R.color.bg_white));
+        ra.setToolbarTitleColor(getResources().getColor(R.color.textColorShow));
 
         //初始化输入框
         String[] rightAnswerArray = mPreExerciseBean.getRightAnswer().split(",");
@@ -180,6 +183,11 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
     }
 
     @Override
+    public void showReadingDataSuccess(ReadingDataResp.DataBean resp) {
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
@@ -214,7 +222,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
 
         String answerTemp = new Gson().toJson(answerList);
         long commitTime = System.currentTimeMillis();
-        long timeSpan = TimeUtils.getTimeSpan(commitTime, mStartTime, ConstUtils.TimeUnit.MIN);
+        long timeSpan = TimeUtils.getTimeSpan(commitTime, mStartTime, ConstUtils.TimeUnit.MSEC);
 
         if (timeSpan == 0) {
             timeSpan = 1;
@@ -224,7 +232,7 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
             mReadingInfo.getPreClassExercises()
                     .get(mReadingInfo.getPreClassExercises().indexOf(mPreExerciseBean))
                     .setAnswerContent(answerTemp);
-            mPresenter.commitAnswer(mPreExerciseBean.getQuestionId(), answerTemp, timeSpan, 0);
+            mPresenter.commitAnswer(mPreExerciseBean.getQuestionId(), answerTemp, timeSpan, 0,mReadingInfo.getClassId());
         }
     }
 
@@ -249,12 +257,23 @@ public class ReadingPreInputFragment extends BaseFragmentInReading implements IR
                     inputQuestionFragment.setArguments(bundle);
                     addFragment(inputQuestionFragment);
                     break;
+                case ReadingActivity.TYPE_MULTI_CHOICE:
+                    ReadingPreClassMultiChoiceQuestionFragment multiChoiceFragment = new ReadingPreClassMultiChoiceQuestionFragment();
+                    multiChoiceFragment.setArguments(bundle);
+                    addFragment(multiChoiceFragment);
+                    break;
+                case ReadingActivity.TYPE_TRANSLATE:
+                    ReadingPreClassTranslateQuestionFragment translateQuestionFragment = new ReadingPreClassTranslateQuestionFragment();
+                    translateQuestionFragment.setArguments(bundle);
+                    addFragment(translateQuestionFragment);
+                    break;
                 default:
                     showSnackBar("没有该题型，请反馈客服");
                     break;
             }
         } else {
             //课前小题已经答完，进入阅读页面
+//            ra.setToolbarTitle("阅读原文");
             Bundle bundle = new Bundle();
             bundle.putSerializable(ReadingActivity.READING_INFO, mReadingInfo);
             ReadingArticleFragment originalFragment = new ReadingArticleFragment();

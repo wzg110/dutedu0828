@@ -2,16 +2,17 @@ package com.yunding.dut.ui.account;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.presenter.account.BindPhonePresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
 import com.yunding.dut.ui.home.HomeActivity;
+import com.yunding.dut.util.third.BarUtils;
 import com.yunding.dut.util.third.RegexUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -24,22 +25,29 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
+/**
+ * 类 名 称：BindPhoneActivity
+ * <P/>描    述：绑定手机页面
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 11:10
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 11:10
+ * <P/>修改备注：
+ * <P/>版    本：
+ */
 public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView {
 
+
     @BindView(R.id.et_phone)
-    TextInputEditText etPhone;
-    @BindView(R.id.til_phone)
-    TextInputLayout tilPhone;
+    EditText etPhone;
+    @BindView(R.id.et_sms_code)
+    EditText etSmsCode;
     @BindView(R.id.btn_send_sms_code)
     Button btnSendSmsCode;
-    @BindView(R.id.et_sms_code)
-    TextInputEditText etSmsCode;
-    @BindView(R.id.til_sms_code)
-    TextInputLayout tilSmsCode;
+    @BindView(R.id.ll_sms_code)
+    LinearLayout llSmsCode;
     @BindView(R.id.btn_next)
     Button btnNext;
-
     private BindPhonePresenter mPresenter;
 
     @Override
@@ -47,8 +55,17 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bind_phone);
         ButterKnife.bind(this);
-
-        setTitle("绑定手机号");
+        setTitleInCenter("账号安全");
+        getmToolbar().setBackgroundColor(getResources().getColor(R.color.bg_white));
+        getmToolbarTitle().setTextColor(getResources().getColor(R.color.textColorShow));
+        BarUtils.setColor(this, getResources().getColor(R.color.bg_white));
+        setShowNavigation(true);
+        getmToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BindPhoneActivity.this.finish();
+            }
+        });
         mPresenter = new BindPhonePresenter(this);
     }
 
@@ -66,7 +83,8 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_send_sms_code:
-                sendSmsCode();
+
+                mPresenter.checkPhone(etPhone.getText().toString());
                 break;
             case R.id.btn_next:
                 bindPhone();
@@ -81,6 +99,8 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
         String phone = etPhone.getText().toString();
         String smsCode = etSmsCode.getText().toString();
         long studentId = DUTApplication.getUserInfo().getUserId();
+
+
         mPresenter.bindPhone(phone, smsCode, studentId);
     }
 
@@ -100,12 +120,13 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(@NonNull Long aLong) throws Exception {
-                        btnSendSmsCode.setText(String.valueOf(aLong) + "s");
+                        btnSendSmsCode.setText((60-aLong) + "s");
                         if (aLong == 60) {
                             btnSendSmsCode.setText("重新发送");
                         }
                     }
                 });
+
     }
 
     @Override
@@ -121,4 +142,11 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
+    @Override
+    public void checkSuccess() {
+        sendSmsCode();
+    }
+
+
 }

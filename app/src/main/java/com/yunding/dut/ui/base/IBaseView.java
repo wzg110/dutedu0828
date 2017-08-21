@@ -11,6 +11,8 @@ package com.yunding.dut.ui.base;
  * <P/>版    本：
  */
 public interface IBaseView {
+//    显示loading
     void showProgress();
+//    关闭loading
     void hideProgress();
 }

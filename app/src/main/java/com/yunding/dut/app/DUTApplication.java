@@ -1,10 +1,16 @@
 package com.yunding.dut.app;
 
 import android.app.Application;
+import android.graphics.Typeface;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+import com.yunding.dut.R;
 import com.yunding.dut.model.data.UserInfo;
+import com.yunding.dut.util.third.ACache;
 import com.yunding.dut.util.third.Utils;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * 类 名 称：DUTApplication
@@ -17,10 +23,12 @@ import com.yunding.dut.util.third.Utils;
  * <P/>版    本：1.0
  */
 public class DUTApplication extends Application {
-
+    private static int isShowUpdateDialog=0;
+    private static ACache mCache;
     private static DUTApplication mApplication;
     private static UserInfo mUserInfo;
-
+    private static  Typeface hsbsTypeFace;
+    private  static Typeface zhTypeFace;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -29,10 +37,28 @@ public class DUTApplication extends Application {
 
         Utils.init(this);
         Fresco.initialize(this);
+        hsbsTypeFace=Typeface.createFromAsset(this.getAssets(),"fonts/hsbw.ttf");
+        zhTypeFace=Typeface.createFromAsset(this.getAssets(),"fonts/zh_cn.ttf");
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/zh_cn.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
+        mCache = ACache.get(this);
+        ZXingLibrary.initDisplayOpinion(this);
+    }
+    public static ACache getAcache(){
+        return mCache;
     }
 
     public static DUTApplication getInstance() {
         return mApplication;
+    }
+    public static int getIsShowUpdateDialog(){
+        return isShowUpdateDialog;
+    }
+    public  void  setIsShowUpdateDialog(int s){
+       this.isShowUpdateDialog=s;
     }
 
     public static UserInfo getUserInfo() {
@@ -41,4 +67,11 @@ public class DUTApplication extends Application {
         }
         return mUserInfo;
     }
+    public static Typeface getHsbwTypeFace(){
+        return hsbsTypeFace;
+    }
+    public static  Typeface getZhTypeFace(){
+        return zhTypeFace;
+    }
+
 }

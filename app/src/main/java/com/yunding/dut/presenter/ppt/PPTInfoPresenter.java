@@ -1,11 +1,9 @@
 package com.yunding.dut.presenter.ppt;
 
 import com.yunding.dut.model.resp.CommonResp;
-import com.yunding.dut.model.resp.ppt.PPTListResp;
 import com.yunding.dut.model.resp.ppt.QuestionInfoResp;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.ppt.IPPTInfoView;
-import com.yunding.dut.ui.ppt.IPPTListView;
 import com.yunding.dut.util.api.ApisPPT;
 
 /**
@@ -27,6 +25,10 @@ public class PPTInfoPresenter extends BasePresenter {
         this.mView = mView;
     }
 
+    /**
+     * 加载ppt信息
+     * @param subjectId
+     */
     public void loadPPTInfo(int subjectId) {
         mView.showProgress();
         String url = ApisPPT.getQuestion(subjectId);
@@ -54,6 +56,11 @@ public class PPTInfoPresenter extends BasePresenter {
         });
     }
 
+    /**
+     * 提交答案
+     * @param questionId
+     * @param content
+     */
     public void commitAnswer(int questionId, String content) {
         mView.showProgress();
         String url = ApisPPT.commitAnswer(questionId, content);

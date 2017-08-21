@@ -1,21 +1,19 @@
 package com.yunding.dut.ui.me;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yunding.dut.R;
+import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.translate.JSTranslateBean;
 import com.yunding.dut.model.resp.translate.YDTranslateBean;
 import com.yunding.dut.presenter.me.MeWordTranslatePresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
+import com.yunding.dut.util.FontsUtils;
 
 import java.io.IOException;
 
@@ -25,6 +23,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/17.
+ * 暂时废用
  */
 
 public class MeWordTranslateActivity extends ToolBarActivity implements IMeWordTranslateView {
@@ -52,6 +51,12 @@ public class MeWordTranslateActivity extends ToolBarActivity implements IMeWordT
         meWord = getIntent().getStringExtra(MeWordsActivity.MEWORD);
         mMeWordTranslatePresenter.getTranslation(meWord);
         mMediaPlayer = new MediaPlayer();
+        if (FontsUtils.isContainChinese(meWord)
+                || TextUtils.isEmpty(meWord)){
+
+        }else{
+            mTvContentTranslate.setTypeface(DUTApplication.getHsbwTypeFace());
+        }
         mTvContentTranslate.setText(meWord);
     }
 
@@ -108,6 +113,12 @@ public class MeWordTranslateActivity extends ToolBarActivity implements IMeWordT
                 }
                 String str = strTranslate.toString();
                 if (!str.isEmpty()) {
+                    if (FontsUtils.isContainChinese(str)
+                            || TextUtils.isEmpty(str)){
+
+                    }else{
+                        mTvTranslateTranslateMe.setTypeface(DUTApplication.getHsbwTypeFace());
+                    }
                     mTvTranslateTranslateMe.setText(strTranslate);
                 }
             } else showMsg("该单词无翻译");
@@ -122,6 +133,12 @@ public class MeWordTranslateActivity extends ToolBarActivity implements IMeWordT
             mTvVoiceTranslateMe.setVisibility(View.GONE);
             mTvSoundmarkTranslateMe.setVisibility(View.GONE);
             if (ydTranslateBean != null) {
+                if (FontsUtils.isContainChinese(ydTranslateBean.getTranslation().get(0))
+                        || TextUtils.isEmpty(ydTranslateBean.getTranslation().get(0))){
+
+                }else{
+                    mTvTranslateTranslateMe.setTypeface(DUTApplication.getHsbwTypeFace());
+                }
                 mTvTranslateTranslateMe.setText(ydTranslateBean.getTranslation().get(0));
             }
         } else showMsg("该句子无翻译");

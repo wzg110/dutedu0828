@@ -2,7 +2,6 @@ package com.yunding.dut.presenter.discuss;
 
 import com.yunding.dut.model.resp.discuss.DiscussGroupInfoResp;
 import com.yunding.dut.presenter.base.BasePresenter;
-import com.yunding.dut.ui.discuss.DiscussGroupActivity;
 import com.yunding.dut.ui.discuss.IDiscussGroupView;
 import com.yunding.dut.util.api.ApisDiscuss;
 
@@ -25,6 +24,11 @@ public class DiscussGroupMemberPresenter extends BasePresenter {
         this.mView = mView;
     }
 
+    /**
+     * 功能描述： 获取讨论组人员
+     *
+     * @param groupId [讨论组ID]
+     */
     public void loadDiscussGroupMembers(long groupId) {
         mView.showProgress();
         String url = ApisDiscuss.discussGroupInfoUrl(groupId);

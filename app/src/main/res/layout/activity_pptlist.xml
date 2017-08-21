@@ -2,17 +2,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.yunding.dut.ui.ppt.CourseListFragment">
 
-    <com.yunding.dut.view.DUTSwipeRefreshLayout
-        android:id="@+id/srl_ppt_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<com.yunding.dut.view.DUTSwipeRefreshLayout-->
+        <!--android:id="@+id/srl_ppt_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
         <com.yunding.dut.view.DUTVerticalRecyclerView
             android:id="@+id/rv_ppt_list"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.yunding.dut.view.DUTSwipeRefreshLayout>
+    <!--</com.yunding.dut.view.DUTSwipeRefreshLayout>-->
+    <com.yunding.dut.view.DUTGridRecycleView
+        android:visibility="gone"
+        android:id="@+id/rv_ppt_grid"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.yunding.dut.view.DUTGridRecycleView>
 
 </FrameLayout>

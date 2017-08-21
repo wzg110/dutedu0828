@@ -1,18 +1,108 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.yunding.dut.view.DUTSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/srl_reading_list"
     tools:context="com.yunding.dut.ui.reading.ReadingListFragment">
 
-    <com.yunding.dut.view.DUTSwipeRefreshLayout
-        android:id="@+id/srl_reading_list"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/bg_white"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/rl_doing"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_doing"
+                    android:textSize="14sp"
+                    android:textColor="@color/orange"
+                    android:text="进行中"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:id="@+id/line_doing"
+                    android:layout_below="@id/tv_doing"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/orange"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_height="2dp"></View>
 
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_done"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_done"
+                    android:textSize="14sp"
+                    android:textColor="@color/tab_text"
+                    android:text="已完成"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:id="@+id/line_done"
+                    android:layout_below="@id/tv_done"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/bg_white"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_height="2dp"></View>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_outof_date"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_out_date"
+                    android:textSize="14sp"
+                    android:textColor="@color/tab_text"
+                    android:text="已过期"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:id="@+id/line_out_date"
+                    android:layout_below="@id/tv_out_date"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/bg_white"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_height="2dp"></View>
+
+            </RelativeLayout>
+        </LinearLayout>
         <com.yunding.dut.view.DUTVerticalRecyclerView
             android:id="@+id/rv_reading_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.yunding.dut.view.DUTSwipeRefreshLayout>
 
-</FrameLayout>
+    </LinearLayout>
+
+</com.yunding.dut.view.DUTSwipeRefreshLayout>

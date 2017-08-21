@@ -1,7 +1,6 @@
 package com.yunding.dut.ui.ppt;
 
-import com.yunding.dut.model.resp.ppt.CourseListResp;
-import com.yunding.dut.model.resp.ppt.PPTListResp;
+import com.yunding.dut.model.resp.ppt.PPTResp;
 import com.yunding.dut.ui.base.IBaseListView;
 
 /**
@@ -17,6 +16,6 @@ import com.yunding.dut.ui.base.IBaseListView;
 
 public interface IPPTListView extends IBaseListView{
 
-    void showPPTList(PPTListResp resp);
+    void showPPTList(PPTResp resp);
 
 }

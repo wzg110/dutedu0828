@@ -1,21 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-                android:padding="18dp"
+            android:background="@color/bg_white"
+    android:orientation="vertical"
+              android:layout_height="match_parent"
+
     >
+    <RelativeLayout
+        android:id="@+id/rl_show_area"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
         <TextView
             android:text="hello_word"
             android:ellipsize="end"
             android:textSize="@dimen/sp_14"
+            android:layout_marginLeft="15dp"
             android:maxLines="2"
+            android:gravity="left|center_vertical"
             android:id="@+id/tv_me_word"
+            android:layout_marginRight="30dp"
+            android:textColor="#969696"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="45dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:textColor="@color/textColorShow"
+            android:text="释义"
+            android:textSize="11sp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_explain"
+            android:gravity="center"
+            android:layout_marginRight="15dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_hide_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/words_show_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/rl_phonogram_speak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:padding="12dp">
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/tv_phonogram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/orange" />
 
 
+            <ImageView
+                android:layout_toRightOf="@id/view"
+                android:id="@+id/iv_speak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/laba_anim"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_translate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+
+                android:id="@+id/tv_translate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:lineSpacingExtra="8dp"
+                android:textColor="#969696"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
 
 
+    </LinearLayout>
 
-</RelativeLayout>
+
+</LinearLayout>

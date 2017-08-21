@@ -13,7 +13,7 @@
         android:layout_gravity="end"
         android:layout_marginLeft="50dp"
         android:layout_marginStart="50dp"
-        android:gravity="end|center_vertical"
+        android:gravity="end"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -38,12 +38,14 @@
             <TextView
                 android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/chat_to_bg"
+                android:background="@drawable/ic_blue_new"
                 android:gravity="start|center_vertical"
                 android:padding="10dp"
+
                 android:textColor="@color/text_color_primary" />
         </LinearLayout>
 
@@ -51,8 +53,11 @@
             android:id="@+id/img_head"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@color/bg_gray"
-            fresco:placeholderImage="@drawable/ic_default_head" />
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="#f8f8f8"
+            fresco:placeholderImage="@drawable/ic_userhead"
+            fresco:roundAsCircle="true" />
 
     </LinearLayout>
 

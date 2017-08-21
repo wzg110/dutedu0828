@@ -18,9 +18,11 @@ public class TextLayoutUtil {
 
     public static int getPreciseOffset(TextView textView, int x, int y) {
         Layout layout = textView.getLayout();
+
         if (layout != null) {
-            int topVisibleLine = layout.getLineForVertical(y);
-            int offset = layout.getOffsetForHorizontal(topVisibleLine, x);
+            int topVisibleLine = layout.getLineForVertical(y);//该点在textview上的行数值
+//            Log.e("该点在textview上的行数值",topVisibleLine+"");
+            int offset = layout.getOffsetForHorizontal(topVisibleLine, x);//水平偏移量
 
             int offsetX = (int) layout.getPrimaryHorizontal(offset);
 
@@ -110,4 +112,6 @@ public class TextLayoutUtil {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
+
 }

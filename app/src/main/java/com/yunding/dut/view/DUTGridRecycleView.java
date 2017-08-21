@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 
 /**
  * 类 名 称：DUTGridRecycleView
- * <P/>描    述：网格RecycleView
+ * <P/>描    述：网格RecycleView 默认2列垂直
  * <P/>创 建 人：msy
  * <P/>创建时间：2017/4/20 19:42
  * <P/>修 改 人：msy
@@ -19,7 +19,7 @@ import android.util.AttributeSet;
 
 public class DUTGridRecycleView extends RecyclerView {
 
-    private int mSpanCount;
+    private int mSpanCount=2;
 
     public DUTGridRecycleView(Context context) {
         super(context);

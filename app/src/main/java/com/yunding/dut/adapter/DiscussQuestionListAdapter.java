@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +20,14 @@ import com.yunding.dut.model.resp.discuss.DiscussListResp;
 import com.yunding.dut.model.resp.discuss.DiscussQuestionListResp;
 import com.yunding.dut.model.resp.discuss.DiscussQuestionParam;
 import com.yunding.dut.ui.discuss.DiscussQuestionActivity;
+import com.yunding.dut.util.FontsUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * 类 名 称：DiscussQuestionListAdapter
- * <P/>描    述：讨论组题目列表
+ * <P/>描    述：讨论组题目列表（暂时废弃）
  * <P/>创 建 人：msy
  * <P/>创建时间：2017/4/23 18:50
  * <P/>修 改 人：msy
@@ -101,6 +100,12 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
         if (mDataCache != null && mDataCache.size() > holder.getAdapterPosition())
             if (holder instanceof ChoiceViewHolder) {
                 ((ChoiceViewHolder) holder).tvQuestionNo.setText("第" + ++position + "题");
+
+                if (FontsUtils.isContainChinese(item.getContent())|| TextUtils.isEmpty(item.getContent())){
+
+                }else{
+                    ((ChoiceViewHolder) holder).tvQuestionContent.setTypeface(DUTApplication.getHsbwTypeFace());
+                }
                 ((ChoiceViewHolder) holder).tvQuestionContent.setText(item.getContent());
                 String options = item.getSelectOptions();
                 if (!TextUtils.isEmpty(options)) {
@@ -110,6 +115,11 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
                     for (int i=0;i<optionArray.length;i++) {
                         String option = optionArray[i];
                         RadioButton rbChoice = new RadioButton(mContext);
+                        if (FontsUtils.isContainChinese(option)|| TextUtils.isEmpty(option)){
+
+                        }else{
+                            rbChoice.setTypeface(DUTApplication.getHsbwTypeFace());
+                        }
                         rbChoice.setText(option);
                         if (mDataCache.get(holder.getAdapterPosition()) != null && TextUtils.equals(mDataCache.get(holder.getAdapterPosition()).getChoiceAnswer(), option)) {
                            a = i;
@@ -124,7 +134,6 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
                     ((ChoiceViewHolder) holder).rgAnswer.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                            Log.e(TAG, "onCheckedChanged: "+i );
                             RadioButton rbSelected = (RadioButton) radioGroup.findViewById(i);
                             if (mDataCache.get(holder.getAdapterPosition()) != null)
                                 mDataCache.get(holder.getAdapterPosition()).setChoiceAnswer(rbSelected.getText().toString());
@@ -133,6 +142,11 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
                 }
             } else if (holder instanceof InputViewHolder) {
                 ((InputViewHolder) holder).tvQuestionNo.setText("第" + ++position + "题");
+                if (FontsUtils.isContainChinese(item.getContent())|| TextUtils.isEmpty(item.getContent())){
+
+                }else{
+                    ((InputViewHolder) holder).tvQuestionContent.setTypeface(DUTApplication.getHsbwTypeFace());
+                }
                 ((InputViewHolder) holder).tvQuestionContent.setText(item.getContent());
                 if (mDataCache.get(holder.getAdapterPosition()) != null) {
                     List<String> dataList = new ArrayList<>();
@@ -199,7 +213,7 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
                 dataBean.setStudentId(String.valueOf(DUTApplication.getUserInfo().getUserId()));
                 dataBean.setThemeId(String.valueOf(cache.getQuestion().getThemeId()));
                 dataBean.setTopicId(String.valueOf(cache.getQuestion().getTopicId()));
-                Log.e("Answer", cache.getChoiceAnswer());
+
             } else {
                 List<String> inputAnswer = cache.getInputAnswer();
                 String answerStr = "";
@@ -212,14 +226,12 @@ public class DiscussQuestionListAdapter extends RecyclerView.Adapter {
                 dataBean.setStudentId(String.valueOf(DUTApplication.getUserInfo().getUserId()));
                 dataBean.setThemeId(String.valueOf(cache.getQuestion().getThemeId()));
                 dataBean.setTopicId(String.valueOf(cache.getQuestion().getTopicId()));
-                Log.e("Answer", cache.getInputAnswer().toString());
+
             }
             list.add(dataBean);
         }
         param.setData(list);
         String paramStr = new Gson().toJson(param);
-        Log.e("Answer", paramStr);
-
         ((DiscussQuestionActivity) mContext).commitAnswer(paramStr);
     }
     public List<DiscussAnswerCache> keepAnswer(){

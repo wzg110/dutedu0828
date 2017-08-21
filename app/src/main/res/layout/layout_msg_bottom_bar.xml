@@ -16,27 +16,39 @@
 
         <ImageButton
             android:id="@+id/btn_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+
             android:background="@drawable/bg_ripple"
-            android:padding="10dp"
-            android:src="@drawable/ic_msg_bottom_record" />
+
+            android:src="@drawable/ic_record_new" />
 
         <EditText
+            android:layout_marginRight="12dp"
             android:id="@+id/et_msg_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:maxLines="4"
-            android:padding="16dp"
+            android:paddingLeft="5dp"
+            android:minHeight="27dp"
+            android:textColor="@color/text_color"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/discuss_input_bg"
+
             android:theme="@style/DUTEditText" />
 
         <Button
             android:id="@+id/btn_send"
             android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_height="27dp"
             android:text="发送"
-            android:theme="@style/DUTMsgButton" />
+            android:textSize="12sp"
+            android:textColor="@color/bg_white"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/button_corners"
+             />
 
     </LinearLayout>
 
@@ -44,23 +56,27 @@
         android:id="@+id/ll_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:weightSum="1">
 
         <ImageButton
             android:id="@+id/btn_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/bg_ripple"
-            android:padding="10dp"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/ic_msg_bottom_keyboard" />
 
         <Button
             android:id="@+id/btn_press_record"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:background="@drawable/btn_normal_record"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
             android:text="按住说话"
-            android:textSize="12sp"
-            android:theme="@style/DUTMsgButton" />
+            android:layout_marginLeft="10dp"
+            android:textSize="13sp"
+            android:textColor="#757575"
+            android:layout_weight="0.9" />
 
     </LinearLayout>
 

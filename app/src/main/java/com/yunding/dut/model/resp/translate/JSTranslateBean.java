@@ -1,11 +1,16 @@
 package com.yunding.dut.model.resp.translate;
 
 import java.util.List;
-
 /**
- * Created by Administrator on 2017/5/17.
+ * 类 名 称：JSTranslateBean
+ * <P/>描    述： 金山翻译返回
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 10:17
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 10:17
+ * <P/>修改备注：
+ * <P/>版    本：
  */
-
 public class JSTranslateBean {
 
 

@@ -70,6 +70,14 @@ public class RegisterResp implements Serializable{
     }
 
     public static class DataBean implements Serializable{
+        public String getTeachingId() {
+            return teachingId;
+        }
+
+        public void setTeachingId(String teachingId) {
+            this.teachingId = teachingId;
+        }
+
         /**
          * age : 0
          * avatarUrl : upload/imgs/moren.jpg
@@ -88,7 +96,7 @@ public class RegisterResp implements Serializable{
          * studentId : 123
          * studentNo : 111111
          */
-
+private  String teachingId;
         private int age;
         private String avatarUrl;
         private int classId;

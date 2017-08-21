@@ -42,7 +42,7 @@
             android:textColor="@color/text_color_primary" />
         </LinearLayout>
     </ScrollView>
-        <TextView
+        <View
             android:background="#cc515151"
             android:layout_width="0.5dp"
             android:layout_height="match_parent"/>
@@ -55,6 +55,15 @@
 
 
         <include layout="@layout/layout_question_toast"/>
+        <Button
+            android:id="@+id/btn_answer_where"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@color/transparent"
+            android:text="查看答案出处"
+            android:textColor="@color/text_color_primary"
+            android:visibility="gone" />
         <Button
             android:id="@+id/btn_go_original"
             android:layout_width="wrap_content"

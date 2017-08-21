@@ -6,82 +6,100 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="26dp"
+    android:background="@color/bg_white"
     tools:context="com.yunding.dut.ui.account.FindPwdStep1Activity">
+    
+    
+    <TextView
+        android:textSize="14sp"
+        android:layout_marginTop="31dp"
+        android:textColor="#808080"
+        android:text="为了保障您的账户安全,请绑定手机号码完成注册"
+        android:gravity="center"
 
-    <ScrollView
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content" />
+    
+    <RelativeLayout
+        android:layout_marginTop="55dp"
+        android:layout_width="270dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content">
+        <EditText
+            android:textSize="14sp"
+            android:id="@+id/et_phone"
+            android:layout_width="262dp"
+            android:textColorHint="#cccccc"
+            android:hint="@string/find_pwd_step_1_input_phone"
+        android:textColor="@color/title"
+            android:inputType="phone"
+            android:background="@null"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_below="@id/et_phone"
+            android:layout_width="262dp"
+            android:background="@color/textColorShow"
+            android:layout_marginTop="7dp"
+            android:layout_height="0.5dp"></View>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="35dp"
+        android:layout_width="270dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content">
         <LinearLayout
+            android:id="@+id/ll_sms_code"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_phone"
-                android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+            android:textSize="14sp"
+            android:id="@+id/et_sms_code"
+            android:layout_width="262dp"
+            android:textColorHint="#cccccc"
+            android:hint="@string/find_pwd_step_1_input_sms_code"
+            android:inputType="phone"
+            android:background="@null"
+            android:layout_weight="1"
+            android:textColor="@color/title"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btn_send_sms_code"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:theme="@style/DUTEditText"
-                app:counterEnabled="true"
-                app:counterMaxLength="16">
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="bottom|center_horizontal"
+                android:background="@color/transparent"
+                android:text="@string/find_pwd_step_1_btn_send_code"
+                android:textColor="@color/textColorShow"
+                android:textSize="11sp" />
+        </LinearLayout>
+        <View
+            android:layout_below="@id/ll_sms_code"
+            android:layout_width="262dp"
+            android:background="@color/textColorShow"
+            android:layout_marginTop="7dp"
+            android:layout_height="0.5dp"></View>
+    </RelativeLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/et_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/find_pwd_step_1_input_phone"
-                    android:inputType="phone"
-                    android:maxLength="16" />
-            </android.support.design.widget.TextInputLayout>
 
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/btn_send_sms_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="7dp"
-                    android:gravity="right|center_vertical"
-                    android:background="@color/transparent"
-                    android:text="@string/find_pwd_step_1_btn_send_code"
-                    android:textColor="@color/color_primary"
-                    android:textSize="16sp" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/til_sms_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:theme="@style/DUTEditText"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="6">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/et_sms_code"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/find_pwd_step_1_input_sms_code"
-                        android:inputType="number"
-                        android:maxLength="6" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </RelativeLayout>
 
             <Button
                 android:id="@+id/btn_next"
-                android:layout_width="match_parent"
+                android:layout_width="262dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="40dp"
                 android:text="@string/bind_phone_btn_ok"
-                android:theme="@style/DUTButton" />
+                android:textColor="@color/bg_white"
+                android:textSize="17sp"
 
-        </LinearLayout>
-    </ScrollView>
+               android:background="@drawable/btn_reg_bg" />
+
+
 
 </LinearLayout>

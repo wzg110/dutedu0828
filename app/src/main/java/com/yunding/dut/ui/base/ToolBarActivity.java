@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.yunding.dut.R;
 import com.yunding.dut.view.ToolBarHelper;
 
 
@@ -23,9 +25,11 @@ public abstract class ToolBarActivity extends BaseActivity {
     public void setContentView(int layoutResID) {
         mHelper = new ToolBarHelper(this, layoutResID);
         mToolbar = mHelper.getToolBar();
+
         setContentView(mHelper.getContentView());
         setSupportActionBar(mToolbar);
         onCreateCustomToolBar(mToolbar);
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -49,6 +53,10 @@ public abstract class ToolBarActivity extends BaseActivity {
         mHelper.getTitle().setText(title);
     }
 
+    protected void setToolbarBackgroundColor(int id) {
+        mToolbar.setBackgroundColor(id);
+    }
+
     protected void setTitle(String title) {
         mToolbar.setTitle(title);
     }
@@ -59,15 +67,36 @@ public abstract class ToolBarActivity extends BaseActivity {
         }
     }
 
-    protected void setNavigationIcon(int resId) {
+    public void setNavigationIcon(int resId) {
         mToolbar.setNavigationIcon(resId);
     }
 
     protected void setToolBarVisible(boolean isToolBarVisible) {
         mToolbar.setVisibility(isToolBarVisible ? View.VISIBLE : View.GONE);
+
     }
 
     public Toolbar getmToolbar() {
         return mToolbar;
+    }
+
+    public TextView getmToolbarTitle() {
+        return mHelper.getTitle();
+    }
+
+    public void setToolbarTitleColor1(int color) {
+        mHelper.getTitle().setTextColor(color);
+    }
+
+    public RelativeLayout getToolbarExit() {
+        return mHelper.getExit();
+    }
+
+    public ImageView getIvTips() {
+        return mHelper.getIvPPTList();
+    }
+
+    public TextView getFeedBack() {
+        return mHelper.getmFeedBack();
     }
 }

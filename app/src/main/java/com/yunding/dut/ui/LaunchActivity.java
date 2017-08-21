@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;
+import com.yunding.dut.presenter.account.AccountPresenter;
 import com.yunding.dut.ui.account.BindPhoneActivity;
 import com.yunding.dut.ui.account.LoginActivity;
 import com.yunding.dut.ui.base.BaseActivity;
@@ -30,13 +31,21 @@ public class LaunchActivity extends BaseActivity {
         setContentView(R.layout.activity_launch);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//       校验权限
         checkPermissions();
     }
-
+//校验是否绑定手机
     private void checkBindState() {
         if (TextUtils.isEmpty(DUTApplication.getUserInfo().getUserPhone())) {
             //未绑定
-            startActivity(new Intent(this, BindPhoneActivity.class));
+            if ("游客".equals(DUTApplication.getUserInfo().getSTUDENT_TYPE())){
+                AccountPresenter.logOut();
+                startActivity(new Intent(LaunchActivity.this, LoginActivity.class));
+                this.finish();
+            }else{
+                startActivity(new Intent(this, BindPhoneActivity.class));
+            }
+
         } else {
             Intent intent = new Intent(this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -49,6 +58,7 @@ public class LaunchActivity extends BaseActivity {
             @Override
             public void accept(@NonNull Long aLong) throws Exception {
                 long userId = DUTApplication.getUserInfo().getUserId();
+//                校验是否登录
                 if (userId == 0) {
                     startActivity(new Intent(LaunchActivity.this, LoginActivity.class));
                 } else {

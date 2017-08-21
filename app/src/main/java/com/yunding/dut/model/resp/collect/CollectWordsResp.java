@@ -1,7 +1,14 @@
 package com.yunding.dut.model.resp.collect;
 
 /**
- * Created by Administrator on 2017/5/23.
+ * 类 名 称：CollectWordsResp
+ * <P/>描    述：收藏单词返回
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 10:12
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 10:12
+ * <P/>修改备注：
+ * <P/>版    本：
  */
 
 public class CollectWordsResp {

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+android:layout_marginLeft="12dp"
+  android:layout_marginRight="12dp"
+    android:layout_height="wrap_content"
+
+
+    >
+    <RelativeLayout
+        android:layout_width="182dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+
+        android:layout_height="138dp"
+        android:layout_marginTop="15dp">
+
+        <RelativeLayout
+            android:background="@drawable/btn_white_coners"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/img_ppt"
+                android:layout_width="146dp"
+                android:layout_height="83dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                fresco:actualImageScaleType="fitXY"
+                fresco:placeholderImage="@drawable/ic_zhanwei" />
+            <LinearLayout
+                android:layout_below="@id/img_ppt"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_height="12dp">
+
+
+                <ImageView
+
+                    android:id="@+id/icon"
+                    android:layout_width="12dp"
+                    android:src="@drawable/ic_time_left"
+                    android:layout_height="12dp" />
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:text="8.00"
+                    android:textSize="10sp"
+                    android:textColor="#ffd700"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:layout_width="0dp"
+                    android:background="@color/bg_white"
+                    android:layout_weight="1"
+                    android:layout_height="1px"></View>
+
+                <ImageView
+                    android:src="@drawable/ic_question_tips"
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/iv_has_question_tips"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+        <TextView
+
+            android:id="@+id/tv_page"
+            android:textColor="@color/bg_white"
+            android:text="sdadssd"
+
+            android:gravity="center"
+            android:layout_marginLeft="16dp"
+            android:padding="1dp"
+            android:textSize="12sp"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:background="@drawable/bg_question_title"/>
+
+    </RelativeLayout>
+</RelativeLayout>

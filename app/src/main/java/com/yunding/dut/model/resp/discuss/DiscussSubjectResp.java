@@ -14,7 +14,12 @@ package com.yunding.dut.model.resp.discuss;
 public class DiscussSubjectResp {
 
     /**
-     * data : {"content":"wozhengzaiceshishujku","countdownTime":26,"createTime":"2017-04-19 15:37:09","createUserId":1,"isLanguage":0,"name":"wodezhuti119","start":1,"themeId":1}
+     * data : {"content":"wozhengzaiceshishujku",
+     * "countdownTime":26,
+     * "createTime":"2017-04-19 15:37:09",
+     * "createUserId":1,"isLanguage":0,
+     * "name":"wodezhuti119",
+     * "start":1,"themeId":1}
      * errors : {}
      * msg : ok
      * result : true

@@ -23,7 +23,7 @@ public class ApisAccount extends Apis {
      * @param pwd       [密码]
      */
     public static String registerUrl(String name, String studentNo, String pwd) {
-        String url = SERVER_URL + "/student/studentregin?name=" + name
+        String url = SERVER_URL + "student/studentregin?name=" + name
                 + "&studentno=" + studentNo
                 + "&password=" + pwd;
         return url;
@@ -35,9 +35,9 @@ public class ApisAccount extends Apis {
      * @param studentNo [学号]
      * @param pwd       [密码]
      */
-    public static String loginUrl(String studentNo, String pwd) {
-        String url = SERVER_URL + "/student/studentlogin?studentno=" + studentNo
-                + "&password=" + pwd;
+    public static String loginUrl(String studentNo, String pwd, String userType) {
+        String url = SERVER_URL + "student/studentlogin?studentno=" + studentNo
+                + "&password=" + pwd + "&userType=" + userType;
         return url;
     }
 
@@ -49,9 +49,10 @@ public class ApisAccount extends Apis {
      */
     public static String resetPwdUrl(String oldPwd, String newPwd) {
         long userId = DUTApplication.getUserInfo().getUserId();
-        String url = SERVER_URL + "/student/updatepassword?password=" + oldPwd
+        String url = SERVER_URL + "student/updatepassword?password=" + oldPwd
                 + "&studentid=" + userId
-                + "&newpassword=" + newPwd;
+                + "&newpassword=" + newPwd
+                + "&userType=" + DUTApplication.getUserInfo().getUSER_TYPE();
         return url;
     }
 
@@ -60,7 +61,7 @@ public class ApisAccount extends Apis {
      */
     public static String getDiscussionGroupUrl() {
         long userId = DUTApplication.getUserInfo().getUserId();
-        String url = SERVER_URL + "/student/getstudentthemelist?studentid=" + userId;
+        String url = SERVER_URL + "student/getstudentthemelist?studentid=" + userId;
         return url;
     }
 
@@ -70,7 +71,7 @@ public class ApisAccount extends Apis {
      * @param phone [手机号]
      */
     public static String sendSmsCode(String phone) {
-        String url = SERVER_URL + "/student/sendsmscode?phone=" + phone;
+        String url = SERVER_URL + "student/sendsmscode?phone=" + phone;
         return url;
     }
 
@@ -81,7 +82,7 @@ public class ApisAccount extends Apis {
      * @param smsCode [短信验证码]
      */
     public static String checkSmsCode(String phone, String smsCode) {
-        String url = SERVER_URL + "/student/ischecksmscode?phone=" + phone + "&code=" + smsCode;
+        String url = SERVER_URL + "student/ischecksmscode?phone=" + phone + "&code=" + smsCode;
         return url;
     }
 
@@ -93,7 +94,7 @@ public class ApisAccount extends Apis {
      * @param phone   [电话号码]
      */
     public static String findPwd(String newPwd, String smsCode, String phone) {
-        String url = SERVER_URL + "/student/updatephonepassword?newpassword=" + newPwd + "&code=" + smsCode + "&phone=" + phone;
+        String url = SERVER_URL + "student/updatephonepassword?newpassword=" + newPwd + "&code=" + smsCode + "&phone=" + phone;
         return url;
     }
 
@@ -105,7 +106,43 @@ public class ApisAccount extends Apis {
      * @param studentId [学生id]
      */
     public static String bindPhone(String phone, String smsCode, long studentId) {
-        String url = SERVER_URL + "/student/updatephone?phone=" + phone + "&code=" + smsCode + "&studentid=" + studentId;
+        String url = SERVER_URL + "student/updatephone?phone=" + phone + "&code=" + smsCode + "&studentid=" + studentId;
+        return url;
+    }
+
+    /**
+     * 功能简述:验证手机号
+     *
+     * @param phoneNum
+     * @return
+     */
+    public static String checkPhone(String phoneNum) {
+        String url = SERVER_URL + "student/phonevalidate?phonenum=" + phoneNum;
+        return url;
+    }
+
+    /**
+     * 功能描述 游客二维码登录 二维码中扫描解析数据
+     *
+     * @param classId
+     * @param teacherId
+     * @param teachingId
+     * @return
+     */
+    public static String visitorLogin(String classId, String teacherId, String teachingId) {
+        String url = SERVER_URL + "student/savevisitor?classId="
+                + classId + "&teacherId=" + teacherId + "&teachingId=" + teachingId;
+        return url;
+    }
+
+    /**
+     * 功能描述  游客邀请码登录
+     *
+     * @param inviteCode
+     * @return
+     */
+    public static String visitorLoginWithInviteCode(String inviteCode) {
+        String url = SERVER_URL + "student/invitevisitor?inviteCode=" + inviteCode;
         return url;
     }
 }

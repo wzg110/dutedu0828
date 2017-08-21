@@ -1,11 +1,13 @@
 package com.yunding.dut.adapter;
 
+import android.text.TextUtils;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunding.dut.R;
+import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.reading.ReadingListResp;
-import com.yunding.dut.ui.reading.ReadingActivity;
-import com.yunding.dut.util.third.TimeUtils;
+import com.yunding.dut.util.FontsUtils;
 
 import java.util.List;
 
@@ -28,8 +30,25 @@ public class ReadingListAdapter extends BaseQuickAdapter<ReadingListResp.DataBea
 
     @Override
     protected void convert(BaseViewHolder helper, ReadingListResp.DataBean item) {
-        helper.setText(R.id.tv_reading_name, item.getCourseTitle());
-        helper.setText(R.id.tv_reading_valid_date, item.getCreateTime());
-        helper.setVisible(R.id.img_group_state, item.getCompleted() == ReadingActivity.STATE_FINISHED);
+
+        if (FontsUtils.isContainChinese(item.getUnitName())|| TextUtils.isEmpty(item.getUnitName())){
+            helper.setTypeface(R.id.tv_unit_name, DUTApplication.getZhTypeFace());
+        }else{
+            helper.setTypeface(R.id.tv_unit_name, DUTApplication.getHsbwTypeFace());
+        }
+        if (FontsUtils.isContainChinese(item.getCourseTitle())|| TextUtils.isEmpty(item.getUnitName())){
+            helper.setTypeface(R.id.tv_reading_valid_date, DUTApplication.getZhTypeFace());
+        }else{
+            helper.setTypeface(R.id.tv_reading_valid_date, DUTApplication.getHsbwTypeFace());
+        }
+        if (FontsUtils.isContainChinese(item.getCreateTime())|| TextUtils.isEmpty(item.getUnitName())){
+            helper.setTypeface(R.id.tv_time_left, DUTApplication.getZhTypeFace());
+        }else{
+            helper.setTypeface(R.id.tv_time_left, DUTApplication.getHsbwTypeFace());
+        }
+        helper.setText(R.id.tv_unit_name,item.getUnitName());
+        helper.setText(R.id.tv_reading_valid_date,item.getCourseTitle());
+        helper.setText(R.id.tv_time_left, item.getDeadline());
+
     }
 }

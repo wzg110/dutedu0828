@@ -21,4 +21,6 @@ public interface IDiscussQuestionView extends IBaseView{
     void showMsg(String msg);
 
     void commitAnswerSuccess();
+
+    void getServerTime(String time);
 }

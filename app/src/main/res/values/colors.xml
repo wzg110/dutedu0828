@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#00C2A0</color>
-    <color name="color_primary_dark">#00A787</color>
-    <color name="color_accent">#00C2A0</color>
-    <color name="color_window_background">#EDEDED</color>
+    <color name="color_primary">#ffffff</color>
+    <color name="color_primary_dark">#33000000</color>
+    <color name="color_accent">#4162ff</color>
+    <color name="color_window_background">#f8f8f8</color>
+    <color name="color_control_normal">#cccccc</color>
+
+    <!--<color name="color_primary">#00C2A0</color>-->
+    <!--<color name="color_primary_dark">#00A787</color>-->
+    <!--<color name="color_accent">#00C2A0</color>-->
+    <!--<color name="color_window_background">#EDEDED</color>-->
 
     <color name="bg_gray">#EDEDED</color>
     <color name="bg_white">#ffffff</color>
@@ -22,8 +28,30 @@
     <color name="btn_color_button_normal">#00C2A0</color>
 
     <color name="bottom_navigation_normal">#9E9E9E</color>
-    <color name="bottom_navigation_selected">#00C2A0</color>
+    <color name="bottom_navigation_selected">#4162ff</color>
 
     <color name="transparent">#00000000</color>
     <color name="translucent">#59000000</color>
+    <color name="textColorShow">#4162ff</color>
+    <color name="red">#ff5959</color>
+    <color name="orange">#ffa200</color>
+    <color name="selectedBg">#ffeccc</color>i
+
+    <color name="text_color">#818181</color>
+
+    <color name="bg_operate_windows">#4c4c4c</color>
+
+    <color name="pink">#e63c7a</color>
+    <color name="yellow">#ffdb24</color>
+    <color name="green">#97ff24</color>
+    <color name="blue">#00d0fb</color>
+    <color name="purple">#ea85ff</color>
+    <color name="gray">#e6e6e6</color>
+    <color name ="aablack">#dd000000</color>
+    <color name="tab_text">#b6b6b6</color>
+
+    <color name="back_blur">#44000000</color>
+    <color name="title">#808080</color>
+    <color name="login_type">#9d9d9d</color>
+
 </resources>

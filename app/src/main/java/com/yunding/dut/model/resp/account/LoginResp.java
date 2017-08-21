@@ -71,6 +71,22 @@ public class LoginResp {
     }
 
     public static class DataBean {
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
+        }
+
+        public String getTeachingId() {
+            return teachingId;
+        }
+
+        public void setTeachingId(String teachingId) {
+            this.teachingId = teachingId;
+        }
+
         /**
          * age : 0
          * avatarUrl : 123123123123
@@ -88,7 +104,8 @@ public class LoginResp {
          * studentId : 1
          * studentNo : 123124355
          */
-
+        private String teachingId;
+        private String userType;
         private long age;
         private String avatarUrl;
         private int classId;

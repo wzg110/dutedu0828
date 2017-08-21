@@ -1,12 +1,15 @@
 package com.yunding.dut.adapter;
 
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yunding.dut.R;
+import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.discuss.DiscussGroupInfoResp;
+import com.yunding.dut.util.FontsUtils;
 import com.yunding.dut.util.api.Apis;
 
 import java.util.List;
@@ -32,10 +35,18 @@ public class DiscussGroupMemberAdapter extends BaseQuickAdapter<DiscussGroupInfo
     protected void convert(BaseViewHolder helper, DiscussGroupInfoResp.DataBean.StudentsBean item) {
         SimpleDraweeView imgAvatar = helper.getView(R.id.img_avatar);
         imgAvatar.setImageURI(Uri.parse(Apis.SERVER_URL + item.getAvatarUrl()));
-        if (item.getIsLeader() == 1) {
-            helper.setText(R.id.tv_name, "(组长)" + item.getStudentName());
-        } else {
-            helper.setText(R.id.tv_name, item.getStudentName());
+        if (FontsUtils.isContainChinese(item.getStudentName())|| TextUtils.isEmpty(item.getStudentName())){
+
+        }else{
+            helper.setTypeface(R.id.tv_name, DUTApplication.getHsbwTypeFace());
         }
+        if (item.getIsLeader() == 1) {
+
+            helper.setVisible(R.id.iv_leader_tips,true);
+
+        } else {
+            helper.setVisible(R.id.iv_leader_tips,false);
+        }
+        helper.setText(R.id.tv_name, item.getStudentName());
     }
 }

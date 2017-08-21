@@ -24,7 +24,6 @@ import com.yunding.dut.model.resp.account.LoginResp;
 public class UserInfo {
 
     private final String USER_INFO = "user_info";
-
     private final String USER_ID = "user_id";
     private final String USER_AVATAR = "user_avatar";
     private final String USER_ACCOUNT = "user_account";
@@ -32,6 +31,70 @@ public class UserInfo {
     private final String USER_GRADE = "user_grade";
     private final String USER_CLASS = "user_class";
     private final String USER_PHONE = "user_phone";
+    private final String USER_TYPE = "user_type";
+
+    public String getUSER_TEACHING() {
+        return getPreferences().getString(USER_TEACHING, SPACE);
+    }
+    public void setUserTeaching(String string){
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putString(USER_TEACHING,string
+        );
+        editor.apply();
+    }
+
+    private final String USER_TEACHING="user_teaching";
+
+    public String getSTUDENT_TYPE() {
+        return getPreferences().getString(STUDENT_TYPE, SPACE);
+    }
+    public void setStudentType(String string){
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putString(STUDENT_TYPE,string
+        );
+        editor.apply();
+    }
+    private final String STUDENT_TYPE="student_type";
+
+    public String getUSER_HEAD() {
+        return getPreferences().getString(USER_HEAD, SPACE);
+    }
+    public void setUserHead(String string){
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putString(USER_HEAD,string
+        );
+        editor.apply();
+    }
+
+    private final String USER_HEAD="user_head";
+
+
+    public String getUSER_TYPE() {
+        return getPreferences().getString(USER_TYPE, SPACE);
+    }
+
+    public void setUserType(String string) {
+
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putString(USER_TYPE,string
+        );
+        editor.apply();
+    }
+
+
+
+    public String getUSER_HEAD_BG() {
+        return getPreferences().getString(USER_HEAD_BG, SPACE);
+    }
+
+    public void setUserHeadBg(String string) {
+            SharedPreferences.Editor editor = getPreferences().edit();
+
+        editor.putString(USER_HEAD_BG,string
+                    );
+            editor.apply();
+    }
+    private final String USER_HEAD_BG = "user_head_bg";
 
     //    private long userId;
 //    private String userAvatar;
@@ -52,8 +115,10 @@ public class UserInfo {
         if (mPreference == null) {
             mPreference = DUTApplication.getInstance().getSharedPreferences(USER_INFO, Context.MODE_PRIVATE);
         }
+
         return mPreference;
     }
+
 
     public long getUserId() {
         return getPreferences().getLong(USER_ID, 0);
@@ -62,6 +127,7 @@ public class UserInfo {
     public void setUserId(long userId) {
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.putLong(USER_ID, userId);
+
         editor.apply();
     }
 
@@ -112,6 +178,7 @@ public class UserInfo {
     public void setUserAccount(String userAccount) {
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.putString(USER_ACCOUNT, userAccount);
+
         editor.apply();
     }
 
@@ -131,7 +198,8 @@ public class UserInfo {
         editor.apply();
     }
 
-    public static void saveUserInfo(LoginResp resp) {
+
+    public static void saveUserInfo(LoginResp resp,String userType) {
         DUTApplication.getUserInfo().setUserId(resp.getData().getStudentId());
         DUTApplication.getUserInfo().setUserName(resp.getData().getName());
         DUTApplication.getUserInfo().setUserAccount(resp.getData().getStudentNo());
@@ -139,6 +207,11 @@ public class UserInfo {
         DUTApplication.getUserInfo().setUserClass(resp.getData().getClassName());
         DUTApplication.getUserInfo().setUserAvatar(resp.getData().getAvatarUrl());
         DUTApplication.getUserInfo().setUserPhone(resp.getData().getPhone());
+        DUTApplication.getUserInfo().setUserHeadBg("");
+        DUTApplication.getUserInfo().setUserType(resp.getData().getUserType());
+        DUTApplication.getUserInfo().setStudentType(userType);
+        DUTApplication.getUserInfo().setUserTeaching(resp.getData().getTeachingId());
+//
     }
 }
 

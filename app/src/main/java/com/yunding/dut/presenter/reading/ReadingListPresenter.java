@@ -1,8 +1,5 @@
 package com.yunding.dut.presenter.reading;
 
-import android.util.Log;
-
-import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.reading.ReadingListResp;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.reading.IReadingListView;
@@ -20,30 +17,45 @@ import com.yunding.dut.util.api.ApisReading;
  */
 
 public class ReadingListPresenter extends BasePresenter {
-
+//页面 view接口实例
     private IReadingListView mView;
     private static final String TAG = "ReadingListPresenter";
     public ReadingListPresenter(IReadingListView mView) {
         this.mView = mView;
     }
+//获取接口中数据方法
 
+    /**
+     * 获取阅读课列表
+     */
     public void getReadingList() {
         mView.showProgress();
         String url = ApisReading.getReadingList();
-        Log.e(TAG, "getReadingList: "+url );
+//        OKhttp发送请求
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {
+
                 mView.hideProgress();
-                ReadingListResp resp = parseJson(response, ReadingListResp.class);
+//                将返回值转bean
+                try{
+
+                    ReadingListResp resp = parseJson(response, ReadingListResp.class);
+
+
                 if (resp != null) {
                     if (resp.isResult()) {
+//                        成功刷新页面
                         mView.showReadingList(resp);
                     } else {
+//                        失败提示
                         mView.showMsg(resp.getMsg());
                     }
                 } else {
+//                    大挂提示
                     mView.showMsg(null);
+                }
+                }catch (Exception e){
                 }
 
             }

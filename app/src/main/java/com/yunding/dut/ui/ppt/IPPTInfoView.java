@@ -6,7 +6,7 @@ import com.yunding.dut.ui.base.IBaseView;
 
 /**
  * 类 名 称：IPPTInfoView
- * <P/>描    述：PPT详情
+ * <P/>描    述：PPT详情接口
  * <P/>创 建 人：msy
  * <P/>创建时间：2017/6/13 16:58
  * <P/>修 改 人：msy

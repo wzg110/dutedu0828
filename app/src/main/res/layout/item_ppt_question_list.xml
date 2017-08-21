@@ -51,7 +51,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/et_question_answer"
-        android:text="请用逗号或空格最为分隔答案符号"
+        android:text="请用逗号或空格作为分隔答案符号"
         android:textColor="@android:color/holo_red_light"
         android:textSize="12sp" />
 </RelativeLayout>

@@ -1,9 +1,13 @@
 package com.yunding.dut.adapter;
 
+import android.text.TextUtils;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yunding.dut.R;
+import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.discuss.DiscussListResp;
+import com.yunding.dut.util.FontsUtils;
 
 import java.util.List;
 
@@ -26,10 +30,19 @@ public class DiscussGroupListAdapter extends BaseQuickAdapter<DiscussListResp.Da
 
     @Override
     protected void convert(BaseViewHolder helper, DiscussListResp.DataBean item) {
+        if (FontsUtils.isContainChinese(item.getThemeName()) || TextUtils.isEmpty(item.getThemeName())) {
+            helper.setTypeface(R.id.tv_group_name, DUTApplication.getZhTypeFace());
+        } else {
+            helper.setTypeface(R.id.tv_group_name, DUTApplication.getHsbwTypeFace());
+        }
+        if (FontsUtils.isContainChinese(item.getContent()) || TextUtils.isEmpty(item.getContent())) {
+            helper.setTypeface(R.id.tv_group_latest_msg, DUTApplication.getZhTypeFace());
+        } else {
+            helper.setTypeface(R.id.tv_group_latest_msg, DUTApplication.getHsbwTypeFace());
+        }
         helper.setText(R.id.tv_group_name, item.getThemeName());
-        helper.setText(R.id.tv_group_number, item.getNum()+"人");
+        helper.setText(R.id.tv_group_number, item.getNum() + "人");
         helper.setText(R.id.tv_group_latest_msg, item.getContent());
         helper.setText(R.id.tv_group_valid_date, item.getEndTime());
-        helper.setVisible(R.id.img_group_state, item.getState() == 2);
     }
 }

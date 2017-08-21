@@ -1,11 +1,14 @@
 package com.yunding.dut.ui.reading;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.util.Log;
+import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +23,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.DiscussQuestionInputAdapter;
+import com.yunding.dut.model.resp.reading.ReadingDataResp;
 import com.yunding.dut.model.resp.reading.ReadingListResp;
 import com.yunding.dut.presenter.reading.ReadingPresenter;
 import com.yunding.dut.ui.base.BaseFragmentInReading;
 import com.yunding.dut.util.third.ConstUtils;
 import com.yunding.dut.util.third.TimeUtils;
-import com.yunding.dut.view.DUTVerticalRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,13 +47,14 @@ import static com.yunding.dut.ui.reading.ReadingActivity.READING_QUESTION;
 
 /**
  * 类 名 称：ReadingInputQuestionFragment
- * <P/>描    述：阅读填空题页面
- * <P/>创 建 人：msy
- * <P/>创建时间：2017/4/24 18:50
- * <P/>修 改 人：msy
- * <P/>修改时间：2017/4/24 18:50
- * <P/>修改备注：
- * <P/>版    本：1.0
+ * <P/>描    述：
+ * <P/>创 建 人：Administrator
+ * <P/>创建时间：2017/6/30 14:14
+ * <P/>修 改 人：Administrator
+ * <P/>修改时间：2017/6/30 14:14
+ * <P/>修改备注：暂时废了
+ * <P/>版    本：
+ * z
  */
 public class ReadingInputQuestionFragment extends BaseFragmentInReading implements IReadingQuestionView {
 
@@ -60,7 +64,7 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     TextView tvTitle;
     @BindView(R.id.tv_question)
     TextView tvQuestion;
-//    @BindView(R.id.rv_input_list)
+    //    @BindView(R.id.rv_input_list)
 //    DUTVerticalRecyclerView rvInputList;
     @BindView(R.id.btn_commit)
     Button btnCommit;
@@ -77,8 +81,12 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     Unbinder unbinder;
     @BindView(R.id.iv_to_answer)
     ImageView mIvToAnswer;
+    @BindView(R.id.btn_answer_where)
+    Button btnAnswerWhere;
+
     private ReadingListResp.DataBean mReadingInfo;
     private ReadingListResp.DataBean.ExercisesBean mExerciseBean;
+    private List<ReadingListResp.DataBean.ExercisesBean.EducationAnswerFrom> mEducationAnswerFrom;
 
     private int mQuestionIndex;
     private DiscussQuestionInputAdapter mInputAdapter;
@@ -89,7 +97,7 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     private int mGoOriginalTime = 0;
     private ReadingInputFragment mReadingInputFragment;
     private Bundle mBundle;
-
+private  ReadingActivity ra;
     public ReadingInputQuestionFragment() {
     }
 
@@ -114,11 +122,13 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         }
         mPresenter = new ReadingPresenter(this);
         mStartTime = System.currentTimeMillis();
-
+        mEducationAnswerFrom=mExerciseBean.getEducationAnswerFroms();
+        ra= (ReadingActivity) getActivity();
+        ra.setToolbarTitle("填空题");
         //初始化UI
         if (mExerciseBean == null) return;
-        if (mExerciseBean.getQuestionType() == ReadingActivity.TYPE_CHOICE) {
-            tvTitle.setText("课后小题第" + (1 + mQuestionIndex) + "题" + "（共" + mReadingInfo.getExercises().size() + "题）");
+        if (mExerciseBean.getQuestionType() == ReadingActivity.TYPE_INPUT) {
+            tvTitle.setText("课后小题第" + (1 + mQuestionIndex) + "题（填空）" + "（共" + mReadingInfo.getExercises().size() + "题）");
         } else {
             tvTitle.setText("课后小题第" + (1 + mQuestionIndex) + "题" + "（共" + mReadingInfo.getExercises().size() + "题）");
         }
@@ -149,23 +159,23 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
         btnNext.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
         btnCommit.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
         btnGoOriginal.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.GONE : View.VISIBLE);
-
+        btnAnswerWhere.setVisibility(mExerciseBean.getQuestionCompleted()==ReadingActivity.STATE_FINISHED?View.VISIBLE:View.GONE);
         //初始化提示
         layoutToast.setVisibility(mExerciseBean.getQuestionCompleted() == ReadingActivity.STATE_FINISHED ? View.VISIBLE : View.GONE);
 
 
-        String answer =  mExerciseBean.getRightAnswer().substring( mExerciseBean.getRightAnswer().indexOf("[")+1, mExerciseBean.getRightAnswer().indexOf("]"));
+        String answer = mExerciseBean.getRightAnswer().substring(mExerciseBean.getRightAnswer().indexOf("[") + 1, mExerciseBean.getRightAnswer().indexOf("]"));
         String[] sourceStrArray = answer.split(",");
         StringBuffer stringBuffer = new StringBuffer("");
         for (int i = 0; i < sourceStrArray.length; i++) {
-            int a = i+1;
-            stringBuffer.append(a+": "+sourceStrArray[i]+"\n");
+            int a = i + 1;
+            stringBuffer.append(a + ": " + sourceStrArray[i] + "\n");
         }
         tvRightAnswer.setText(stringBuffer.toString());
         tvToast.setText(mExerciseBean.getAnalysis());
     }
 
-    @OnClick({R.id.btn_commit, R.id.btn_next, R.id.btn_go_original,R.id.iv_to_answer})
+    @OnClick({R.id.btn_commit, R.id.btn_next, R.id.btn_go_original, R.id.iv_to_answer,R.id.btn_answer_where})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_commit:
@@ -192,7 +202,35 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
                 mReadingInputFragment.setArguments(mBundle);
                 addFragment(mReadingInputFragment);
                 break;
+            case R.id.btn_answer_where:
+                if (mEducationAnswerFrom.size()==0){
+                    MaterialDialog.Builder builder = new MaterialDialog.Builder(getHoldingActivity());
+                    builder.title("提示");
+                    builder.content("当前小题没有设置答案出处，Sorry！");
+                    builder.positiveText("确定");
+                    builder.show();
+
+                }else{
+                    showAnswerWhere();
+                }
+                break;
         }
+    }
+
+    private void showAnswerWhere() {
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder(mReadingInfo.getCourseContent());
+        for (ReadingListResp.DataBean.ExercisesBean.EducationAnswerFrom item: mEducationAnswerFrom) {
+            int wordStartIndex = item.getWordIndex();
+            int wordEndIndex = wordStartIndex + item.getWordLength();
+            BackgroundColorSpan yellowSpan = new BackgroundColorSpan(Color.YELLOW);
+            stringBuilder.setSpan(yellowSpan, wordStartIndex, wordEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getHoldingActivity());
+        builder.title(mReadingInfo.getCourseTitle());
+        builder.content(stringBuilder);
+        builder.positiveText("确定");
+        builder.show();
     }
 
     @Override
@@ -218,6 +256,7 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     public void commitSuccess() {
         mExerciseBean.setQuestionCompleted(ReadingActivity.STATE_FINISHED);
         btnGoOriginal.setVisibility(View.GONE);
+        btnAnswerWhere.setVisibility(View.VISIBLE);
         btnCommit.setVisibility(View.GONE);
         btnNext.setVisibility(View.VISIBLE);
         layoutToast.setVisibility(View.VISIBLE);
@@ -227,7 +266,7 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getAnswer(ReadingListResp.DataBean dataBean){
+    public void getAnswer(ReadingListResp.DataBean dataBean) {
         btnGoOriginal.setVisibility(View.GONE);
         btnCommit.setVisibility(View.GONE);
         btnNext.setVisibility(View.VISIBLE);
@@ -257,6 +296,11 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
 
     }
 
+    @Override
+    public void showReadingDataSuccess(ReadingDataResp.DataBean resp) {
+
+    }
+
     /**
      * 功能简述:提交答案
      */
@@ -275,7 +319,7 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
             mReadingInfo.getExercises()
                     .get(mReadingInfo.getExercises().indexOf(mExerciseBean))
                     .setAnswerContent(answerTemp);
-            mPresenter.commitAnswer(mExerciseBean.getQuestionId(), answerTemp, timeSpan, mGoOriginalTime);
+            mPresenter.commitAnswer(mExerciseBean.getQuestionId(), answerTemp, timeSpan, mGoOriginalTime,mReadingInfo.getClassId());
         }
     }
 
@@ -304,15 +348,31 @@ public class ReadingInputQuestionFragment extends BaseFragmentInReading implemen
             switch (bean.getQuestionType()) {
                 case ReadingActivity.TYPE_CHOICE:
                     //选择题
+//                    ra.setToolbarTitle("选择题");
                     ReadingChoiceQuestionFragment choiceQuestionFragment = new ReadingChoiceQuestionFragment();
                     choiceQuestionFragment.setArguments(bundle);
                     addFragment(choiceQuestionFragment);
                     break;
                 case ReadingActivity.TYPE_INPUT:
                     //填空题
+//                    ra.setToolbarTitle("填空题");
                     ReadingInputQuestionFragment inputQuestionFragment = new ReadingInputQuestionFragment();
                     inputQuestionFragment.setArguments(bundle);
                     addFragment(inputQuestionFragment);
+                    break;
+                case  ReadingActivity.TYPE_MULTI_CHOICE:
+//                    多选题
+//                    ra.setToolbarTitle("选择题");
+                    ReadingMultiChoiceQuestionFragment multiChoiceFragment=new ReadingMultiChoiceQuestionFragment();
+                    multiChoiceFragment.setArguments(bundle);
+                    addFragment(multiChoiceFragment);
+                    break;
+                case ReadingActivity.TYPE_TRANSLATE:
+//                    翻译题
+//                    ra.setToolbarTitle("翻译题");
+                    ReadingTranslateQuestionFragment translateQuestionFragment=new ReadingTranslateQuestionFragment();
+                    translateQuestionFragment.setArguments(bundle);
+                    addFragment(translateQuestionFragment);
                     break;
                 default:
                     showSnackBar("没有该题型，请反馈客服");

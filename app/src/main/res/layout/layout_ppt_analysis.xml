@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/layout_analysis"
+    android:background="@color/bg_white"
+    android:maxHeight="100dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/ll_right"
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="正确答案："
+                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/textColorShow"/>
+
+                <TextView
+                    android:id="@+id/tv_right_answer"
+
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/text_color"
+                    android:layout_marginRight="15dp"
+                    android:layout_height="wrap_content"
+                    android:text="sadasdasdsad"/>
+                </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="答案解析："
+
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/textColorShow"/>
+        <TextView
+            android:id="@+id/tv_analysis"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/text_color"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content"
+            android:text="sadasdasdsad"/>
+
+        </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

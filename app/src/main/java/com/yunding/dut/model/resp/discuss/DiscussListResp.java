@@ -83,7 +83,7 @@ public class DiscussListResp implements Serializable{
          * "isLeader": 1, // 是否为组长
          * "num": "2", // 主题讨论人数
          * "openingTime": "2017-04-20", // 开启时间
-         * "state": "2",  // 0 未开启  1开始 2 结束
+         * "state": "2",  // 0 未开启  1开始 2 结束 3过期
          * "studentId": "1", //学生ID
          * "studentName": "雷雨", // 学生名称
          * "themeId": "1",  //主题ID

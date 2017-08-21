@@ -2,36 +2,39 @@ package com.yunding.dut.ui.account;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.yunding.dut.R;
 import com.yunding.dut.presenter.account.AccountPresenter;
 import com.yunding.dut.presenter.account.ResetPwdPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
+import com.yunding.dut.util.third.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+/**
+ * 类 名 称：ResetPwdActivity
+ * <P/>描    述：重置密码
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 11:37
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 11:37
+ * <P/>修改备注：
+ * <P/>版    本：
+ */
 public class ResetPwdActivity extends ToolBarActivity implements IResetPwdView {
 
+
     @BindView(R.id.et_old_pwd)
-    TextInputEditText etOldPwd;
-    @BindView(R.id.til_old_pwd)
-    TextInputLayout tilOldPwd;
+    EditText etOldPwd;
     @BindView(R.id.et_new_pwd)
-    TextInputEditText etNewPwd;
-    @BindView(R.id.til_new_pwd)
-    TextInputLayout tilNewPwd;
+    EditText etNewPwd;
     @BindView(R.id.et_confirm_new_pwd)
-    TextInputEditText etConfirmNewPwd;
-    @BindView(R.id.til_confirm_new_pwd)
-    TextInputLayout tilConfirmNewPwd;
+    EditText etConfirmNewPwd;
     @BindView(R.id.btn_reset_pwd)
     Button btnResetPwd;
-
     private ResetPwdPresenter mPresenter;
 
     @Override
@@ -39,8 +42,7 @@ public class ResetPwdActivity extends ToolBarActivity implements IResetPwdView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_pwd);
         ButterKnife.bind(this);
-
-        setTitle(getString(R.string.reset_pwd_title));
+        setTitleInCenter(getString(R.string.register_changepwd_title));
         mPresenter = new ResetPwdPresenter(this);
     }
 
@@ -56,22 +58,23 @@ public class ResetPwdActivity extends ToolBarActivity implements IResetPwdView {
 
     @Override
     public void invalidOldPwd() {
-        tilOldPwd.setError(getString(R.string.invalid_pwd));
+        ToastUtils.showShortToast("原始密码输入有误");
+
     }
 
     @Override
     public void invalidNewPwd() {
-        tilNewPwd.setError(getString(R.string.invalid_pwd));
+        ToastUtils.showShortToast(getString(R.string.invalid_pwd));
     }
 
     @Override
     public void invalidConfirmNewPwd() {
-        tilConfirmNewPwd.setError(getString(R.string.invalid_pwd));
+        ToastUtils.showShortToast(getString(R.string.invalid_pwd));
     }
 
     @Override
     public void pwdMisMatch() {
-        tilConfirmNewPwd.setError(getString(R.string.pwd_mismatch));
+        ToastUtils.showShortToast(getString(R.string.pwd_mismatch));
     }
 
     @Override
@@ -95,4 +98,5 @@ public class ResetPwdActivity extends ToolBarActivity implements IResetPwdView {
         String confirmNewPwd = etConfirmNewPwd.getText().toString();
         mPresenter.resetPwd(oldPwd, newPwd, confirmNewPwd);
     }
+
 }

@@ -7,15 +7,26 @@ import android.widget.TextView;
 
 import com.yunding.dut.R;
 import com.yunding.dut.adapter.DiscussGroupMemberAdapter;
+import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.discuss.DiscussGroupInfoResp;
 import com.yunding.dut.model.resp.discuss.DiscussListResp;
 import com.yunding.dut.presenter.discuss.DiscussGroupMemberPresenter;
 import com.yunding.dut.ui.base.ToolBarActivity;
+import com.yunding.dut.util.FontsUtils;
 import com.yunding.dut.view.DUTGridRecycleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+/**
+ * 类 名 称：DiscussGroupActivity
+ * <P/>描    述： 讨论组信息页面
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 11:59
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 11:59
+ * <P/>修改备注：
+ * <P/>版    本：
+ */
 public class DiscussGroupActivity extends ToolBarActivity implements IDiscussGroupView, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.rv_group_list)
@@ -30,25 +41,21 @@ public class DiscussGroupActivity extends ToolBarActivity implements IDiscussGro
     SwipeRefreshLayout srlGroupInfo;
     private DiscussListResp.DataBean mDiscussInfo;
     public static final String GROUP_INFO = "group_info";
-
     private DiscussGroupMemberAdapter mAdapter;
     private DiscussGroupMemberPresenter mPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discuss_group);
         ButterKnife.bind(this);
-
         srlGroupInfo.setOnRefreshListener(this);
         mDiscussInfo = (DiscussListResp.DataBean) getIntent().getSerializableExtra(GROUP_INFO);
         mPresenter = new DiscussGroupMemberPresenter(this);
         if (mDiscussInfo != null) {
             mPresenter.loadDiscussGroupMembers(mDiscussInfo.getGroupId());
-            setTitle(mDiscussInfo.getGroupName());
+            setTitleInCenter(mDiscussInfo.getGroupName()+mDiscussInfo.getNum()+"人");
         }
     }
-
     @Override
     public void showGroupInfo(DiscussGroupInfoResp resp) {
         if (mAdapter == null) {
@@ -59,7 +66,25 @@ public class DiscussGroupActivity extends ToolBarActivity implements IDiscussGro
             mAdapter.setNewData(resp.getData().getStudents());
         }
 
-        setTitle(mDiscussInfo.getGroupName() + "（" + resp.getData().getStudents().size() + "人）");
+        setTitleInCenter(mDiscussInfo.getGroupName() + "（" + resp.getData().getStudents().size() + "人）");
+        if (FontsUtils.isContainChinese(mDiscussInfo.getGroupName())
+                ||TextUtils.isEmpty(mDiscussInfo.getGroupName())){
+
+        }else{
+           tvGroupName.setTypeface(DUTApplication.getHsbwTypeFace());
+        }
+        if (FontsUtils.isContainChinese(resp.getData().getGroup().getGradeName())
+                ||TextUtils.isEmpty(resp.getData().getGroup().getGradeName())){
+
+        }else{
+            tvGroupGrade.setTypeface(DUTApplication.getHsbwTypeFace());
+        }
+        if (FontsUtils.isContainChinese(resp.getData().getGroup().getClassName())
+                ||TextUtils.isEmpty(resp.getData().getGroup().getClassName())){
+
+        }else{
+            tvGroupClass.setTypeface(DUTApplication.getHsbwTypeFace());
+        }
         tvGroupName.setText(mDiscussInfo.getGroupName());
         tvGroupGrade.setText(resp.getData().getGroup().getGradeName());
         tvGroupClass.setText(resp.getData().getGroup().getClassName());
@@ -73,7 +98,6 @@ public class DiscussGroupActivity extends ToolBarActivity implements IDiscussGro
             showToast(msg);
         }
     }
-
     @Override
     public void showProgress() {
         srlGroupInfo.setRefreshing(true);

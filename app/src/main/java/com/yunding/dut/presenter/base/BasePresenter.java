@@ -4,16 +4,12 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.yunding.dut.model.resp.account.LoginResp;
 import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
-import com.zhy.http.okhttp.utils.Exceptions;
 
 import org.jetbrains.annotations.NotNull;
 
 import okhttp3.Call;
-import okhttp3.Response;
 
 /**
  * 类 名 称：BasePresenter
@@ -27,15 +23,30 @@ import okhttp3.Response;
  */
 public class BasePresenter {
 
-    private final int ACCOUNT_MIN_LENGTH = 4;
+    private final int ACCOUNT_MIN_LENGTH = 0;
     private final int ACCOUNT_MAX_LENGTH = 16;
-    private final int NAME_MIN_LENGTH = 2;
-    private final int NAME_MAX_LENGTH = 4;
+    private final int NAME_MIN_LENGTH = 0;
+    private final int NAME_MAX_LENGTH = 6;
     private final int PWD_MIN_LENGTH = 6;
     private final int PWD_MAX_LENGTH = 16;
+//    20170622添加
+    private final String PHONE_REGEX="^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\\\\d{8})$";
 
     public String trimStr(String str) {
         return str.replaceAll(" ", "");
+    }
+
+    /**
+     * 功能简述:
+     * 校验手机号码防止短信发送浪费
+     * @param phonecode
+     * @return
+     */
+    public boolean isMobile(String phonecode){
+        if (phonecode.length() != 11)
+            return false;
+
+        return phonecode.matches(PHONE_REGEX);
     }
 
     /**
@@ -78,18 +89,18 @@ public class BasePresenter {
      * @param resp [回掉接口]
      */
     public void request(@NotNull final String url, final DUTResp resp) {
-        Log.e(TAG_URL, url);
-        OkHttpUtils.get().tag(this).url(url).build().execute(new StringCallback() {
+//        Log.e(TAG_URL, url);
+        OkHttpUtils.get().tag(this).url(url).build().connTimeOut(20000).readTimeOut(20000).writeTimeOut(20000).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                Log.e(TAG_RESP, e.toString());
+//                Log.e(TAG_RESP, e.toString());
                 if (resp != null)
                     resp.onError(e);
             }
 
             @Override
             public void onResponse(String response, int id) {
-                Log.e(TAG_RESP, response);
+//                Log.e(TAG_RESP, response);
                 if (resp != null)
                     resp.onResp(response);
             }
@@ -103,18 +114,20 @@ public class BasePresenter {
      * @param resp [回掉接口]
      */
     public void request(@NotNull final String url, final DUTResp resp, Object tag) {
-        Log.e(TAG_URL, url);
-        OkHttpUtils.get().tag(tag).url(url).build().execute(new StringCallback() {
+//        Log.e(TAG_URL, url);
+        OkHttpUtils.get().tag(tag).url(url).build()
+                .connTimeOut(20000).readTimeOut(20000)
+                .writeTimeOut(20000).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                Log.e(TAG_RESP, e.toString());
+//                Log.e(TAG_RESP, e.toString());
                 if (resp != null)
                     resp.onError(e);
             }
 
             @Override
             public void onResponse(String response, int id) {
-                Log.e(TAG_RESP, response);
+//                Log.e(TAG_RESP, response);
                 if (resp != null)
                     resp.onResp(response);
             }
@@ -125,6 +138,8 @@ public class BasePresenter {
         try {
             return new Gson().fromJson(json, classOfT);
         } catch (Exception e) {
+
+            Log.e("exceptionBase",e.getMessage());
             return null;
         }
     }

@@ -2,7 +2,7 @@ package com.yunding.dut.presenter.me;
 
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.CommonResp;
-import com.yunding.dut.model.resp.UploadAvatarResp;
+import com.yunding.dut.model.resp.CommonRespNew;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.me.IMeInfoView;
 import com.yunding.dut.util.api.ApisMeInfo;
@@ -32,6 +32,10 @@ public class MeInfoPresenter extends BasePresenter {
         this.mView = mView;
     }
 
+    /**
+     * 功能描述：上传头像
+     * @param filePath 头像地址
+     */
     public void uploadAvatar(String filePath) {
         File file = new File(filePath);
         String url = ApisMeInfo.getUploadAvatarUrl();
@@ -39,6 +43,7 @@ public class MeInfoPresenter extends BasePresenter {
         OkHttpUtils.post()
                 .url(url)
                 .addParams("studentid", String.valueOf(DUTApplication.getUserInfo().getUserId()))
+                .addParams("userType",String.valueOf(DUTApplication.getUserInfo().getUSER_TYPE()))
                 .addFile("file", file.getName(), file)
                 .build()
                 .execute(new StringCallback() {
@@ -51,7 +56,7 @@ public class MeInfoPresenter extends BasePresenter {
                     @Override
                     public void onResponse(String response, int id) {
                         mView.hideProgress();
-                        UploadAvatarResp resp = parseJson(response, UploadAvatarResp.class);
+                        CommonRespNew resp = parseJson(response, CommonRespNew.class);
                         if (resp != null) {
                             if (resp.isResult()) {
                                 DUTApplication.getUserInfo().setUserAvatar(resp.getData());
@@ -64,5 +69,39 @@ public class MeInfoPresenter extends BasePresenter {
                         }
                     }
                 });
+    }
+
+    /**
+     * 功能描述 ：游客修改姓名
+     * @param name  [修改姓名]
+     */
+    public void changeName(String name){
+        mView.showProgress();
+        String url = ApisMeInfo.changeLoginName(name);
+        request(url, new DUTResp() {
+            @Override
+            public void onResp(String response) {
+                mView.hideProgress();
+                CommonResp resp = parseJson(response, CommonResp.class);
+                if (resp != null) {
+                    mView.hideProgress();
+                    if (resp.isResult()) {
+                        mView.changeNameSuccess();
+                    } else {
+                        mView.showMsg(resp.getMsg());
+                    }
+                } else {
+                    mView.hideProgress();
+                    mView.showMsg(resp.getMsg());
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                mView.hideProgress();
+                mView.showMsg(e.getMessage());
+            }
+        });
+
     }
 }

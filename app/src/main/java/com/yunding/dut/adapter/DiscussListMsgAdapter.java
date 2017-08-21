@@ -19,12 +19,10 @@ import com.lqr.audio.IAudioPlayListener;
 import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.discuss.DiscussMsgListResp;
-import com.yunding.dut.ui.base.BaseActivity;
 import com.yunding.dut.util.api.Apis;
 import com.yunding.dut.util.file.FileUtil;
 import com.yunding.dut.util.third.ConstUtils;
 import com.yunding.dut.util.third.TimeUtils;
-import com.yunding.dut.view.DUTMsgOperationDialog;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
 
@@ -32,6 +30,16 @@ import java.io.File;
 import java.util.List;
 
 import okhttp3.Call;
+/**
+ * 类 名 称：DiscussListMsgAdapter
+ * <P/>描    述： 讨论组轮询消息显示adapter
+ * <P/>创 建 人：CM
+ * <P/>创建时间：2017/8/15 9:51
+ * <P/>修 改 人：CM
+ * <P/>修改时间：2017/8/15 9:51
+ * <P/>修改备注：
+ * <P/>版    本：
+ */
 
 public class DiscussListMsgAdapter extends RecyclerView.Adapter {
 
@@ -93,7 +101,7 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
         if (mData.get(position) == null) return;
         final DiscussMsgListResp.DataBean.DatasBean dataBean = mData.get(position);
         if (holder instanceof ChatFromVoiceHolder) {
-            ((ChatFromVoiceHolder) holder).tvTime.setText(dataBean.getCreateTime());
+            ((ChatFromVoiceHolder) holder).tvTime.setText(dataBean.getPlatformTime());
             ((ChatFromVoiceHolder) holder).tvName.setText(dataBean.getStudentName());
             ((ChatFromVoiceHolder) holder).imgFromHead.setImageURI(Uri.parse(Apis.SERVER_URL + dataBean.getAvatarUrl()));
             ((ChatFromVoiceHolder) holder).tvFromContent.setText(dataBean.getMessageLength() + "s");
@@ -109,7 +117,7 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
                 ((ChatFromVoiceHolder) holder).tvTime.setVisibility(diffSec > 1 ? View.VISIBLE : View.GONE);
             }
         } else if (holder instanceof ChatFromTextHolder) {
-            ((ChatFromTextHolder) holder).tvTime.setText(dataBean.getCreateTime());
+            ((ChatFromTextHolder) holder).tvTime.setText(dataBean.getPlatformTime());
             ((ChatFromTextHolder) holder).tvName.setText(dataBean.getStudentName());
             ((ChatFromTextHolder) holder).imgFromHead.setImageURI(Uri.parse(Apis.SERVER_URL + dataBean.getAvatarUrl()));
             ((ChatFromTextHolder) holder).tvFromContent.setText(dataBean.getContent());
@@ -127,7 +135,7 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
                 }
             });
         } else if (holder instanceof ChatToTextHolder) {
-            ((ChatToTextHolder) holder).tvTime.setText(dataBean.getCreateTime());
+            ((ChatToTextHolder) holder).tvTime.setText(dataBean.getPlatformTime());
             ((ChatToTextHolder) holder).tvName.setText(dataBean.getStudentName());
             ((ChatToTextHolder) holder).imgToHead.setImageURI(Uri.parse(Apis.SERVER_URL + dataBean.getAvatarUrl()));
             ((ChatToTextHolder) holder).tvToContent.setText(dataBean.getContent());
@@ -145,7 +153,8 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
                 }
             });
         } else if (holder instanceof ChatToVoiceHolder) {
-            ((ChatToVoiceHolder) holder).tvTime.setText(dataBean.getCreateTime());
+
+            ((ChatToVoiceHolder) holder).tvTime.setText(dataBean.getPlatformTime());
             ((ChatToVoiceHolder) holder).tvName.setText(dataBean.getStudentName());
             ((ChatToVoiceHolder) holder).imgToHead.setImageURI(Uri.parse(Apis.SERVER_URL + dataBean.getAvatarUrl()));
             ((ChatToVoiceHolder) holder).tvToContent.setText(dataBean.getMessageLength() + "s");

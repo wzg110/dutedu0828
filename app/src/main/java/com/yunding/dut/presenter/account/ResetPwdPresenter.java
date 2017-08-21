@@ -7,7 +7,6 @@ import com.yunding.dut.R;
 import com.yunding.dut.model.resp.CommonResp;
 import com.yunding.dut.presenter.base.BasePresenter;
 import com.yunding.dut.ui.account.IResetPwdView;
-import com.yunding.dut.util.api.Apis;
 import com.yunding.dut.util.api.ApisAccount;
 
 /**
@@ -29,6 +28,12 @@ public class ResetPwdPresenter extends BasePresenter {
         this.mView = mView;
     }
 
+    /**
+     * 功能描述 : 重置密码
+     * @param oldPwd    [旧密码]
+     * @param newPwd    [新密码]
+     * @param confirmNewPwd [新密码验证]
+     */
     public void resetPwd(String oldPwd, String newPwd, String confirmNewPwd) {
         if (!isValidPwd(oldPwd)) {
             mView.invalidOldPwd();

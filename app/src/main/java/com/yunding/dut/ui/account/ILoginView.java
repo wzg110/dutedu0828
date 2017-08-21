@@ -15,14 +15,15 @@ import com.yunding.dut.ui.base.IBaseView;
 
 public interface ILoginView extends IBaseView{
 
-    void invalidAccount();
+    void invalidAccount();//非法账户
 
-    void invalidPwd();
+    void invalidPwd();//非法密码
 
-    void loginSuccess();
+    void loginSuccess();//登录成功
 
-    void loginFailed(String msg);
+    void loginFailed(String msg);//登录失败
 
-    void goBindPhone();
+    void goBindPhone();//绑定手机
+
 
 }

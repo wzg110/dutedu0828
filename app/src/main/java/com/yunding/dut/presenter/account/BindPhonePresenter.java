@@ -1,6 +1,7 @@
 package com.yunding.dut.presenter.account;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.yunding.dut.R;
 import com.yunding.dut.model.resp.CommonResp;
@@ -61,7 +62,22 @@ public class BindPhonePresenter extends BasePresenter {
         });
     }
 
+    /**
+     *功能简述:手机绑定
+     *
+     * @param phone [手机号]
+     * @param smsCode [验证码]
+     * @param studentId [用户ID]
+     */
     public void bindPhone(String phone, String smsCode, long studentId) {
+        if (TextUtils.isEmpty(phone)){
+            mView.showMsg("手机号码不能为空");
+            return;
+        }
+        if (!RegexUtils.isMobileSimple(phone)) {
+            mView.showMsg("手机号码不合法");
+            return;
+        }
         String url = ApisAccount.bindPhone(phone, smsCode, studentId);
         request(url, new DUTResp() {
             @Override
@@ -70,6 +86,38 @@ public class BindPhonePresenter extends BasePresenter {
                 if (resp != null) {
                     if (resp.isResult()) {
                         mView.bindSuccess();
+                    } else {
+                        mView.showMsg(resp.getMsg());
+                    }
+                } else {
+                    mView.showMsg(((Context) mView).getString(R.string.server_error));
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                mView.showMsg(e.toString());
+            }
+        });
+    }
+
+    /**
+     * 功能描述：验证手机号是否存在
+     * @param phone [手机号]
+     */
+    public void checkPhone(String phone){
+        if (!RegexUtils.isMobileSimple(phone)) {
+            mView.showMsg("手机号码不合法");
+            return;
+        }
+        String url = ApisAccount.checkPhone(phone);
+        request(url, new DUTResp() {
+            @Override
+            public void onResp(String response) {
+                CommonResp resp = parseJson(response, CommonResp.class);
+                if (resp != null) {
+                    if (resp.isResult()) {
+                        mView.checkSuccess();
                     } else {
                         mView.showMsg(resp.getMsg());
                     }
