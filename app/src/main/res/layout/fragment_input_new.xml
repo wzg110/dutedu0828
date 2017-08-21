@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="@color/transparent"
-            android:text="查看答案出处"
+            android:text="查看答案出处 "
             android:textColor="@color/text_color_primary"
             android:visibility="gone" />
         <Button
