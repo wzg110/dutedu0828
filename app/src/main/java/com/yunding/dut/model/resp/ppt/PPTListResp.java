@@ -92,10 +92,10 @@ public class PPTListResp implements Serializable{
          */
         private String pageString;//页码
         private String createTime;
-        private int id;
+        private String id;
         @SerializedName("pPTImgUrl")
         private String PPTImgUrl;
-        private int subjectId;
+        private String subjectId;
 
         public String getCreateTime() {
             return createTime;
@@ -105,11 +105,11 @@ public class PPTListResp implements Serializable{
             this.createTime = createTime;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
@@ -121,11 +121,11 @@ public class PPTListResp implements Serializable{
             this.PPTImgUrl = PPTImgUrl;
         }
 
-        public int getSubjectId() {
+        public String getSubjectId() {
             return subjectId;
         }
 
-        public void setSubjectId(int subjectId) {
+        public void setSubjectId(String subjectId) {
             this.subjectId = subjectId;
         }
     }

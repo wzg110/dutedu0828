@@ -48,7 +48,7 @@ public class ApisAccount extends Apis {
      * @param newPwd [新密码]
      */
     public static String resetPwdUrl(String oldPwd, String newPwd) {
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "student/updatepassword?password=" + oldPwd
                 + "&studentid=" + userId
                 + "&newpassword=" + newPwd
@@ -60,7 +60,7 @@ public class ApisAccount extends Apis {
      * 功能简述:讨论组列表接口地址
      */
     public static String getDiscussionGroupUrl() {
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "student/getstudentthemelist?studentid=" + userId;
         return url;
     }
@@ -105,7 +105,7 @@ public class ApisAccount extends Apis {
      * @param smsCode   [短信验证码]
      * @param studentId [学生id]
      */
-    public static String bindPhone(String phone, String smsCode, long studentId) {
+    public static String bindPhone(String phone, String smsCode, String studentId) {
         String url = SERVER_URL + "student/updatephone?phone=" + phone + "&code=" + smsCode + "&studentid=" + studentId;
         return url;
     }
@@ -129,9 +129,9 @@ public class ApisAccount extends Apis {
      * @param teachingId
      * @return
      */
-    public static String visitorLogin(String classId, String teacherId, String teachingId) {
+    public static String visitorLogin(String classId, String teacherId, String teachingId,String schoolCode) {
         String url = SERVER_URL + "student/savevisitor?classId="
-                + classId + "&teacherId=" + teacherId + "&teachingId=" + teachingId;
+                + classId + "&teacherId=" + teacherId + "&teachingId=" + teachingId+"&schoolCode="+schoolCode;
         return url;
     }
 

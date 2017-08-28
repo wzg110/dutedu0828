@@ -93,15 +93,15 @@ public class DiscussListResp implements Serializable{
         private String content;
         private int countdownTime;
         private String endTime;
-        private long groupId;
+        private String groupId;
         private String groupName;
         private int isLeader;
-        private int num;
+        private String num;
         private String openingTime;
         private int state;
-        private long studentId;
+        private String studentId;
         private String studentName;
-        private long themeId;
+        private String themeId;
         private String themeName;
 
         public String getContent() {
@@ -128,11 +128,11 @@ public class DiscussListResp implements Serializable{
             this.endTime = endTime;
         }
 
-        public long getGroupId() {
+        public String getGroupId() {
             return groupId;
         }
 
-        public void setGroupId(long groupId) {
+        public void setGroupId(String groupId) {
             this.groupId = groupId;
         }
 
@@ -152,11 +152,11 @@ public class DiscussListResp implements Serializable{
             this.isLeader = isLeader;
         }
 
-        public int getNum() {
+        public String getNum() {
             return num;
         }
 
-        public void setNum(int num) {
+        public void setNum(String num) {
             this.num = num;
         }
 
@@ -176,11 +176,11 @@ public class DiscussListResp implements Serializable{
             this.state = state;
         }
 
-        public long getStudentId() {
+        public String getStudentId() {
             return studentId;
         }
 
-        public void setStudentId(long studentId) {
+        public void setStudentId(String studentId) {
             this.studentId = studentId;
         }
 
@@ -192,11 +192,11 @@ public class DiscussListResp implements Serializable{
             this.studentName = studentName;
         }
 
-        public long getThemeId() {
+        public String getThemeId() {
             return themeId;
         }
 
-        public void setThemeId(long themeId) {
+        public void setThemeId(String themeId) {
             this.themeId = themeId;
         }
 

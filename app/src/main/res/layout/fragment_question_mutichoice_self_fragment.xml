@@ -45,7 +45,7 @@
     <RelativeLayout
         android:layout_width="346dp"
         android:layout_gravity="center"
-        android:layout_height="218dp"
+        android:layout_height="275dp"
         >
 
         <RelativeLayout
@@ -57,7 +57,7 @@
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/img_ppt"
                 android:layout_width="295dp"
-                android:layout_height="164dp"
+                android:layout_height="221dp"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="17dp"
                 fresco:actualImageScaleType="fitXY"
@@ -67,7 +67,6 @@
 
             android:id="@+id/tv_page"
             android:textColor="@color/bg_white"
-            android:text="sdadssd"
 
             android:gravity="center"
             android:layout_marginLeft="16dp"
@@ -185,7 +184,7 @@
                         android:id="@+id/tv_content"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/text_color"
-                        android:text="this is it!"/>
+                        />
                     <View
                         android:layout_width="match_parent"
                         android:background="#dfe5ff"

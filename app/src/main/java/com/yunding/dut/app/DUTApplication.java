@@ -1,13 +1,16 @@
 package com.yunding.dut.app;
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Typeface;
+import android.support.multidex.MultiDex;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.yunding.dut.R;
 import com.yunding.dut.model.data.UserInfo;
 import com.yunding.dut.util.third.ACache;
+import com.yunding.dut.util.third.ImagePipelineConfigFactory;
 import com.yunding.dut.util.third.Utils;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -34,11 +37,12 @@ public class DUTApplication extends Application {
         super.onCreate();
 
         mApplication = this;
-
         Utils.init(this);
-        Fresco.initialize(this);
+        Fresco.initialize(this, ImagePipelineConfigFactory.getImagePipelineConfig(this));
+//        Fresco.initialize(this);
         hsbsTypeFace=Typeface.createFromAsset(this.getAssets(),"fonts/hsbw.ttf");
         zhTypeFace=Typeface.createFromAsset(this.getAssets(),"fonts/zh_cn.ttf");
+
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/zh_cn.ttf")
                 .setFontAttrId(R.attr.fontPath)
@@ -46,11 +50,22 @@ public class DUTApplication extends Application {
         );
         mCache = ACache.get(this);
         ZXingLibrary.initDisplayOpinion(this);
+
+
     }
+    @Override
+
+    protected void attachBaseContext(Context base) {
+
+        super.attachBaseContext(base);
+
+        MultiDex.install(this);
+
+    }
+
     public static ACache getAcache(){
         return mCache;
     }
-
     public static DUTApplication getInstance() {
         return mApplication;
     }
@@ -60,7 +75,6 @@ public class DUTApplication extends Application {
     public  void  setIsShowUpdateDialog(int s){
        this.isShowUpdateDialog=s;
     }
-
     public static UserInfo getUserInfo() {
         if (mUserInfo == null) {
             mUserInfo = new UserInfo();

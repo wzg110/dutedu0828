@@ -54,7 +54,7 @@ public class DiscussPresenter extends BasePresenter {
      * @param subjectId [主题ID]
      * @param groupId   [讨论组ID]
      */
-    public void startDiscussion(long subjectId, long groupId) {
+    public void startDiscussion(String subjectId, String groupId) {
         String url = ApisDiscuss.startDiscussion(subjectId, groupId);
         request(url, new DUTResp() {
             @Override
@@ -85,7 +85,7 @@ public class DiscussPresenter extends BasePresenter {
      * @param subjectId [主题ID]
      * @param groupId       [讨论组ID]
      */
-    public void refreshMsg(long subjectId, long groupId) {
+    public void refreshMsg(String subjectId, String groupId) {
         String url = ApisDiscuss.discussGroupMsgListUrl(subjectId, groupId);
         request(url, new DUTResp() {
             @Override
@@ -137,7 +137,7 @@ public class DiscussPresenter extends BasePresenter {
      * @param content   [文本内容]
      */
 
-    public void sendMsg(File file, long subjectId, long groupId, final int msgType, int length, String content) {
+    public void sendMsg(File file, String subjectId, String groupId, final int msgType, int length, String content) {
         if (msgType == MSG_TYPE_TEXT && TextUtils.isEmpty(content)) {
             mView.showMsg("请输入消息内容");
             return;
@@ -147,7 +147,7 @@ public class DiscussPresenter extends BasePresenter {
             return;
         }
         String url = ApisDiscuss.discussSendMsg(subjectId, groupId, msgType, length, content);
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
 
         PostFormBuilder builder = OkHttpUtils
                 .post()
@@ -157,9 +157,12 @@ public class DiscussPresenter extends BasePresenter {
                 .addParams("studentid", String.valueOf(userId))
                 .addParams("messagetype", String.valueOf(msgType))
                 .addParams("messagelength", String.valueOf(length))
+                .addParams("schoolCode",DUTApplication.getUserInfo().getSCHOOL_CODE())
                 .addParams("content", content);
+
         if (file != null) {
-            builder.addFile("file", "record.voice", file);
+//            builder.addFile("file", "record.voice", file);
+            builder.addFile("file", "record.mp3", file);
         } else {
             file = new File(FileUtil.getRecordVoiceDir() + System.currentTimeMillis() + FileUtil.getRecordSuffix());
             try {
@@ -167,7 +170,8 @@ public class DiscussPresenter extends BasePresenter {
             } catch (IOException e) {
                 Log.d(getClass().toString(), "sendMsg: " + e.toString());
             }
-            builder.addFile("file", "record.voice", file);
+//            builder.addFile("file", "record.voice", file);
+            builder.addFile("file", "record.mp3", file);
         }
         builder.build().execute(new StringCallback() {
             @Override
@@ -196,7 +200,7 @@ public class DiscussPresenter extends BasePresenter {
      * 功能描述：加载主题信息
      * @param subjectId  [主题ID]
      */
-    public void loadSubjectInfo(long subjectId) {
+    public void loadSubjectInfo(String subjectId) {
         String url = ApisDiscuss.getSubjectInfo(subjectId);
         request(url, new DUTResp() {
             @Override

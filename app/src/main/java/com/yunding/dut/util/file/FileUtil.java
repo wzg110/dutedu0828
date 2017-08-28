@@ -20,7 +20,8 @@ public class FileUtil {
 
     private static final String APP_ROOT_DIR = Environment.getExternalStorageDirectory() + "/DUT";
 
-    private static final String RECORD_SUFFIX = ".voice";
+//    private static final String RECORD_SUFFIX = ".voice";
+private static final String RECORD_SUFFIX = ".mp3";
 
     public static String getRecordVoiceDir() {
         String voiceDir = APP_ROOT_DIR + "/voice/record";

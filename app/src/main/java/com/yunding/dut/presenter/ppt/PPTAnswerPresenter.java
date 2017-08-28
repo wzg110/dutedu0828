@@ -1,5 +1,7 @@
 package com.yunding.dut.presenter.ppt;
 
+import android.util.Log;
+
 import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.CommonResp;
 import com.yunding.dut.model.resp.CommonRespNew;
@@ -80,6 +82,7 @@ public class PPTAnswerPresenter extends BasePresenter {
                 .addParams("selfTaughtId", selfTaughtId)
                 .addParams("content", content)
                 .addParams("longTime", longTime+"")
+                .addParams("schoolCode",DUTApplication.getUserInfo().getSCHOOL_CODE())
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -224,16 +227,18 @@ public class PPTAnswerPresenter extends BasePresenter {
 //                        mview.showMsg("提交成功");
 //                mview.hideProgress();
                 } else {
+                    Log.e("报错","轮询图片");
                     mview.showMsg(resp.getMsg());
 //                mview.hideProgress();
                 }
             }else{
-
+                Log.e("报错","轮询图片");
             }
         }
 
         @Override
         public void onError(Exception e) {
+            Log.e("报错","轮询小题");
 
         }
     });
@@ -276,6 +281,7 @@ public class PPTAnswerPresenter extends BasePresenter {
 
         @Override
         public void onError(Exception e) {
+
             mview.showMsg(e.getMessage());
             mview.hideProgress();
         }
@@ -308,16 +314,18 @@ public class PPTAnswerPresenter extends BasePresenter {
                     mview.getPollingPPTQuestion(resp.getData());
 
                 } else {
+                    Log.e("报错","轮询小题");
                     mview.showMsg(resp.getMsg());
 
                 }
             }else{
-
+                Log.e("报错","轮询小题");
             }
         }
 
         @Override
         public void onError(Exception e) {
+            Log.e("报错","轮询小题");
             mview.showMsg(e.getMessage());
 
         }

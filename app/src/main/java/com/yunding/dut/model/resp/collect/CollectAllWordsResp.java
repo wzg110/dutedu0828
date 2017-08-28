@@ -85,12 +85,12 @@ public class CollectAllWordsResp {
          */
 
         private String characters;
-        private int collectionId;
-        private int courseId;
+        private String collectionId;
+        private String courseId;
         private String courseName;
         private String createTime;
         private String english;
-        private int studentId;
+        private String studentId;
 
         public String getCharacters() {
             return characters;
@@ -100,19 +100,19 @@ public class CollectAllWordsResp {
             this.characters = characters;
         }
 
-        public int getCollectionId() {
+        public String getCollectionId() {
             return collectionId;
         }
 
-        public void setCollectionId(int collectionId) {
+        public void setCollectionId(String collectionId) {
             this.collectionId = collectionId;
         }
 
-        public int getCourseId() {
+        public String getCourseId() {
             return courseId;
         }
 
-        public void setCourseId(int courseId) {
+        public void setCourseId(String courseId) {
             this.courseId = courseId;
         }
 
@@ -140,11 +140,11 @@ public class CollectAllWordsResp {
             this.english = english;
         }
 
-        public int getStudentId() {
+        public String getStudentId() {
             return studentId;
         }
 
-        public void setStudentId(int studentId) {
+        public void setStudentId(String studentId) {
             this.studentId = studentId;
         }
     }

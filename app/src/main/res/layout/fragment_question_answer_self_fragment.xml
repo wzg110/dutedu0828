@@ -37,7 +37,7 @@
 
                 <RelativeLayout
                     android:layout_width="346dp"
-                    android:layout_height="218dp"
+                    android:layout_height="275dp"
                     android:layout_gravity="center">
 
                     <RelativeLayout
@@ -49,7 +49,7 @@
                         <com.facebook.drawee.view.SimpleDraweeView
                             android:id="@+id/img_ppt"
                             android:layout_width="295dp"
-                            android:layout_height="164dp"
+                            android:layout_height="221dp"
                             android:layout_centerInParent="true"
                             android:layout_marginTop="17dp"
                             fresco:actualImageScaleType="fitXY"
@@ -65,7 +65,6 @@
                         android:background="@drawable/bg_question_title"
                         android:gravity="center"
                         android:padding="1dp"
-                        android:text="sdadssd"
                         android:textColor="@color/bg_white"
                         android:textSize="12sp" />
 
@@ -189,7 +188,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
-                                android:text="this is it!"
                                 android:textColor="@color/text_color" />
 
                             <View

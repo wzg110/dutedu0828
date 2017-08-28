@@ -48,18 +48,17 @@
                 android:layout_marginTop="22dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="英语综合口语训练（一）"
                 android:textColor="#818181"
                 android:textSize="13sp" />
 
             <TextView
+
                 android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="英语综合口语（一）"
                 android:textColor="#818181"
                 android:textSize="13sp" />
 
@@ -87,7 +86,6 @@
                     android:gravity="center_vertical"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="2017.07.07"
                     android:textColor="#aeaeae"
                     android:textSize="11sp" />
 
@@ -119,7 +117,6 @@
                 <TextView
                     android:id="@+id/tv_teacher_name"
                     android:layout_width="wrap_content"
-                    android:text="王教授"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="3dp"
                     android:textColor="#818181"

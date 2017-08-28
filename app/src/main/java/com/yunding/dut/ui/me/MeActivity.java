@@ -158,7 +158,7 @@ public class MeActivity extends BaseActivity {
 
         }
         tvName.setText(DUTApplication.getUserInfo().getUserName());
-        tvGrade.setText(DUTApplication.getUserInfo().getUserGrade()+DUTApplication.getUserInfo().getUserClass());
+        tvGrade.setText(DUTApplication.getUserInfo().getUserAccount());
 
     }
 

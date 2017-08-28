@@ -17,5 +17,6 @@ import com.yunding.dut.ui.base.IBaseListView;
 public interface IPPTListView extends IBaseListView{
 
     void showPPTList(PPTResp resp);
+    void showMsg(String msg);
 
 }

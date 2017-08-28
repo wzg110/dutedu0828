@@ -77,11 +77,8 @@ public class MeInfoActivity extends ToolBarActivity implements IMeInfoView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me_info);
         ButterKnife.bind(this);
-
-
         setTitleInCenter(getString(R.string.me_info_title));
         showUserInfo();
-
         mPresenter = new MeInfoPresenter(this);
         ll_grade= (LinearLayout) this.findViewById(R.id.ll_grade);
         tv_number= (TextView) this.findViewById(R.id.tv_number);
@@ -299,6 +296,7 @@ public class MeInfoActivity extends ToolBarActivity implements IMeInfoView {
 
     @Override
     public void showAvatar() {
+        showMsg("上传成功");
         showUserInfo();
         
         saveHeadBg();

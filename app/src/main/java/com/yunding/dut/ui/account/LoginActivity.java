@@ -113,9 +113,15 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         ButterKnife.bind(this);
         mPresenter = new LoginPresenter(this);
         etAccount.requestFocus();
+        DUTApplication.getInstance().setIsShowUpdateDialog(0);
     }
 
-
+private void clearEditData(){
+    etAccount.setText("");
+    etPwd.setText("");
+    etVisitorAccount.setText("");
+    etVisitorAccount.setHint("请输入邀请码");
+}
     @OnClick({R.id.btn_login, R.id.btn_register, R.id.btn_reset_pwd
             , R.id.btn_login_type_student, R.id.btn_login_type_visitor, R.id.btn_login_type_teacher})
     public void onViewClicked(View view) {
@@ -126,6 +132,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 btnLoginTypeStudent.setTextColor(getResources().getColor(R.color.textColorShow));
                 btnLoginTypeTeacher.setTextColor(getResources().getColor(R.color.login_type));
                 btnLoginTypeVisitor.setTextColor(getResources().getColor(R.color.login_type));
+                clearEditData();
                 etAccount.setHint("请输入学号");
                 btnLogin.setText("登录");
                 rlRegister.setVisibility(View.VISIBLE);
@@ -139,6 +146,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 btnLoginTypeTeacher.setTextColor(getResources().getColor(R.color.login_type));
                 btnLoginTypeStudent.setTextColor(getResources().getColor(R.color.login_type));
                 rlRegister.setVisibility(View.GONE);
+                clearEditData();
                 btnLogin.setText("进入课堂");
                 rlLoginStudentRoTeacher.setVisibility(View.GONE);
                 rlLoginVisitor.setVisibility(View.VISIBLE);
@@ -150,6 +158,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 btnLoginTypeStudent.setTextColor(getResources().getColor(R.color.login_type));
                 btnLoginTypeVisitor.setTextColor(getResources().getColor(R.color.login_type));
                 rlRegister.setVisibility(View.GONE);
+                clearEditData();
                 etAccount.setHint("请输入用户名");
                 btnLogin.setText("登录");
                 rlLoginStudentRoTeacher.setVisibility(View.VISIBLE);
@@ -274,10 +283,11 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
+//                    Log.e("wsf",result);
                     if (result.contains("{") && result.contains("}")) {
                         try{
                             QRCResp parms =new Gson().fromJson(result, QRCResp.class);
-                            mPresenter.visitorLogin(parms.getClassId(), parms.getTeacherId(),parms.getTeachingId());
+                            mPresenter.visitorLogin(parms.getClassId(), parms.getTeacherId(),parms.getTeachingId(),parms.getSchoolCode());
                         }catch (Exception e){
                             showToast("请扫描正确二维码");
                         }

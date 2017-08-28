@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -55,6 +56,7 @@ import com.yunding.dut.view.DUTVerticalSmoothScrollRecycleView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -137,7 +139,15 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView, ID
     private String serverTime;
     private List<DiscussMsgListResp.DataBean.DatasBean> mDatas;
     private boolean isRefreshing = true;
-    private Handler handler = new Handler();
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +160,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView, ID
         if (mDiscussInfo != null) {
             mPresenter.loadSubjectInfo(mDiscussInfo.getThemeId());
             mDiscussPresenter.getSubjectQuestions(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
-            mDiscussPresenter.getServerTime();
+//            mDiscussPresenter.getServerTime();
         }
         activityRootView=this.findViewById(R.id.rl_rootview);
         //获取屏幕高度
@@ -274,7 +284,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView, ID
                 llInput.setVisibility(View.GONE);
                 llRecord.setVisibility(View.GONE);
                 ivBlue.setVisibility(View.VISIBLE);
-                tvCountDown.setText(TimeUtils.millis2String(mDiscussInfo.getCountdownTime() * 60 * 1000, "mm:ss"));
+                tvCountDown.setText(TimeUtils.millis2String1((mDiscussInfo.getCountdownTime() * 60 * 1000)- TimeZone.getDefault().getRawOffset()));
                 btnOpen.setVisibility(mDiscussInfo.getIsLeader() == 1 ? View.VISIBLE : View.GONE);
                 break;
             case DiscussPresenter.STATE_DISCUSSING:
@@ -365,8 +375,11 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView, ID
         }
 
         btnOpen.setVisibility(View.GONE);
+
         if (serverTime != null) {
             showCountDown();
+        }else{
+            mDiscussPresenter.getServerTime();
         }
 
     }
@@ -386,9 +399,9 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView, ID
         btnOpen.setVisibility(View.GONE);
         mDiscussInfo.setOpeningTime(opentime);
 
-        if (serverTime != null) {
-            showCountDown();
-        }
+        mDiscussPresenter.getServerTime();
+        String content = "我已开启讨论";
+        mPresenter.sendMsg(null, mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId(), DiscussPresenter.MSG_TYPE_TEXT, content.length(), content);
 
     }
 
@@ -415,12 +428,18 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView, ID
         if (mDiscussInfo.getState() == DiscussPresenter.STATE_DISCUSSING && mCountDown == null) {
             tvCountDown.setVisibility(View.VISIBLE);
             ivBlue.setVisibility(View.VISIBLE);
-            tvCountDown.setText(TimeUtils.millis2String(mDiscussInfo.getCountdownTime() * 60 * 1000, "mm:ss"));
+            tvCountDown.setText(TimeUtils.millis2String1((mDiscussInfo.getCountdownTime() * 60 * 1000)- TimeZone.getDefault().getRawOffset()));
             if (TextUtils.isEmpty(serverTime)) {
                 mDiscussPresenter.getServerTime();
             } else {
+                long spanToNow=0;
+                if (mDatas==null||mDatas.size()==0){
 
-                long spanToNow = TimeUtils.getTimeSpan(serverTime, mDiscussInfo.getOpeningTime(), ConstUtils.TimeUnit.MSEC);
+                    spanToNow= TimeUtils.getTimeSpan(serverTime, mDiscussInfo.getOpeningTime(), ConstUtils.TimeUnit.MSEC);
+                }else{
+                    spanToNow = TimeUtils.getTimeSpan(serverTime, mDatas.get(0).getCreateTime(), ConstUtils.TimeUnit.MSEC);
+                }
+
                 long timeLeft = (mDiscussInfo.getCountdownTime() * 60 * 1000) - spanToNow;
 
                 mCountDown = new DiscussionCountDown(timeLeft, 1000);
@@ -467,7 +486,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView, ID
                 if (mCountDown != null)
                     mCountDown.cancel();
             } else {
-                tvCountDown.setText(TimeUtils.millis2String(l, "mm:ss"));
+                tvCountDown.setText(TimeUtils.millis2String1(l- TimeZone.getDefault().getRawOffset()));
             }
         }
 
@@ -543,7 +562,12 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView, ID
     public void getServerTime(String time) {
         serverTime = time;
 
-        if (mDiscussInfo.getState() == 1) {
+//        if (mDiscussInfo.getState() == 1) {
+//            showCountDown();
+//        }
+
+
+        if (serverTime != null) {
             showCountDown();
         }
     }
@@ -575,7 +599,7 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView, ID
         tvSubjectTitle.setText(resp.getData().getName());
         if (TextUtils.isEmpty(mDiscussInfo.getCountdownTime() + "")) {
         } else {
-            tvCountDown.setText(TimeUtils.millis2String(mDiscussInfo.getCountdownTime() * 60 * 1000, "mm:ss"));
+            tvCountDown.setText(TimeUtils.millis2String1((mDiscussInfo.getCountdownTime() * 60 * 1000)- TimeZone.getDefault().getRawOffset()));
         }
 
         if (resp.getData().getIsLanguage() == 0) {
@@ -792,13 +816,9 @@ public class DiscussActivity extends ToolBarActivity implements IDiscussView, ID
             public void onClick(View v) {
                 if (mDiscussInfo != null && mPresenter != null) {
                     try {
-
-
                         mPresenter.startDiscussion(mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId());
-                        mDiscussPresenter.getServerTime();
-                        String content = "我已开启讨论";
-                        mPresenter.sendMsg(null, mDiscussInfo.getThemeId(), mDiscussInfo.getGroupId(), DiscussPresenter.MSG_TYPE_TEXT, content.length(), content);
-                    } catch (Exception e) {
+
+                 } catch (Exception e) {
                         Log.e("ssd", e.getMessage());
                     }
                 } else showMsg("开启失败");

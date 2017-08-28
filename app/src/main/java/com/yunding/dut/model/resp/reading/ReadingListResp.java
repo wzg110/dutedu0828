@@ -173,7 +173,7 @@ public class ReadingListResp implements Serializable {
         /**
          * 单元ID
          */
-        private Integer unitId;
+        private String unitId;
 
         public int getReadingMode() {
             return readingMode;
@@ -263,11 +263,11 @@ public class ReadingListResp implements Serializable {
             this.unitTitle = unitTitle;
         }
 
-        public Integer getUnitId() {
+        public String getUnitId() {
             return unitId;
         }
 
-        public void setUnitId(Integer unitId) {
+        public void setUnitId(String unitId) {
             this.unitId = unitId;
         }
 
@@ -300,7 +300,7 @@ public class ReadingListResp implements Serializable {
 
         public static class EducationKeyword implements Serializable {
             /****/
-            private Integer keywordId;
+            private String keywordId;
 
             /**
              * 关键句或主旨句
@@ -310,7 +310,7 @@ public class ReadingListResp implements Serializable {
             /**
              * 归属阅读课id
              **/
-            private Integer courseId;
+            private String courseId;
 
             /**
              * 标记时间
@@ -330,18 +330,18 @@ public class ReadingListResp implements Serializable {
             /**
              * 标记用户ID
              **/
-            private Integer markUserId;
+            private String markUserId;
 
             /**
              * 0主旨句1关键句
              **/
             private Integer wordType;
 
-            public void setKeywordId(Integer KeywordId) {
+            public void setKeywordId(String KeywordId) {
                 this.keywordId = KeywordId;
             }
 
-            public Integer getKeywordId() {
+            public String getKeywordId() {
                 return this.keywordId;
             }
 
@@ -353,11 +353,11 @@ public class ReadingListResp implements Serializable {
                 return this.keyWord;
             }
 
-            public void setCourseId(Integer CourseId) {
+            public void setCourseId(String CourseId) {
                 this.courseId = CourseId;
             }
 
-            public Integer getCourseId() {
+            public String getCourseId() {
                 return this.courseId;
             }
 
@@ -385,11 +385,11 @@ public class ReadingListResp implements Serializable {
                 return this.wordLength;
             }
 
-            public void setMarkUserId(Integer MarkUserId) {
+            public void setMarkUserId(String MarkUserId) {
                 this.markUserId = MarkUserId;
             }
 
-            public Integer getMarkUserId() {
+            public String getMarkUserId() {
                 return this.markUserId;
             }
 
@@ -598,7 +598,7 @@ public class ReadingListResp implements Serializable {
 
             public static class EducationAnswerFrom implements Serializable {
                 /****/
-                private Integer formId;
+                private String formId;
 
                 /**
                  * 文章中的下标
@@ -613,7 +613,7 @@ public class ReadingListResp implements Serializable {
                 /**
                  * 问题ID
                  **/
-                private Integer questionId;
+                private String questionId;
 
                 /**
                  * 内容
@@ -623,14 +623,14 @@ public class ReadingListResp implements Serializable {
                 /**
                  * 课程ID
                  **/
-                private Integer courseId;
+                private String courseId;
 
 
-                public void setFormId(Integer FormId) {
+                public void setFormId(String FormId) {
                     this.formId = FormId;
                 }
 
-                public Integer getFormId() {
+                public String getFormId() {
                     return this.formId;
                 }
 
@@ -650,11 +650,11 @@ public class ReadingListResp implements Serializable {
                     return this.wordLength;
                 }
 
-                public void setQuestionId(Integer QuestionId) {
+                public void setQuestionId(String QuestionId) {
                     this.questionId = QuestionId;
                 }
 
-                public Integer getQuestionId() {
+                public String getQuestionId() {
                     return this.questionId;
                 }
 
@@ -666,11 +666,11 @@ public class ReadingListResp implements Serializable {
                     return this.content;
                 }
 
-                public void setCourseId(Integer CourseId) {
+                public void setCourseId(String CourseId) {
                     this.courseId = CourseId;
                 }
 
-                public Integer getCourseId() {
+                public String getCourseId() {
                     return this.courseId;
                 }
             }

@@ -57,7 +57,7 @@ public class MeWordsPresenter extends BasePresenter{
      * 功能描述： 删除收藏
      * @param id    [收藏ID]
      */
-    public void delCollectWords(int id){
+    public void delCollectWords(String id){
         mIMeWordsView.showProgress();
         request(ApisReading.delCollectWord(id), new DUTResp() {
             @Override

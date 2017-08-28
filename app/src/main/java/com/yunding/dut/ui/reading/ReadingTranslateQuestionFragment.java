@@ -160,7 +160,12 @@ public class ReadingTranslateQuestionFragment extends BaseFragmentInReading impl
         rl_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                if (mReadingInfo.getExercises().size() > (mQuestionIndex + 1)){
+                    dialog.dismiss();
+                }else{
+                    dialog.dismiss();
+                    getHoldingActivity().finish();
+                }
             }
         });
         dialog.setContentView(view);

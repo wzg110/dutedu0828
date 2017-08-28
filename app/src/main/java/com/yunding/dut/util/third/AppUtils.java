@@ -3,12 +3,16 @@ package com.yunding.dut.util.third;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -700,5 +704,48 @@ public class AppUtils {
             isSuccess &= CleanUtils.cleanCustomCache(dir);
         }
         return isSuccess;
+    }
+    public static void goToMarket(Context context, String packageName,int market) {
+        Uri uri = Uri.parse("market://details?id=" + packageName);
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Log.e("market",market+"");
+        try {
+
+            if (market==0){
+//                goToMarket.setClassName("com.tencent.android.qqdownloader","com.tencent.pangu.link.LinkProxyActivity");
+                goToMarket.setPackage("com.tencent.android.qqdownloader");
+
+            }else if (market==1){
+//                goToMarket.setClassName("com.wandoujia.phoenix2","com.tencent.pangu.link.LinkProxyActivity");
+                goToMarket.setPackage("com.wandoujia.phoenix2");
+
+            }else if (market==2){
+//                goToMarket.setClassName("com.baidu.appsearch","com.tencent.pangu.link.LinkProxyActivity");
+                goToMarket.setPackage("com.baidu.appsearch");
+
+            }
+
+            context.startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static List<PackageInfo> getAllApps(Context context) {
+        List<PackageInfo> apps = new ArrayList<PackageInfo>();
+        PackageManager pManager = context.getPackageManager();
+        //获取手机内所有应用
+        List<PackageInfo> paklist = pManager.getInstalledPackages(0);
+        for (int i = 0; i < paklist.size(); i++) {
+            PackageInfo pak = (PackageInfo) paklist.get(i);
+            //判断是否为非系统预装的应用程序
+            if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) <= 0) {
+                // customs applications
+                apps.add(pak);
+            }
+        }
+        return apps;
     }
 }

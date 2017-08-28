@@ -56,7 +56,7 @@ public class PPTInfoActivity extends ToolBarActivity implements IPPTInfoView {
             showPPTInfo(mInfo);
             mPresenter = new PPTInfoPresenter(this);
             mPresenter.addLog(mInfo.getSubjectId());
-            if (mInfo.getSubjectId() != 0) {
+            if (!"0".equals(mInfo.getSubjectId())) {
                 mPresenter.loadPPTInfo(mInfo.getSubjectId());
                 mAdapter = new PPTQuestionListAdapter(new ArrayList<QuestionInfoResp.DataBean>());
                 rvQuestionList.setAdapter(mAdapter);

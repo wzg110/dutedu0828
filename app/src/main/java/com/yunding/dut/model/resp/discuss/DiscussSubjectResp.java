@@ -95,11 +95,11 @@ public class DiscussSubjectResp {
         private String content;
         private int countdownTime;
         private String createTime;
-        private int createUserId;
+        private String createUserId;
         private int isLanguage;
         private String name;
         private String start;
-        private long themeId;
+        private String themeId;
 
         public String getContent() {
             return content;
@@ -125,11 +125,11 @@ public class DiscussSubjectResp {
             this.createTime = createTime;
         }
 
-        public int getCreateUserId() {
+        public String getCreateUserId() {
             return createUserId;
         }
 
-        public void setCreateUserId(int createUserId) {
+        public void setCreateUserId(String createUserId) {
             this.createUserId = createUserId;
         }
 
@@ -157,11 +157,11 @@ public class DiscussSubjectResp {
             this.start = start;
         }
 
-        public long getThemeId() {
+        public String getThemeId() {
             return themeId;
         }
 
-        public void setThemeId(long themeId) {
+        public void setThemeId(String themeId) {
             this.themeId = themeId;
         }
     }

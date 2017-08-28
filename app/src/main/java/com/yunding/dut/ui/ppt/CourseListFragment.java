@@ -3,6 +3,7 @@ package com.yunding.dut.ui.ppt;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,12 +37,15 @@ import com.yunding.dut.presenter.ppt.CourseListPresenter;
 import com.yunding.dut.ui.base.ToolBarFragment;
 import com.yunding.dut.ui.me.MeActivity;
 import com.yunding.dut.util.api.Apis;
+import com.yunding.dut.util.third.AppUtils;
 import com.yunding.dut.util.third.FastBlurUtil;
+import com.yunding.dut.util.third.TimeUtils;
 import com.yunding.dut.view.DUTSwipeRefreshLayout;
 import com.yunding.dut.view.DUTVerticalRecyclerView;
 
 import java.io.File;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -104,6 +108,8 @@ public class CourseListFragment extends ToolBarFragment implements SwipeRefreshL
     private int textSize;
     private Dialog dialog;
     private View view;
+    private List<PackageInfo> arr=new ArrayList<>();
+    private int marketTips=-1;
 
     public CourseListFragment() {
         mPresenter = new CourseListPresenter(this);
@@ -157,14 +163,29 @@ public class CourseListFragment extends ToolBarFragment implements SwipeRefreshL
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         rvCourseList.setAdapter(mAdapter);
+
+
+
 //            课上
         rvCourseList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 
+//                if (whichChoose.equals("0")) {
+//                    Intent intent = new Intent(getHoldingActivity(), PPTListActivity.class);
+//                    intent.putExtra("teachingId", mDataListOnCourse.get(position).getTeachingId() + "");
+//                    startActivity(intent);
+//                    //进二级页面
+//                } else {
+//                    mPresenter.loadPPTList(mDataListDIY.get(position).getTeachingId()
+//                            , String.valueOf(jingd), String.valueOf(weid), mDataListDIY.get(position).getClassId(), mDataListDIY.get(position).getStudyMode());
+//                    positionDIY = position;
+//                }
+// TODO: 2017/8/21
                 if (whichChoose.equals("0")) {
-                    Intent intent = new Intent(getHoldingActivity(), PPTListActivity.class);
+                    Intent intent = new Intent(getHoldingActivity(), PPTListNewActivity.class);
                     intent.putExtra("teachingId", mDataListOnCourse.get(position).getTeachingId() + "");
+                    intent.putExtra("courseName", mDataListOnCourse.get(position).getFileName() + "");
                     startActivity(intent);
                     //进二级页面
                 } else {
@@ -172,6 +193,7 @@ public class CourseListFragment extends ToolBarFragment implements SwipeRefreshL
                             , String.valueOf(jingd), String.valueOf(weid), mDataListDIY.get(position).getClassId(), mDataListDIY.get(position).getStudyMode());
                     positionDIY = position;
                 }
+
 
             }
         });
@@ -217,12 +239,47 @@ public class CourseListFragment extends ToolBarFragment implements SwipeRefreshL
     protected void initView(View view, Bundle saveInstanceState) {
         setTitleInCenter("课堂");
         setShowNavigation(false);
+        arr= AppUtils.getAllApps(getHoldingActivity().getApplicationContext());
+        for (int i=0;i<arr.size();i++){
+            if ("com.tencent.android.qqdownloader".equals(arr.get(i).packageName)){
+                marketTips=0;
+                return;
+            }else if ("com.wandoujia.phoenix2".equals(arr.get(i).packageName)){
+                marketTips=1;
+                return;
+            }else if ("com.baidu.appsearch".equals(arr.get(i).packageName)){
+                marketTips=2;
+                return;
+            }
+
+        }
+        if (DUTApplication.getAcache().getAsString("updateTime"+DUTApplication.getUserInfo().getUserId())==null
+                ||"".equals(DUTApplication.getAcache().getAsString("updateTime")+DUTApplication.getUserInfo().getUserId())
+                ||"null".equals(DUTApplication.getAcache().getAsString("updateTime")+DUTApplication.getUserInfo().getUserId())){
+            DUTApplication.getAcache()
+                    .put("updateTime"+DUTApplication.getUserInfo().getUserId(),
+                            TimeUtils.millis2String(TimeUtils.getNowTimeMills(),"yyyyMMdd"));
+        }else{
+           String oldTime= DUTApplication.getAcache().getAsString("updateTime"+DUTApplication.getUserInfo().getUserId());
+            String nowTime=TimeUtils.millis2String(TimeUtils.getNowTimeMills(),"yyyyMMdd");
+            BigDecimal ot=new BigDecimal(oldTime);
+            BigDecimal nt=new BigDecimal(nowTime);
+            if(nt.subtract(ot).intValue()>=1){
+                DUTApplication.getInstance().setIsShowUpdateDialog(0);
+                DUTApplication.getAcache()
+                        .put("updateTime"+DUTApplication.getUserInfo().getUserId(),
+                                TimeUtils.millis2String(TimeUtils.getNowTimeMills(),"yyyyMMdd"));
+                 }
+
+        }
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mLocationClient.stopLocation();
+//        mPresenter.stopLoadCourseList();
         mLocationClient.onDestroy();
         unbinder.unbind();
     }
@@ -337,6 +394,7 @@ public class CourseListFragment extends ToolBarFragment implements SwipeRefreshL
         versionContent = resp.getContent();
         versionName = resp.getVersion();
         textSize = resp.getTextSize();
+//        Log.e("更新",resp.getUpdatable()+"");
         if (resp.getUpdatable() == 0) {
 //            没有更新继续轮训
             Observable.timer(10, TimeUnit.SECONDS)
@@ -422,19 +480,34 @@ public class CourseListFragment extends ToolBarFragment implements SwipeRefreshL
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("http://android.myapp.com/myapp/detail.htm?apkName=com.yunding.dut");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-                getHoldingActivity().finish();
+                if (marketTips==-1){
+                    Uri uri = Uri.parse("http://android.myapp.com/myapp/detail.htm?apkName=com.yunding.dut");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    getHoldingActivity().finish();
+                }else{
+                    AppUtils.goToMarket(getHoldingActivity().getApplicationContext(),
+                            "com.yunding.dut",marketTips);
+                    getHoldingActivity().finish();
+                }
+
             }
         });
         btn_ok_force.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("http://android.myapp.com/myapp/detail.htm?apkName=com.yunding.dut");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-                getHoldingActivity().finish();
+                if (marketTips==-1){
+                    Uri uri = Uri.parse("http://android.myapp.com/myapp/detail.htm?apkName=com.yunding.dut");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    getHoldingActivity().finish();
+                }else{
+                    AppUtils.goToMarket(getHoldingActivity().getApplicationContext(),
+                            "com.yunding.dut",marketTips);
+                    getHoldingActivity().finish();
+                }
             }
         });
         dialog.setContentView(view);

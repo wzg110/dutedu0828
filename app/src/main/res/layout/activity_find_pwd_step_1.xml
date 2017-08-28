@@ -32,7 +32,7 @@
             android:layout_width="262dp"
             android:textColorHint="#cccccc"
             android:hint="@string/find_pwd_step_1_input_phone"
-            android:textColor="@color/gray"
+            android:textColor="@color/title"
             android:inputType="phone"
             android:background="@null"
             android:layout_centerHorizontal="true"

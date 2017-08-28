@@ -29,7 +29,7 @@ public class DiscussGroupMemberPresenter extends BasePresenter {
      *
      * @param groupId [讨论组ID]
      */
-    public void loadDiscussGroupMembers(long groupId) {
+    public void loadDiscussGroupMembers(String groupId) {
         mView.showProgress();
         String url = ApisDiscuss.discussGroupInfoUrl(groupId);
         request(url, new DUTResp() {

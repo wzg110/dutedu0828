@@ -22,7 +22,7 @@ public class ApisReading extends Apis {
      * @return
      */
     public static String getReadingList() {
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "reading/courselist?studentId=" + userId
                 + "&page=" + 1
                 + "&pagesize=" + Integer.MAX_VALUE + "&userType=" + DUTApplication.getUserInfo().getUSER_TYPE();
@@ -42,7 +42,8 @@ public class ApisReading extends Apis {
     public static String commitReadingQuestion(String questionId, String answerContent,
                                                long answerTime, int backTime, String classId) {
 
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
+
         String url = SERVER_URL + "reading/saveanswer?studentId=" + userId
                 + "&questionId=" + questionId
                 + "&answerContent=" + answerContent
@@ -59,7 +60,7 @@ public class ApisReading extends Apis {
      */
     public static String commitReadingQuestion() {
 
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "reading/saveanswer";
 //        Log.e(TAG, "commitReadingQuestion: "+url );
         return url;
@@ -77,14 +78,16 @@ public class ApisReading extends Apis {
      * @return
      */
     public static String markerWords(String courseId, int wordIndex, int wordLength, String word, String classId, String wordColor) {
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
+        String  schoolCode=DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = SERVER_URL + "reading/savenewword?studentId=" + userId
                 + "&courseId=" + courseId
                 + "&wordIndex=" + wordIndex
                 + "&wordLength=" + wordLength
                 + "&word=" + word
                 + "&classId=" + classId
-                + "&wordColor=" + wordColor;
+                + "&wordColor=" + wordColor
+                +"&schoolCode="+schoolCode;
         return url;
     }
 
@@ -122,8 +125,9 @@ public class ApisReading extends Apis {
      * @return
      */
     public static String saveWordNotes(String newWordId, String noteContent) {
+        String schoolCode=DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = SERVER_URL + "reading/savereadingnote?newWordId=" + newWordId
-                + "&noteContent=" + noteContent;
+                + "&noteContent=" + noteContent+"&schoolCode="+schoolCode;
 
         return url;
     }
@@ -140,15 +144,16 @@ public class ApisReading extends Apis {
      * @return
      */
     public static String recordReadingTime(String courseId, int sentenceIndex, String fromSentenceIndex, long stayTime, int articleFinish, String classId) {
-        long userId = DUTApplication.getUserInfo().getUserId();
-
+        String userId = DUTApplication.getUserInfo().getUserId();
+        String schoolCode=DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = SERVER_URL + "reading/savereadingtime?studentId=" + userId
                 + "&courseId=" + courseId
                 + "&sentenceIndex=" + sentenceIndex
                 + "&fromSentenceIndex=" + fromSentenceIndex
                 + "&stayTime=" + stayTime
                 + "&articleFinish=" + articleFinish
-                + "&classId=" + classId;
+                + "&classId=" + classId
+                +"&schoolCode="+schoolCode;
         return url;
     }
 
@@ -163,11 +168,13 @@ public class ApisReading extends Apis {
      */
     public static String collectWords(String english, String courseid, String characters, String newwordid) {
 //        http://localhost:8080/edu/reading/addcollecation?english=why&courseid=1&characters=为什么&studentid=1
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
+        String schoolCode=DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = SERVER_URL + "reading/addcollecation?english=" + english + "&courseid=" + courseid +
                 "&characters=" + characters +
                 "&studentid=" + userId +
-                "&newwordid=" + newwordid;
+                "&newwordid=" + newwordid
+                +"&schoolCode="+schoolCode;
 //        Log.e(TAG, "collectWords: "+url );
         return url;
     }
@@ -178,9 +185,9 @@ public class ApisReading extends Apis {
      * @param collectionid
      * @return
      */
-    public static String delCollectWord(int collectionid) {
+    public static String delCollectWord(String collectionid) {
 //        http://localhost:8080/edu/reading/delcollecation?collectionid=3
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "reading/delcollecation?collectionid=" + collectionid;
 //        Log.e(TAG, "delCollectWord: "+url );
         return url;
@@ -193,7 +200,7 @@ public class ApisReading extends Apis {
      */
     public static String getCollectWords() {
 //        http://localhost:8080/edu/reading/getcollecationlist?studentid=1
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "reading/getcollecationlist?studentid=" + userId + "&userType=" + DUTApplication.getUserInfo().getUSER_TYPE();
 //        Log.e(TAG, "getCollectWords: "+url );
         return url;
@@ -209,11 +216,12 @@ public class ApisReading extends Apis {
      */
     public static String exitReading(String courseId, String classId, int sentenceIndex) {
 //        http://localhost:8080/edu/reading/getcollecationlist?studentid=1
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
+        String schoolCode=DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = SERVER_URL + "reading/exitreading?studentId=" + userId
                 + "&courseId=" + courseId
                 + "&classId=" + classId
-                + "&sentenceIndex=" + sentenceIndex;
+                + "&sentenceIndex=" + sentenceIndex+"&schoolCode="+schoolCode;
 //        Log.e(TAG, "getCollectWords: "+url );
         return url;
     }

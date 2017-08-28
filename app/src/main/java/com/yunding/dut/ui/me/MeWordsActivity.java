@@ -85,7 +85,7 @@ public class MeWordsActivity extends ToolBarActivity implements IMeWordsView {
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index){
                     case 0:
-                        final int collectionId = mCollectAllWordsResp.getData().get(position).getCollectionId();
+                        final String collectionId = mCollectAllWordsResp.getData().get(position).getCollectionId();
                         mMeWordsPresenter.delCollectWords(collectionId);
                         mCollectAllWordsResp.getData().remove(position);
                         mMeWordsAdapter.setCollectAllWordsResp(mCollectAllWordsResp);

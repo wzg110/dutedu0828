@@ -1,7 +1,6 @@
 package com.yunding.dut.ui.discuss;
 
 import android.app.Dialog;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
@@ -298,7 +297,7 @@ public class DiscussQuestionInputNewFragment extends BaseFragmentInReading imple
                         }
                         et.setFocusable(true);
                     }
-                    et.setTextColor(Color.BLACK);
+                    et.setTextColor(getResources().getColor(R.color.text_color));
                     ll.addView(et);
 
                     TextView asda=new TextView(ll.getContext());

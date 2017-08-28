@@ -115,7 +115,11 @@ public class FindPwdStep1Activity extends ToolBarActivity implements IFindPwdVie
             showToast("手机号码不合法");
             return;
         }
+        etPhone.setFocusable(false);
+        btnSendSmsCode.setEnabled(false);
         mPresenter.sendSmsCode(phone);
+
+
         Observable.intervalRange(1, 60, 0, 1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -124,6 +128,9 @@ public class FindPwdStep1Activity extends ToolBarActivity implements IFindPwdVie
                     public void accept(@NonNull Long aLong) throws Exception {
                         btnSendSmsCode.setText((60-aLong)+ "s");
                         if (aLong == 60) {
+                            btnSendSmsCode.setEnabled(true);
+                            etPhone.setFocusable(true);
+                            etPhone.setFocusableInTouchMode(true);
                             btnSendSmsCode.setText("重新发送");
                         }
                     }
@@ -133,6 +140,9 @@ public class FindPwdStep1Activity extends ToolBarActivity implements IFindPwdVie
     @Override
     public void showMsg(String msg) {
         showToast(msg);
+        etPhone.setFocusable(true);
+        etPhone.setFocusableInTouchMode(true);
+        btnSendSmsCode.setEnabled(true);
     }
 
     @Override

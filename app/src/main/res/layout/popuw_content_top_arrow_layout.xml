@@ -52,7 +52,6 @@ android:layout_height="wrap_content">
                     android:lines="5"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="功能不稳定，请点此修复"
                     android:textColor="@android:color/white" />
 
         </LinearLayout>

@@ -34,14 +34,11 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         switch (position) {
             case COURSE_INDEX:
-//                Log.e("getUSER_TYPE",DUTApplication.getUserInfo().getUSER_TYPE());
                 if (DUTApplication.getUserInfo().getUSER_TYPE().equals("1")){
                     fragment = new CourseListForTeacherFragment();
                 }else{
                     fragment = new CourseListFragment();
-
                 }
-
                 break;
             case READING_INDEX:
                 fragment = new ReadingListFragment();

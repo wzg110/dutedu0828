@@ -87,6 +87,8 @@ public class LoginResp {
             this.teachingId = teachingId;
         }
 
+
+
         /**
          * age : 0
          * avatarUrl : 123123123123
@@ -104,11 +106,19 @@ public class LoginResp {
          * studentId : 1
          * studentNo : 123124355
          */
+        private String  schoolCode;
+        public String getSchoolCode() {
+            return schoolCode;
+        }
+
+        public void setSchoolCode(String schoolCode) {
+            this.schoolCode = schoolCode;
+        }
         private String teachingId;
         private String userType;
         private long age;
         private String avatarUrl;
-        private int classId;
+        private String classId;
         private String className;
         private String createTime;
         private int loginCount;
@@ -118,11 +128,11 @@ public class LoginResp {
         private String passWord;
         private String phone;
         @SerializedName("radeId")
-        private int gradeId;
+        private String gradeId;
         @SerializedName("radeName")
         private String gradeName;
         private int sex;
-        private int studentId;
+        private String studentId;
         private String studentNo;
 
         public long getAge() {
@@ -141,11 +151,11 @@ public class LoginResp {
             this.avatarUrl = avatarUrl;
         }
 
-        public int getClassId() {
+        public String getClassId() {
             return classId;
         }
 
-        public void setClassId(int classId) {
+        public void setClassId(String classId) {
             this.classId = classId;
         }
 
@@ -213,11 +223,11 @@ public class LoginResp {
             this.passWord = passWord;
         }
 
-        public int getGradeId() {
+        public String getGradeId() {
             return gradeId;
         }
 
-        public void setGradeId(int gradeId) {
+        public void setGradeId(String gradeId) {
             this.gradeId = gradeId;
         }
 
@@ -237,11 +247,11 @@ public class LoginResp {
             this.sex = sex;
         }
 
-        public int getStudentId() {
+        public String getStudentId() {
             return studentId;
         }
 
-        public void setStudentId(int studentId) {
+        public void setStudentId(String studentId) {
             this.studentId = studentId;
         }
 

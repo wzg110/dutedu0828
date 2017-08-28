@@ -125,15 +125,15 @@ public class pptSelfListResp {
 
             public int studyMode;
 
-            public int getSelfTaughtId() {
+            public String getSelfTaughtId() {
                 return selfTaughtId;
             }
 
-            public void setSelfTaughtId(int selfTaughtId) {
+            public void setSelfTaughtId(String selfTaughtId) {
                 this.selfTaughtId = selfTaughtId;
             }
 
-            private int selfTaughtId;
+            private String selfTaughtId;
             private int answerTimeLimit;
 
             public int getQuestionsCompleted() {

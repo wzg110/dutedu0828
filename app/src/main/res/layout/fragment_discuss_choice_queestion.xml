@@ -37,7 +37,7 @@
             android:background="@color/bg_white"
             android:lineSpacingExtra="6dp"
             android:textColor="@color/text_color"
-            android:text="@string/hello_blank_fragment"
+
             android:textSize="14sp" />
 
         <ListView
@@ -88,24 +88,26 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
-            <ImageView
-                android:id="@+id/iv_blue"
 
-                android:layout_toLeftOf="@id/btn_next"
-                android:layout_width="12dp"
-                android:layout_marginRight="55dp"
-                android:src="@drawable/iv_sandglass_blue"
-                android:layout_centerVertical="true"
-                android:layout_height="15dp" />
+
             <TextView
-                android:layout_toLeftOf="@id/btn_next"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+
                 android:text=""
                 android:id="@+id/tv_time"
                 android:textColor="@color/textColorShow"
-                android:layout_centerVertical="true"/>
+                android:layout_centerInParent="true"/>
+            <ImageView
+                android:id="@+id/iv_blue"
+                android:layout_toLeftOf="@id/tv_time"
+                android:layout_width="12dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/iv_sandglass_blue"
+                android:layout_centerVertical="true"
+                android:layout_height="15dp" />
 
         </RelativeLayout>
 
@@ -133,7 +135,7 @@
 
         android:id="@+id/tv_title"
         android:textColor="@color/bg_white"
-        android:text="sdadssd"
+
         android:layout_marginTop="15dp"
         android:gravity="center"
         android:layout_marginLeft="16dp"

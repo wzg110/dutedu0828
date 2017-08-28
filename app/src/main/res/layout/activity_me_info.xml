@@ -33,7 +33,7 @@
             android:layout_alignParentRight="true"
             android:scaleType="centerInside"
             fresco:placeholderImage="@drawable/ic_userhead"
-            fresco:actualImageScaleType="fitCenter"
+            fresco:actualImageScaleType="fitXY"
             fresco:placeholderImageScaleType="fitCenter"
             fresco:roundAsCircle="true"
 

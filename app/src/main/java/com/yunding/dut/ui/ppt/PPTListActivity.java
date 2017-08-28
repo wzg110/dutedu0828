@@ -106,7 +106,6 @@ public class PPTListActivity extends ToolBarActivity implements IPPTListView
                 intent.putExtra("PPT_INFO", (Serializable) dataList);//所有的PPT信息
                 intent.putExtra("PPTInfo_Item", dataList.get(position));//点击的ppt信息
                 intent.putExtra("position", position);
-
                 startActivity(intent);
             }
         });
@@ -114,13 +113,16 @@ public class PPTListActivity extends ToolBarActivity implements IPPTListView
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                mPresenter.signIn(String.valueOf(mTeachingId), dataList.get(position).getSpecialityId()
-                        , dataList.get(position).getClassId(), String.valueOf(weid), String.valueOf(jingd));
-                Intent intent = new Intent(PPTListActivity.this, PPTActivity.class);
-                intent.putExtra("pptImage", (Serializable) pptImageList);
-                intent.putExtra("PPT_INFO", (Serializable) dataList);//所有的PPT信息
-                intent.putExtra("PPTInfo_Item", dataList.get(position));//点击的ppt信息
-                intent.putExtra("position", position);
+//                mPresenter.signIn(String.valueOf(mTeachingId), dataList.get(position).getSpecialityId()
+//                        , dataList.get(position).getClassId(), String.valueOf(weid), String.valueOf(jingd));
+//                Intent intent = new Intent(PPTListActivity.this, PPTActivity.class);
+//                intent.putExtra("pptImage", (Serializable) pptImageList);
+//                intent.putExtra("PPT_INFO", (Serializable) dataList);//所有的PPT信息
+//                intent.putExtra("PPTInfo_Item", dataList.get(position));//点击的ppt信息
+//                intent.putExtra("position", position);
+//                startActivity(intent);
+
+                Intent intent = new Intent(PPTListActivity.this, PPTListNewActivity.class);
                 startActivity(intent);
 
 
@@ -226,6 +228,11 @@ public class PPTListActivity extends ToolBarActivity implements IPPTListView
                             mPresenter.loadPPTList(mTeachingId);
                     }
                 });
+    }
+
+    @Override
+    public void showMsg(String msg) {
+
     }
 
     @Override

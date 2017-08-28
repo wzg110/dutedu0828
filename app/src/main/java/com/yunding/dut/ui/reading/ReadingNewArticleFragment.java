@@ -58,6 +58,7 @@ import com.yunding.dut.view.popupwindow;
 import com.yunding.dut.view.selectable.OnSelectListener;
 import com.yunding.dut.view.selectable.SelectableTextHelper;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import butterknife.BindView;
@@ -720,7 +721,11 @@ public class ReadingNewArticleFragment extends BaseFragmentInReading implements 
                         for (int j=0;j<mReadingInfo.getNewWords().size();j++){
                             for (int i=0;i<frameContent.getChildCount();i++){
                                 if (mReadingInfo.getNewWords().get(j).getNoted()==1){
-                                    if (frameContent.getChildAt(i).getId()==Integer.valueOf(mReadingInfo.getNewWords().get(j).getNewWordId())){
+//                                    if (mReadingInfo.getNewWords().get(j).getNewWordId().equals(frameContent.getChildAt(i).getTag())){
+//                                        frameContent.removeViewAt(i);
+//                                    }
+
+                                    if(new BigInteger(mReadingInfo.getNewWords().get(j).getNewWordId()).compareTo(new BigInteger(String.valueOf(frameContent.getChildAt(i).getTag())))==0){
                                         frameContent.removeViewAt(i);
                                     }
                                 }
@@ -740,7 +745,11 @@ public class ReadingNewArticleFragment extends BaseFragmentInReading implements 
                         for (int j=0;j<mReadingInfo.getNewWords().size();j++){
                             for (int i=0;i<frameContent.getChildCount();i++){
                                 if (mReadingInfo.getNewWords().get(j).getNoted()==1){
-                                    if (frameContent.getChildAt(i).getId()==Integer.valueOf(mReadingInfo.getNewWords().get(j).getNewWordId())){
+//                                    if (mReadingInfo.getNewWords().get(j).getNewWordId().equals(frameContent.getChildAt(i).getTag())){
+//                                        frameContent.removeViewAt(i);
+//                                    }
+
+                                    if(new BigInteger(mReadingInfo.getNewWords().get(j).getNewWordId()).compareTo(new BigInteger(String.valueOf(frameContent.getChildAt(i).getTag())))==0){
                                         frameContent.removeViewAt(i);
                                     }
                                 }
@@ -758,7 +767,11 @@ public class ReadingNewArticleFragment extends BaseFragmentInReading implements 
                         for (int j=0;j<mReadingInfo.getNewWords().size();j++){
                             for (int i=0;i<frameContent.getChildCount();i++){
                                 if (mReadingInfo.getNewWords().get(j).getNoted()==1){
-                                    if (frameContent.getChildAt(i).getId()==Integer.valueOf(mReadingInfo.getNewWords().get(j).getNewWordId())){
+//                                    if (mReadingInfo.getNewWords().get(j).getNewWordId().equals(frameContent.getChildAt(i).getTag())){
+//                                        frameContent.removeViewAt(i);
+//                                    }
+
+                                    if(new BigInteger(mReadingInfo.getNewWords().get(j).getNewWordId()).compareTo(new BigInteger(String.valueOf(frameContent.getChildAt(i).getTag())))==0){
                                         frameContent.removeViewAt(i);
                                     }
                                 }
@@ -814,7 +827,7 @@ Handler handler=new Handler(){
                 break;
             case 133:
 
-                addNoteTipsOne(msg.arg1);
+                addNoteTipsOne(new BigInteger(String.valueOf(msg.obj)));
                 break;
         }
     }
@@ -901,7 +914,13 @@ Handler handler=new Handler(){
                 for (int j=0;j<mReadingInfo.getNewWords().size();j++){
                     for (int i=0;i<frameContent.getChildCount();i++){
                         if (mReadingInfo.getNewWords().get(j).getNoted()==1){
-                            if (frameContent.getChildAt(i).getId()==Integer.valueOf(mReadingInfo.getNewWords().get(j).getNewWordId())){
+//                            if (mReadingInfo.getNewWords().get(j).getNewWordId().equals(frameContent.getChildAt(i).getTag())){
+//                                frameContent.removeViewAt(i);
+//                            }
+
+                            if(new BigInteger(mReadingInfo.getNewWords().get(j).getNewWordId())
+                                    .compareTo
+                                    (new BigInteger(String.valueOf(frameContent.getChildAt(i).getTag())))==0){
                                 frameContent.removeViewAt(i);
                             }
                         }
@@ -924,7 +943,13 @@ Handler handler=new Handler(){
                 for (int j=0;j<mReadingInfo.getNewWords().size();j++){
                     for (int i=0;i<frameContent.getChildCount();i++){
                         if (mReadingInfo.getNewWords().get(j).getNoted()==1){
-                            if (frameContent.getChildAt(i).getId()==Integer.valueOf(mReadingInfo.getNewWords().get(j).getNewWordId())){
+//                            if (mReadingInfo.getNewWords().get(j).getNewWordId().equals(frameContent.getChildAt(i).getTag())){
+//                                frameContent.removeViewAt(i);
+//                            }
+
+                            if(new BigInteger(mReadingInfo.getNewWords().get(j).getNewWordId())
+                                    .compareTo
+                                            (new BigInteger(String.valueOf(frameContent.getChildAt(i).getTag())))==0){
                                 frameContent.removeViewAt(i);
                             }
                         }
@@ -948,7 +973,12 @@ Handler handler=new Handler(){
                 for (int j=0;j<mReadingInfo.getNewWords().size();j++){
                     for (int i=0;i<frameContent.getChildCount();i++){
                         if (mReadingInfo.getNewWords().get(j).getNoted()==1){
-                            if (frameContent.getChildAt(i).getId()==Integer.valueOf(mReadingInfo.getNewWords().get(j).getNewWordId())){
+//                            if (mReadingInfo.getNewWords().get(j).getNewWordId().equals(frameContent.getChildAt(i).getTag())){
+//                                frameContent.removeViewAt(i);
+//                            }
+                            if(new BigInteger(mReadingInfo.getNewWords().get(j).getNewWordId())
+                                    .compareTo
+                                            (new BigInteger(String.valueOf(frameContent.getChildAt(i).getTag())))==0){
                                 frameContent.removeViewAt(i);
                             }
                         }
@@ -1143,10 +1173,10 @@ Handler handler=new Handler(){
         }
     }
     //添加一个
-    private void addNoteTipsOne(final int po) {
+    private void addNoteTipsOne(final BigInteger po) {
         int positon = 0;
         for (int i=0;i<mReadingInfo.getNewWords().size();i++){
-            if(Integer.valueOf(mReadingInfo.getNewWords().get(i).getNewWordId())==po){
+            if(new BigInteger(mReadingInfo.getNewWords().get(i).getNewWordId()).compareTo(po)==0){
                 positon=i;
             }
         }
@@ -1155,18 +1185,33 @@ Handler handler=new Handler(){
         final ImageView iv=new ImageView(getHoldingActivity());
         iv.setImageResource(R.drawable.notes);
 
-        iv.setId(Integer.valueOf(mReadingInfo.getNewWords().get(positon).getNewWordId()));
+//        iv.setId(Integer.valueOf(mReadingInfo.getNewWords().get(positon).getNewWordId()));
+        iv.setTag(mReadingInfo.getNewWords().get(positon).getNewWordId());
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for (int  i=0;i<mReadingInfo.getNewWords().size();i++){
-                    if (mReadingInfo.getNewWords().get(i).getNewWordId().equals(String.valueOf(iv.getId()))){
-                        final int finalI = i;
+
+//                    if (mReadingInfo.getNewWords().get(i).getNewWordId().equals(iv.getTag())){
+//                        final int finalI = i;
+//                        popupwindow.showTipPopupWindow(v, mReadingInfo.getNewWords().get(i).getNotes().getNoteTime(),
+//                                mReadingInfo.getNewWords().get(i).getNotes().getNoteContent(), new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        showDialog(mReadingInfo.getNewWords().get(finalI).getWord(),finalI);
+//                                    }
+//                                });
+//                    }
+
+                    if (new BigInteger(mReadingInfo.getNewWords().get(i).getNewWordId())
+                            .compareTo(new BigInteger(String.valueOf(iv.getTag())))==0){
+                                                final int finalI = i;
                         popupwindow.showTipPopupWindow(v, mReadingInfo.getNewWords().get(i).getNotes().getNoteTime(),
                                 mReadingInfo.getNewWords().get(i).getNotes().getNoteContent(), new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         showDialog(mReadingInfo.getNewWords().get(finalI).getWord(),finalI);
+
                                     }
                                 });
                     }
@@ -1233,17 +1278,24 @@ Handler handler=new Handler(){
 
                     }else{
 
-                        float[] aa= getPosition(Integer.valueOf(mReadingInfo.getNewWords().get(i).getNewWordId()));
+                        float[] aa= getPosition(new BigInteger(mReadingInfo.getNewWords().get(i).getNewWordId()));
                         final ImageView iv=new ImageView(getHoldingActivity());
                         iv.setImageResource(R.drawable.notes);
 
-                        iv.setId(Integer.valueOf(mReadingInfo.getNewWords().get(i).getNewWordId()));
+//                        iv.setId(new BigInteger());
+                        iv.setTag(mReadingInfo.getNewWords().get(i).getNewWordId());
                         iv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 for (int  i=0;i<mReadingInfo.getNewWords().size();i++){
                                     final int finalI=i;
-                                    if (mReadingInfo.getNewWords().get(i).getNewWordId().equals(String.valueOf(iv.getId()))){
+//                                    if(new BigInteger(mReadingInfo.getNewWords().get(j).getNewWordId())
+//                                            .compareTo
+//                                                    (new BigInteger(String.valueOf(frameContent.getChildAt(i).getTag())))==0){
+//                                        frameContent.removeViewAt(i);
+//                                    }
+                                    if (new BigInteger(mReadingInfo.getNewWords().get(i).getNewWordId())
+                                            .compareTo(new BigInteger(String.valueOf(iv.getTag())))==0){
                                         popupwindow.showTipPopupWindow(v, mReadingInfo.getNewWords().get(i).getNotes().getNoteTime(),
                                                 mReadingInfo.getNewWords().get(i).getNotes().getNoteContent(), new View.OnClickListener() {
                                                     @Override
@@ -1253,6 +1305,18 @@ Handler handler=new Handler(){
                                                     }
                                                 });
                                     }
+
+
+//                                    if (mReadingInfo.getNewWords().get(i).getNewWordId().equals(iv.getTag())){
+//                                        popupwindow.showTipPopupWindow(v, mReadingInfo.getNewWords().get(i).getNotes().getNoteTime(),
+//                                                mReadingInfo.getNewWords().get(i).getNotes().getNoteContent(), new View.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(View v) {
+//                                                        showDialog(mReadingInfo.getNewWords().get(finalI).getWord(),finalI);
+//
+//                                                    }
+//                                                });
+//                                    }
                                 }
                             }
                         });
@@ -1385,7 +1449,11 @@ Handler handler=new Handler(){
         for (int i=0;i<newWordsBeen.size();i++){
             if (newWordsBeen.get(i).getNewWordId().equals(newWordId)){
                 for (int j=0;j<frameContent.getChildCount();j++){
-                    if (frameContent.getChildAt(j).getId()==Integer.valueOf(newWordId)){
+//                    if (newWordId.equals(frameContent.getChildAt(j).getTag())){
+//                        frameContent.removeViewAt(j);
+//                    }
+
+                    if(new BigInteger(newWordId).compareTo(new BigInteger(String.valueOf(frameContent.getChildAt(j).getTag())))==0){
                         frameContent.removeViewAt(j);
                     }
                 }
@@ -1429,7 +1497,7 @@ Handler handler=new Handler(){
                 }
                 Message msg=new Message();
                 msg.what=133;
-                msg.arg1=Integer.valueOf(mReadingInfo.getNewWords().get(po).getNewWordId());
+                msg.obj=new BigInteger(mReadingInfo.getNewWords().get(po).getNewWordId());
                 handler.sendMessage(msg);
 
             }else{
@@ -1489,14 +1557,17 @@ Handler handler=new Handler(){
             int count = frameContent.getChildCount();
             for (int i=0;i<mReadingInfo.getNewWords().size();i++){
                 for (int j=0;j<newwordBean.getToDeleteNewWordIds().size();j++){
-                    if (mReadingInfo.getNewWords().get(i).getNewWordId().
-                            equals(newwordBean.getToDeleteNewWordIds().get(j))){
-
-                                for(int k=0;k<frameContent.getChildCount();k++){
-                                    if(frameContent.getChildAt(k).getId()==Integer.valueOf(mReadingInfo.getNewWords().get(i).getNewWordId())){
-                                        frameContent.removeViewAt(k);
-                                    }
-                                }
+                    if (new BigInteger(mReadingInfo.getNewWords().get(i).getNewWordId())
+                            .compareTo(new BigInteger(newwordBean.getToDeleteNewWordIds().get(j)))==0){
+                        for(int k=0;k<frameContent.getChildCount();k++){
+//                                    if(mReadingInfo.getNewWords().get(i).getNewWordId().equals(frameContent.getChildAt(k).getTag())){
+//                                        frameContent.removeViewAt(k);
+//                                    }
+                            if(new BigInteger(mReadingInfo.getNewWords().get(i).getNewWordId())
+                                    .compareTo(new BigInteger(String.valueOf(frameContent.getChildAt(k).getTag())))==0){
+                                frameContent.removeViewAt(k);
+                            }
+                        }
                         mReadingInfo.getNewWords().remove(i);
                     }
                 }
@@ -1507,7 +1578,7 @@ Handler handler=new Handler(){
         }else{
             Message msg=new Message();
             msg.what=133;
-            msg.arg1=Integer.valueOf(newwordBean.getSavedWord().getNewWordId());
+            msg.obj=new BigInteger(newwordBean.getSavedWord().getNewWordId());
             handler.sendMessage(msg);
 
         }
@@ -1574,7 +1645,15 @@ Handler handler=new Handler(){
         rl_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                if (mReadingInfo.getExercises().size() == 0){
+                    showToast("没有课后小题");
+                    dialog.dismiss();
+                    getHoldingActivity().finish();
+                }else{
+
+                    dialog.dismiss();
+
+                }
             }
         });
         dialog.setContentView(view);
@@ -1586,11 +1665,11 @@ Handler handler=new Handler(){
 
     }
 
-    private float[] getPosition(int po) {
+    private float[] getPosition(BigInteger po) {
         float []  aa=new float[2];
 //        获取位置
         for (int i=0;i<mReadingInfo.getNewWords().size();i++){
-            if (po==Integer.valueOf(mReadingInfo.getNewWords().get(i).getNewWordId())){
+            if (po.compareTo(new BigInteger(mReadingInfo.getNewWords().get(i).getNewWordId()))==0){
                 int start=mReadingInfo.getNewWords().get(i).getWordIndex();
                 int end=start+mReadingInfo.getNewWords().get(i).getWordLength();
 

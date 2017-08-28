@@ -204,6 +204,11 @@ public class TimeUtils {
         return new SimpleDateFormat(pattern, Locale.getDefault()).format(new Date(millis));
     }
 
+
+    public static String millis2String1(long millis){
+        return new SimpleDateFormat("HH:mm:ss").format(millis);
+    }
+
     /**
      * 将时间字符串转为时间戳
      * <p>time格式为yyyy-MM-dd HH:mm:ss</p>

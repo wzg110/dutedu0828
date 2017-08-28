@@ -163,6 +163,7 @@ public class ReadingPresenter extends BasePresenter {
                 .addParams("answerTime", answerTime+"")
                 .addParams("backTime", backTime+"")
                 .addParams("classId", classId)
+                .addParams("schoolCode",DUTApplication.getUserInfo().getSCHOOL_CODE())
                 .build()
                 .execute(new StringCallback() {
                     @Override

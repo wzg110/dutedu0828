@@ -95,7 +95,7 @@ public class QuestionInfoResp {
         private int pPTId;
         private int replyType;
         private int tId;
-        private int teachingId;
+        private String teachingId;
         private int timeLongs;
         private String title;
         private String localAnswer;
@@ -164,11 +164,11 @@ public class QuestionInfoResp {
             this.tId = tId;
         }
 
-        public int getTeachingId() {
+        public String getTeachingId() {
             return teachingId;
         }
 
-        public void setTeachingId(int teachingId) {
+        public void setTeachingId(String teachingId) {
             this.teachingId = teachingId;
         }
 

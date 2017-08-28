@@ -33,6 +33,19 @@ public class UserInfo {
     private final String USER_PHONE = "user_phone";
     private final String USER_TYPE = "user_type";
 
+    public String getSCHOOL_CODE() {
+        return  getPreferences().getString(SCHOOL_CODE, SPACE);
+    }
+
+    public void setSchoolCode(String string){
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putString(SCHOOL_CODE,string
+        );
+        editor.apply();
+    }
+
+
+    private final String SCHOOL_CODE = "school_code";
     public String getUSER_TEACHING() {
         return getPreferences().getString(USER_TEACHING, SPACE);
     }
@@ -120,13 +133,13 @@ public class UserInfo {
     }
 
 
-    public long getUserId() {
-        return getPreferences().getLong(USER_ID, 0);
+    public String getUserId() {
+        return getPreferences().getString(USER_ID, SPACE);
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         SharedPreferences.Editor editor = getPreferences().edit();
-        editor.putLong(USER_ID, userId);
+        editor.putString(USER_ID, userId);
 
         editor.apply();
     }
@@ -211,6 +224,7 @@ public class UserInfo {
         DUTApplication.getUserInfo().setUserType(resp.getData().getUserType());
         DUTApplication.getUserInfo().setStudentType(userType);
         DUTApplication.getUserInfo().setUserTeaching(resp.getData().getTeachingId());
+        DUTApplication.getUserInfo().setSchoolCode(resp.getData().getSchoolCode());
 //
     }
 }

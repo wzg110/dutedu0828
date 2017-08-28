@@ -19,7 +19,7 @@ public class ApisDiscuss extends Apis {
      * 功能简述:主页获取讨论组列表
      */
     public static String discussGroupListUrl() {
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "/student/getstudentthemelist?studentid=" + userId + "&userType=" + DUTApplication.getUserInfo().getUSER_TYPE();
         return url;
     }
@@ -29,7 +29,7 @@ public class ApisDiscuss extends Apis {
      *
      * @param groupId [讨论组id]
      */
-    public static String discussGroupInfoUrl(long groupId) {
+    public static String discussGroupInfoUrl(String groupId) {
         String url = SERVER_URL + "/student/getgroupstudents?groupid=" + groupId;
         return url;
     }
@@ -40,7 +40,7 @@ public class ApisDiscuss extends Apis {
      * @param subjectId [主题id]
      * @param groupId   [讨论组id]
      */
-    public static String startDiscussion(long subjectId, long groupId) {
+    public static String startDiscussion(String subjectId, String groupId) {
         String url = SERVER_URL + "/student/updaterelationopenstart?themeid=" + subjectId
                 + "&groupid=" + groupId;
         return url;
@@ -52,7 +52,7 @@ public class ApisDiscuss extends Apis {
      * @param subjectId [主题id]
      * @param groupId   [组id]
      */
-    public static String discussGroupMsgListUrl(long subjectId, long groupId) {
+    public static String discussGroupMsgListUrl(String subjectId, String groupId) {
         String url = SERVER_URL + "/teacher/getthemegroupmessagelist?themeid=" + subjectId
                 + "&groupid=" + groupId
                 + "&pageno=" + 0
@@ -69,14 +69,17 @@ public class ApisDiscuss extends Apis {
      * @param length    [参数]
      * @param content   [参数]
      */
-    public static String discussSendMsg(long subjectId, long groupId, int msgType, int length, String content) {
-        long userId = DUTApplication.getUserInfo().getUserId();
+    public static String discussSendMsg(String subjectId, String groupId,
+                                        int msgType, int length, String content) {
+        String userId = DUTApplication.getUserInfo().getUserId();
+        String schoolCode = DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = SERVER_URL + "/student/addthemegroupmessage?themeid=" + subjectId
                 + "&groupid=" + groupId
                 + "&studentid=" + userId
                 + "&messagetype=" + msgType
                 + "&messagelength=" + length
-                + "&content=" + content;
+                + "&content=" + content
+                +"&schoolCode="+schoolCode;
 
         return url;
     }
@@ -86,7 +89,7 @@ public class ApisDiscuss extends Apis {
      *
      * @param subjectId [主题id]
      */
-    public static String getSubjectInfo(long subjectId) {
+    public static String getSubjectInfo(String subjectId) {
         String url = SERVER_URL + "/teacher/getthemeinfo?themeid=" + subjectId;
         return url;
     }
@@ -96,7 +99,7 @@ public class ApisDiscuss extends Apis {
      *
      * @param subjectId [参数]
      */
-    public static String getSubjectQuestion(long subjectId, long groupId) {
+    public static String getSubjectQuestion(String subjectId, String groupId) {
         String url = SERVER_URL + "/teacher/getthemetopiclist?themeid=" + subjectId + "&groupid=" + groupId;
         return url;
     }
@@ -110,12 +113,14 @@ public class ApisDiscuss extends Apis {
      * @param groupId    [讨论组id]
      */
     public static String commitAnswer(long questionId, String answer, long subjectId, long groupId) {
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
+        String schoolCode = DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = SERVER_URL + "/student/submitanswer?topicid=" + questionId
                 + "&answer=" + answer
                 + "&themeid=" + subjectId
                 + "&groupid=" + groupId
-                + "&studentid=" + userId;
+                + "&studentid=" + userId
+                +"&schoolCode="+schoolCode;
         return url;
     }
 
@@ -125,7 +130,7 @@ public class ApisDiscuss extends Apis {
      * @param jsonParams [答案json]
      */
     public static String commitAnswer(String jsonParams) {
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "student/submitanswer?json=" + jsonParams;
         return url;
     }
@@ -136,7 +141,7 @@ public class ApisDiscuss extends Apis {
      * @return
      */
     public static String commitAnswer() {
-        long userId = DUTApplication.getUserInfo().getUserId();
+        String userId = DUTApplication.getUserInfo().getUserId();
         String url = SERVER_URL + "student/submitanswer";
         return url;
     }

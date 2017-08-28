@@ -36,11 +36,16 @@ public class CourseListPresenter extends BasePresenter {
     public void loadCourseList(String teachingId) {
         mView.showProgress();
         String url = ApisPPT.getCourseList(teachingId);
+        Log.e("asdas",url);
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {
+                Log.e("asdas",response);
                 mView.hideProgress();
-                CourseListResp resp = parseJson(response, CourseListResp.class);
+                try{
+                    CourseListResp resp = parseJson(response, CourseListResp.class);
+
+
                 if (resp != null) {
                     if (resp.isResult()) {
                         if (resp.getData().size() == 0) {
@@ -54,6 +59,9 @@ public class CourseListPresenter extends BasePresenter {
                 } else {
                     mView.showListFailed();
                 }
+                }catch(Exception e){
+                    Log.e("eeeee",e.getMessage());
+                }
             }
 
             @Override
@@ -61,7 +69,7 @@ public class CourseListPresenter extends BasePresenter {
                 mView.hideProgress();
                 mView.showListFailed();
             }
-        });
+        },this);
     }
 
     /**
@@ -72,7 +80,7 @@ public class CourseListPresenter extends BasePresenter {
      * @param classId       [班级ID]
      * @param studyMode     [学习模式]
      */
-    public void loadPPTList(int teachingId,String longitude,
+    public void loadPPTList(String teachingId,String longitude,
                             String latitude,String classId,int studyMode) {
         mView.showDiyProgress();
         String url = ApisPPT.getSelftaughtslides(teachingId,longitude,latitude,classId,studyMode);

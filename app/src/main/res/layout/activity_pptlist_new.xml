@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout"
+
+    tools:context="com.yunding.dut.ui.ppt.PPTListNewActivity">
+
+<FrameLayout
+    android:id="@+id/fl_list"
+    android:visibility="visible"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/ll_no_data"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_centerInParent="true"
+
+            android:src="@drawable/ic_no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </RelativeLayout>
+<com.yunding.dut.view.DUTVerticalViewPager
+    android:id="@+id/vvp_pptlist"
+    android:visibility="visible"
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+</com.yunding.dut.view.DUTVerticalViewPager>
+
+    <RelativeLayout
+        android:layout_gravity="bottom"
+
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <ImageView
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            android:id="@+id/icon"
+            android:layout_width="12dp"
+            android:src="@drawable/ic_time_left"
+            android:layout_height="12dp" />
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#ffd700"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/icon"
+            android:layout_height="wrap_content" />
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:id="@+id/tv_page"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
+            android:layout_height="match_parent"
+            />
+        <Button
+
+            android:visibility="gone"
+            android:textSize="12sp"
+            android:src="@drawable/ic_question_tips"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:text="答题"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:textColor="#ffd700"
+            android:id="@+id/iv_has_question_tips"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/rl_pptlist_slide"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_width="120dp"
+        android:background="#67000000"
+        android:layout_height="match_parent">
+        <com.yunding.dut.view.DUTImageAutoLoadScrollRecyclerView
+            android:layout_weight="1"
+            android:id="@+id/lv_cover"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.yunding.dut.view.DUTImageAutoLoadScrollRecyclerView>
+       <LinearLayout
+           android:layout_gravity="center_horizontal"
+           android:background="@drawable/ic_ppt_tab_list"
+           android:id="@+id/ll_choose_btn"
+           android:layout_width="81dp"
+           android:layout_height="29dp"
+           android:layout_marginBottom="5dp"
+           android:layout_marginTop="10dp"
+           android:orientation="horizontal"
+          >
+           <Button
+               android:id="@+id/btn_list"
+               android:layout_width="match_parent"
+               android:layout_weight="1"
+               android:background="@null"
+               android:layout_height="match_parent" />
+
+
+       </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>
+    <LinearLayout
+        android:id="@+id/ll_ppt_grid"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:background="#555555"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.yunding.dut.view.DUTImageAutoLoadScrollGridRecyclerView
+
+            android:id="@+id/rv_ppt_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+        </com.yunding.dut.view.DUTImageAutoLoadScrollGridRecyclerView>
+
+        <Button
+            android:id="@+id/btn_grid"
+            android:layout_gravity="center_horizontal"
+             android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/ic_ppt_tab_grid"
+            android:layout_width="81dp"
+            android:layout_height="29dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="146dp"
+        android:layout_height="105dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom|right">
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_ppt_tips"
+            android:layout_gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="160"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_list_choice"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_ppt_list_selceted"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/iv_grid_choice"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_ppt_gird_normal"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="182"
+           android:layout_marginRight="30dp"
+            android:gravity="right"
+            android:layout_height="match_parent">
+            <ImageView
+
+                android:id="@+id/iv_menu"
+                android:layout_width="60dp"
+                android:padding="8dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_ppt_list_guide"
+
+                android:layout_height="60dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</FrameLayout>

@@ -70,7 +70,6 @@
 
             android:id="@+id/tv_page"
             android:textColor="@color/bg_white"
-            android:text="sdadssd"
 
             android:gravity="center"
             android:layout_marginLeft="16dp"
@@ -194,7 +193,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="this is it!"
                         android:textColor="@color/text_color" />
 
                     <View

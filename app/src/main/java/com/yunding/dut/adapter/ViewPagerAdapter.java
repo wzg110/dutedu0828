@@ -7,6 +7,8 @@ import android.view.View;
 
 import java.util.List;
 
+import fr.castorflex.android.verticalviewpager.VerticalViewPager;
+
 /**
  * 类 名 称：ViewPagerAdapter
  * <P/>描    述：ppt浏览viewpageradapter
@@ -21,9 +23,11 @@ import java.util.List;
 public class  ViewPagerAdapter extends PagerAdapter {
     private List <View> mImageUrl;
     private Context mContext;
-    public ViewPagerAdapter(List<View>imageUrl,Context context){
+    private  int mtype;
+    public ViewPagerAdapter(List<View>imageUrl,Context context,int Type){
         this.mImageUrl=imageUrl;
         this.mContext=context;
+        this.mtype=Type;
     }
     @Override
     public int getCount() {
@@ -39,13 +43,23 @@ public class  ViewPagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(View view, int position, Object object)                       //销毁Item
     {
-        ((ViewPager) view).removeView(mImageUrl.get(position));
+        if (mtype==0){
+            ((VerticalViewPager) view).removeView(mImageUrl.get(position));
+        }else{
+
+            ((ViewPager) view).removeView(mImageUrl.get(position));
+        }
+
     }
 
     @Override
     public Object instantiateItem(View view, int position)                                //实例化Item
     {
-        ((ViewPager) view).addView(mImageUrl.get(position), 0);
+        if (mtype==0){
+            ((VerticalViewPager) view).addView(mImageUrl.get(position), 0);
+        }else{
+            ((ViewPager) view).addView(mImageUrl.get(position), 0);
+        }
 
         return mImageUrl.get(position);
     }

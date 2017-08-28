@@ -1,7 +1,6 @@
 package com.yunding.dut.ui.ppt;
 
 import android.app.Dialog;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioManager;
@@ -19,6 +18,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -358,6 +358,7 @@ public class PPTQuestionInputSelfNewFragment extends BackHandledFragment impleme
 //            }
 //        }, 100);
 //        媒体数据不等于空的时候才显示要不gone
+        Log.e("234",Apis.TEST_URL2 + mPPTInfoItem.getSlideImage());
         imgPpt.setImageURI(Uri.parse(Apis.TEST_URL2 + mPPTInfoItem.getSlideImage()));
         tvQuestionCount.setText("填空" + (mQuestionIndex + 1) + "/" + quesionQuantity);
 //        horizontalListviewButton.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -600,7 +601,7 @@ public class PPTQuestionInputSelfNewFragment extends BackHandledFragment impleme
                             et.setFocusable(false);
                         }
                     }
-                    et.setTextColor(Color.BLACK);
+                    et.setTextColor(getResources().getColor(R.color.text_color));
                     ll.addView(et);
 
                     TextView asda = new TextView(ll.getContext());
@@ -890,19 +891,30 @@ public class PPTQuestionInputSelfNewFragment extends BackHandledFragment impleme
                 } else {
 
                     List<String> answerList = new ArrayList<>();
-                    for (int i = 0; i < mPPTQuestionBean.getBlanksInfo().size(); i++) {
-                        answerList.add(answerMap.get(i).replaceAll("#", ""));
+                    int count=0;
+                    for (int i = 0; i < answerMap.size(); i++){
+                        if (TextUtils.isEmpty(answerMap.get(i))){
+                            count++;
+                        }
                     }
-                    String answerTemp = new Gson().toJson(answerList);
-                    long endTime = TimeUtils.getNowTimeMills();
-                    long duringTime = endTime - startTime;
-                    mPPTQuestionBean.setAnswerContent(answerTemp);
+                    if (count==answerMap.size()){
+                        showToast("答案不能为空");
+                    }else{
+                        for (int i = 0; i < mPPTQuestionBean.getBlanksInfo().size(); i++) {
+                            answerList.add(answerMap.get(i).replaceAll("#", ""));
+                        }
+                        String answerTemp = new Gson().toJson(answerList);
+                        long endTime = TimeUtils.getNowTimeMills();
+                        long duringTime = endTime - startTime;
+                        mPPTQuestionBean.setAnswerContent(answerTemp);
 
-                    mPPTInfoItem.getSlideQuestions().set(mQuestionIndex, mPPTQuestionBean);
-                    mPPTInfo.getSlides().set(pptIndex - 1, mPPTInfoItem);
-                    mPresenter.commitAnswer(mPPTInfoItem.getSlideId(), mPPTQuestionBean.getQuestionId(),
-                            mPPTInfoItem.getTeachingId(), String.valueOf(mPPTInfoItem.getSelfTaughtId()), answerTemp, duringTime);
-                }
+                        mPPTInfoItem.getSlideQuestions().set(mQuestionIndex, mPPTQuestionBean);
+                        mPPTInfo.getSlides().set(pptIndex - 1, mPPTInfoItem);
+                        mPresenter.commitAnswer(mPPTInfoItem.getSlideId(), mPPTQuestionBean.getQuestionId(),
+                                mPPTInfoItem.getTeachingId(), String.valueOf(mPPTInfoItem.getSelfTaughtId()), answerTemp, duringTime);
+                    }
+                    }
+
                 break;
             case R.id.btn_last:
                 if (player != null && player.isPlaying()) {
@@ -1070,7 +1082,7 @@ public class PPTQuestionInputSelfNewFragment extends BackHandledFragment impleme
             }, 0, 1000);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e);
+            showToast("音频文件异常");
         }
     }
 

@@ -253,6 +253,7 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
         quesionQuantity = mPPTInfoItem.getSlideQuestions().size();
         llRecordProgress.setVisibility(View.GONE);
         tvPage.setText("第" + mPPTInfoItem.getPageIndex() + "页");
+        Log.e("asdasdasd",mPPTInfoItem.getSlideImage());
         imgPpt.setImageURI(Uri.parse(Apis.TEST_URL2 + mPPTInfoItem.getSlideImage()));
         tvQuestionCount.setText("多选" + (mQuestionIndex + 1) + "/" + quesionQuantity);
         tvContent.setText(mPPTQuestionBean.getQuestionContent());
@@ -295,23 +296,27 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
 
 
         if (mQuestionIndex == 0) {
-            if (pptIndex == 1) {
-                btnLast.setVisibility(View.GONE);
-                ivLeft.setVisibility(View.GONE);
-            } else {
-                btnLast.setText("上一页");
-            }
+//            if (pptIndex == 1) {
+//                btnLast.setVisibility(View.GONE);
+//                ivLeft.setVisibility(View.GONE);
+//            } else {
+//                btnLast.setText("上一页");
+//            }
+            btnLast.setVisibility(View.GONE);
+            ivLeft.setVisibility(View.GONE);
 
         } else {
             btnLast.setText("上一题");
         }
         if ((mQuestionIndex + 1) == mPPTInfoItem.getSlideQuestions().size()) {
-            if (pptIndex == mPPTInfo.size()) {
-                btnNext.setVisibility(View.GONE);
-                ivRight.setVisibility(View.GONE);
-            } else {
-                btnNext.setText("下一页");
-            }
+//            if (pptIndex == mPPTInfo.size()) {
+//                btnNext.setVisibility(View.GONE);
+//                ivRight.setVisibility(View.GONE);
+//            } else {
+//                btnNext.setText("下一页");
+//            }
+            btnNext.setVisibility(View.GONE);
+            ivRight.setVisibility(View.GONE);
 
         } else {
             btnNext.setText("下一题");
@@ -329,7 +334,7 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
             }
             listQuestion.setFocusable(false);
             btnCommit.setVisibility(View.GONE);
-            tvTime.setText("已完成");
+            tvTime.setText("已提交");
 
                 ivSandyglass.setVisibility(View.GONE);
         } else {
@@ -596,25 +601,25 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_ppt:
-                if (player != null && player.isPlaying()) {
-                    timer.cancel();
-                    timer.purge();
-                    player.stop();
-                    player.release();
-                    player = null;
-                    ivPlay.setVisibility(View.VISIBLE);
-                    ivStop.setVisibility(View.GONE);
-                    llRecordProgress.setVisibility(View.GONE);
-                    horizontalListviewMedia.setVisibility(View.VISIBLE);
-                }
-                Image vf = new Image();
-                Bundle nb = new Bundle();
-                nb.putString("imagePath", Apis.TEST_URL2 + mPPTInfoItem.getSlideImage());
-                nb.putSerializable("pptImage", (Serializable) mPPTInfo.get(0).getPptImageList());
-                nb.putInt("position", pptIndex - 1);
-                nb.putSerializable(PPTINFO, (Serializable) mPPTInfo);
-                vf.setArguments(nb);
-                addFragment(vf);
+//                if (player != null && player.isPlaying()) {
+//                    timer.cancel();
+//                    timer.purge();
+//                    player.stop();
+//                    player.release();
+//                    player = null;
+//                    ivPlay.setVisibility(View.VISIBLE);
+//                    ivStop.setVisibility(View.GONE);
+//                    llRecordProgress.setVisibility(View.GONE);
+//                    horizontalListviewMedia.setVisibility(View.VISIBLE);
+//                }
+//                Image vf = new Image();
+//                Bundle nb = new Bundle();
+//                nb.putString("imagePath", Apis.TEST_URL2 + mPPTInfoItem.getSlideImage());
+//                nb.putSerializable("pptImage", (Serializable) mPPTInfo.get(0).getPptImageList());
+//                nb.putInt("position", pptIndex - 1);
+//                nb.putSerializable(PPTINFO, (Serializable) mPPTInfo);
+//                vf.setArguments(nb);
+//                addFragment(vf);
                 break;
             case R.id.btn_last:
                 if (player != null && player.isPlaying()) {
@@ -930,7 +935,7 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
             }, 0, 1000);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e);
+            showToast("音频文件异常");
         }
     }
 
@@ -972,6 +977,7 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
 
     @Override
     public void commitSuccess() {
+        tvTime.setText("已提交");
         listQuestion.setFocusable(false);
         adapter.notifyDataSetChanged();
         mPPTQuestionBean.setQuestionCompleted(1);
@@ -986,12 +992,15 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
             mPPTInfoItem.setQuestionsCompleted(1);
         }
         if ((mQuestionIndex + 1) == mPPTInfoItem.getSlideQuestions().size()) {
-            if (pptIndex == mPPTInfo.size()) {
-                ivRight.setVisibility(View.GONE);
-                btnNext.setVisibility(View.GONE);
-            } else {
-                btnNext.setText("下一页");
-            }
+//            if (pptIndex == mPPTInfo.size()) {
+//                ivRight.setVisibility(View.GONE);
+//                btnNext.setVisibility(View.GONE);
+//            } else {
+//                btnNext.setText("下一页");
+//            }
+            // TODO: 2017/8/23  最后一道题完成不会进入下一页了
+            btnNext.setVisibility(View.GONE);
+            ivRight.setVisibility(View.GONE);
 
         } else {
             btnNext.setText("下一题");
@@ -1060,7 +1069,7 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
 
         } else {
             mPPTInfoItem.setSlideImage(url);
-            mPPTInfoItem.getPptImageList().set(pptIndex-1,url);
+//            mPPTInfoItem.getPptImageList().set(pptIndex-1,url);
             mPPTInfo.set(pptIndex - 1, mPPTInfoItem);
             imgPpt.setImageURI(Uri.parse(Apis.TEST_URL2 + mPPTInfoItem.getSlideImage()));
         }
@@ -1148,7 +1157,7 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
             if (mCountDown != null) {
                 mCountDown.cancel();
             }
-            tvTime.setText("已完成");
+            tvTime.setText("已提交");
             ivSandyglass.setVisibility(View.GONE);
             btnCommit.setVisibility(View.GONE);
             listQuestion.setFocusable(false);
@@ -1201,7 +1210,7 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
             long spanToNow = TimeUtils.getTimeSpanByNow(startTime, ConstUtils.TimeUnit.MSEC);
             long timeLeft = mPPTQuestionBean.getAnswerTimeLimit() * 60 * 1000 - spanToNow;
             if (timeLeft <= 0) {
-                tvTime.setText("已完成");
+                tvTime.setText("已提交");
                 if (mCountDown != null) {
                     mCountDown.cancel();
                     ivSandyglass.setVisibility(View.GONE);
@@ -1209,7 +1218,7 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
                     listQuestion.setFocusable(false);
                 }
             } else if (mPPTQuestionBean.getQuestionCompleted() == 1) {
-                tvTime.setText("已完成");
+                tvTime.setText("已提交");
                 if (mCountDown != null) {
                     mCountDown.cancel();
                     ivSandyglass.setVisibility(View.GONE);
@@ -1232,7 +1241,7 @@ public class PPTQuestionMutiChoiceFragment extends BackHandledFragment implement
                 mPresenter.autoAnswerSingle(mPPTQuestionBean.getQuestionId(), mPPTInfoItem.getTeachingId());
 
             }
-            tvTime.setText("已完成");
+            tvTime.setText("已提交");
             ivSandyglass.setVisibility(View.GONE);
             btnCommit.setVisibility(View.GONE);
             listQuestion.setFocusable(false);

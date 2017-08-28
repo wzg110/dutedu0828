@@ -725,13 +725,20 @@ public class PPTQuestionAnswerSelfFragment extends BackHandledFragment implement
                     llRecordProgress.setVisibility(View.GONE);
                     horizontalListviewMedia.setVisibility(View.VISIBLE);
                 }
-                long endTime = TimeUtils.getNowTimeMills();
-                long duringTime = endTime - startTime;
-                mPPTQuestionBean.setAnswerContent(etAnswer.getText().toString());
-                mPPTInfoItem.getSlideQuestions().set(mQuestionIndex, mPPTQuestionBean);
-                mPPTInfo.getSlides().set(pptIndex - 1, mPPTInfoItem);
-                mPresenter.commitAnswer(mPPTInfoItem.getSlideId(), mPPTQuestionBean.getQuestionId(),
-                        mPPTInfoItem.getTeachingId(), String.valueOf(mPPTInfoItem.getSelfTaughtId()), etAnswer.getText().toString().trim(), duringTime);
+
+                if (TextUtils.isEmpty(etAnswer.getText().toString())){
+                    showToast("答案不能为空");
+                }else{
+                    long endTime = TimeUtils.getNowTimeMills();
+                    long duringTime = endTime - startTime;
+                    mPPTQuestionBean.setAnswerContent(etAnswer.getText().toString());
+                    mPPTInfoItem.getSlideQuestions().set(mQuestionIndex, mPPTQuestionBean);
+                    mPPTInfo.getSlides().set(pptIndex - 1, mPPTInfoItem);
+                    mPresenter.commitAnswer(mPPTInfoItem.getSlideId(), mPPTQuestionBean.getQuestionId(),
+                            mPPTInfoItem.getTeachingId(), String.valueOf(mPPTInfoItem.getSelfTaughtId()), etAnswer.getText().toString().trim(), duringTime);
+
+                }
+
                 break;
             case R.id.iv_play:
 
@@ -884,7 +891,7 @@ public class PPTQuestionAnswerSelfFragment extends BackHandledFragment implement
             }, 0, 1000);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e);
+            showToast("音频文件异常");
         }
     }
 

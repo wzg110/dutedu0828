@@ -19,7 +19,8 @@
             android:textColorHint="#cccccc"
             android:hint="@string/reset_pwd_input_old_pwd"
             android:textColor="@color/title"
-            android:inputType="phone"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
             android:background="@null"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content" />
@@ -43,8 +44,9 @@
             android:layout_width="262dp"
             android:textColorHint="#cccccc"
             android:hint="@string/reset_pwd_input_new_pwd"
-            android:textColor="@color/gray"
-            android:inputType="phone"
+            android:textColor="@color/title"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
             android:background="@null"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content" />
@@ -68,8 +70,9 @@
             android:layout_width="262dp"
             android:textColorHint="#cccccc"
             android:hint="@string/reset_pwd_confirm_new_pwd"
-            android:textColor="@color/textColorShow"
-            android:inputType="phone"
+            android:textColor="@color/title"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
             android:background="@null"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content" />

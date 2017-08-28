@@ -339,26 +339,26 @@ public class PPTQuestionInputTeacherFragment extends BaseFragmentInReading {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_ppt:
-                if (player != null && player.isPlaying()) {
-                    timer.cancel();
-                    timer.purge();
-                    player.stop();
-                    player.release();
-                    player = null;
-                    ivPlay.setVisibility(View.VISIBLE);
-                    ivStop.setVisibility(View.GONE);
-                    llRecordProgress.setVisibility(View.GONE);
-                    horizontalListviewMedia.setVisibility(View.VISIBLE);
-                }
-                ImageShowFragment vf = new ImageShowFragment();
-                Bundle nb = new Bundle();
-
-                nb.putString("imagePath", Apis.TEST_URL2 + mPPTInfoItem.getSlideImage());
-                nb.putSerializable("pptImage", (Serializable) mPPTInfo.get(0).getPptImageList());
-                nb.putInt("position",pptIndex-1);
-                nb.putSerializable(PPTINFO, (Serializable) mPPTInfo);
-                vf.setArguments(nb);
-                addFragment(vf);
+//                if (player != null && player.isPlaying()) {
+//                    timer.cancel();
+//                    timer.purge();
+//                    player.stop();
+//                    player.release();
+//                    player = null;
+//                    ivPlay.setVisibility(View.VISIBLE);
+//                    ivStop.setVisibility(View.GONE);
+//                    llRecordProgress.setVisibility(View.GONE);
+//                    horizontalListviewMedia.setVisibility(View.VISIBLE);
+//                }
+//                ImageShowFragment vf = new ImageShowFragment();
+//                Bundle nb = new Bundle();
+//
+//                nb.putString("imagePath", Apis.TEST_URL2 + mPPTInfoItem.getSlideImage());
+//                nb.putSerializable("pptImage", (Serializable) mPPTInfo.get(0).getPptImageList());
+//                nb.putInt("position",pptIndex-1);
+//                nb.putSerializable(PPTINFO, (Serializable) mPPTInfo);
+//                vf.setArguments(nb);
+//                addFragment(vf);
                 break;
             case R.id.iv_play:
 

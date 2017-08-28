@@ -40,4 +40,14 @@ public class QRCResp {
     }
 
     private  String teachingId;
+
+    public String getSchoolCode() {
+        return schoolCode;
+    }
+
+    public void setSchoolCode(String schoolCode) {
+        this.schoolCode = schoolCode;
+    }
+
+    private String schoolCode;
 }

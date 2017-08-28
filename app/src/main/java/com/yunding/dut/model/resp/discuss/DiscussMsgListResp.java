@@ -137,12 +137,12 @@ public class DiscussMsgListResp {
             private String content;
             private String createTime;
             private String fileUrl;
-            private int groupId;
-            private int messageId;
+            private String groupId;
+            private String messageId;
             private int messageLength;
             private int messageType;
-            private int studentId;
-            private int themeId;
+            private String studentId;
+            private String themeId;
             private String avatarUrl;
             private String studentName;
             private int state;
@@ -171,19 +171,19 @@ public class DiscussMsgListResp {
                 this.fileUrl = fileUrl;
             }
 
-            public int getGroupId() {
+            public String getGroupId() {
                 return groupId;
             }
 
-            public void setGroupId(int groupId) {
+            public void setGroupId(String groupId) {
                 this.groupId = groupId;
             }
 
-            public int getMessageId() {
+            public String getMessageId() {
                 return messageId;
             }
 
-            public void setMessageId(int messageId) {
+            public void setMessageId(String messageId) {
                 this.messageId = messageId;
             }
 
@@ -203,19 +203,19 @@ public class DiscussMsgListResp {
                 this.messageType = messageType;
             }
 
-            public int getStudentId() {
+            public String getStudentId() {
                 return studentId;
             }
 
-            public void setStudentId(int studentId) {
+            public void setStudentId(String studentId) {
                 this.studentId = studentId;
             }
 
-            public int getThemeId() {
+            public String getThemeId() {
                 return themeId;
             }
 
-            public void setThemeId(int themeId) {
+            public void setThemeId(String themeId) {
                 this.themeId = themeId;
             }
 

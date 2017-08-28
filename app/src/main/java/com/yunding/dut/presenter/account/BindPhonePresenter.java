@@ -69,7 +69,7 @@ public class BindPhonePresenter extends BasePresenter {
      * @param smsCode [验证码]
      * @param studentId [用户ID]
      */
-    public void bindPhone(String phone, String smsCode, long studentId) {
+    public void bindPhone(String phone, String smsCode, String studentId) {
         if (TextUtils.isEmpty(phone)){
             mView.showMsg("手机号码不能为空");
             return;

@@ -338,12 +338,13 @@ public class PPTQuestionEnumerateSelfFragment extends BackHandledFragment implem
             btnLast.setText("上一题");
         }
         if (mPPTQuestionBean.getQuestionCompleted() == 1) {
-
+            ivRight.setVisibility(View.VISIBLE);
             btnNext.setVisibility(View.VISIBLE);
             etAnswer.setInputType(InputType.TYPE_NULL);
         } else {
             etAnswer.setInputType(InputType.TYPE_CLASS_TEXT);
             btnNext.setVisibility(View.GONE);
+            ivRight.setVisibility(View.GONE);
         }
         if ((mQuestionIndex + 1) == mPPTInfoItem.getSlideQuestions().size()) {
             if (pptIndex == mPPTInfo.getSlides().size()) {
@@ -414,6 +415,7 @@ public class PPTQuestionEnumerateSelfFragment extends BackHandledFragment implem
                 etAnswer.setText(mPPTQuestionBean.getAnswerContent());
             }
             etAnswer.setFocusable(false);
+            etAnswer.setFocusableInTouchMode(false);
             btnCommit.setVisibility(View.GONE);
         } else {
             etAnswer.setFocusable(true);
@@ -715,13 +717,19 @@ public class PPTQuestionEnumerateSelfFragment extends BackHandledFragment implem
                     horizontalListviewMedia.setVisibility(View.VISIBLE);
                 }
 
-                long endTime = TimeUtils.getNowTimeMills();
-                long duringTime = endTime - startTime;
-                mPPTQuestionBean.setAnswerContent(etAnswer.getText().toString());
-                mPPTInfoItem.getSlideQuestions().set(mQuestionIndex, mPPTQuestionBean);
-                mPPTInfo.getSlides().set(pptIndex - 1, mPPTInfoItem);
-                mPresenter.commitAnswer(mPPTInfoItem.getSlideId(), mPPTQuestionBean.getQuestionId(),
-                        mPPTInfoItem.getTeachingId(), String.valueOf(mPPTInfoItem.getSelfTaughtId()), etAnswer.getText().toString().trim(), duringTime);
+
+                if (TextUtils.isEmpty(etAnswer.getText().toString())){
+                    showToast("答案不能为空");
+                }else{
+                    long endTime = TimeUtils.getNowTimeMills();
+                    long duringTime = endTime - startTime;
+                    mPPTQuestionBean.setAnswerContent(etAnswer.getText().toString());
+                    mPPTInfoItem.getSlideQuestions().set(mQuestionIndex, mPPTQuestionBean);
+                    mPPTInfo.getSlides().set(pptIndex - 1, mPPTInfoItem);
+                    mPresenter.commitAnswer(mPPTInfoItem.getSlideId(), mPPTQuestionBean.getQuestionId(),
+                            mPPTInfoItem.getTeachingId(), String.valueOf(mPPTInfoItem.getSelfTaughtId()), etAnswer.getText().toString().trim(), duringTime);
+
+                }
                 break;
             case R.id.iv_play:
 
@@ -894,7 +902,7 @@ public class PPTQuestionEnumerateSelfFragment extends BackHandledFragment implem
             }, 0, 1000);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e);
+            showToast("音频文件异常");
         }
     }
 

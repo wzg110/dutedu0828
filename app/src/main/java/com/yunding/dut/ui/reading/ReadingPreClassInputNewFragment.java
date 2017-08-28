@@ -2,7 +2,6 @@ package com.yunding.dut.ui.reading;
 
 
 import android.app.Dialog;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
@@ -320,7 +319,7 @@ public class ReadingPreClassInputNewFragment extends BaseFragmentInReading imple
                             et.setFocusable(false);
                         }
                     }
-                    et.setTextColor(Color.BLACK);
+                    et.setTextColor(getResources().getColor(R.color.text_color));
 
                     ll.addView(et);
                     TextView asda = new TextView(ll.getContext());

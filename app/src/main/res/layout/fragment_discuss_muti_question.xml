@@ -28,7 +28,6 @@
                 android:background="@color/bg_white"
                 android:lineSpacingExtra="6dp"
                 android:textColor="@color/text_color"
-                android:text="@string/hello_blank_fragment"
                 android:textSize="14sp" />
 
             <ListView

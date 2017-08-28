@@ -204,8 +204,8 @@ public class DiscussListMsgAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         DiscussMsgListResp.DataBean.DatasBean dataBean = mData.get(position);
         int type = dataBean.getMessageType();
-        long userId = DUTApplication.getUserInfo().getUserId();
-        if (userId == dataBean.getStudentId()) {
+        String  userId = DUTApplication.getUserInfo().getUserId();
+        if (userId.equals(dataBean.getStudentId())) {
             //我发送的
             switch (type) {
                 case MSG_TYPE_TEXT:

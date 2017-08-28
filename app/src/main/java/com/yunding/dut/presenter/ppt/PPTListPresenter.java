@@ -1,5 +1,7 @@
 package com.yunding.dut.presenter.ppt;
 
+import android.util.Log;
+
 import com.yunding.dut.model.resp.CommonResp;
 import com.yunding.dut.model.resp.ppt.PPTResp;
 import com.yunding.dut.presenter.base.BasePresenter;
@@ -36,6 +38,7 @@ public class PPTListPresenter extends BasePresenter {
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {
+                Log.e("sadasdasdads",response);
                 mView.hideProgress();
                 PPTResp resp = parseJson(response, PPTResp.class);
                 if (resp != null) {
@@ -125,5 +128,40 @@ public class PPTListPresenter extends BasePresenter {
                 mView.showListFailed();
             }
         });
+    }
+    public void sendFeedBack(String teachingId,
+                             String slideId,
+                             String questionId,
+                             String classId,
+                             String selfTaughtId,
+                             String replyContent){
+        mView.showProgress();
+        String url=ApisPPT.sendFeedBack(teachingId,slideId,questionId,classId,selfTaughtId,replyContent);
+        request(url, new DUTResp() {
+            @Override
+            public void onResp(String response) {
+                mView.hideProgress();
+                CommonResp resp = parseJson(response, CommonResp.class);
+                if (resp != null) {
+                    if (resp.isResult()) {
+                        mView.showMsg("发送成功");
+
+                    } else {
+                        mView.showMsg(resp.getMsg());
+
+                    }
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+                mView.showMsg(e.getMessage());
+                mView.hideProgress();
+            }
+        });
+
     }
 }

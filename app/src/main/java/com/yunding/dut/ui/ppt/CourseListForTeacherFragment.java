@@ -1,18 +1,25 @@
 package com.yunding.dut.ui.ppt;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +30,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yunding.dut.R;
+import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.appupdate.versionUpdateResp;
 import com.yunding.dut.model.resp.ppt.CourseListResp;
 import com.yunding.dut.model.resp.ppt.pptSelfListResp;
@@ -30,15 +38,21 @@ import com.yunding.dut.presenter.ppt.CourseListPresenter;
 import com.yunding.dut.ui.base.ToolBarFragment;
 import com.yunding.dut.ui.me.MeActivity;
 import com.yunding.dut.util.api.Apis;
+import com.yunding.dut.util.third.AppUtils;
 import com.yunding.dut.view.DUTSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.yunding.dut.util.third.SizeUtils.dp2px;
 
@@ -75,13 +89,18 @@ public class CourseListForTeacherFragment extends ToolBarFragment implements Swi
     @BindView(R.id.lila_no_data)
     LinearLayout lilaNoData;
     private CourseListPresenter mPresenter;
-
     private CourseListForTeacherAdapter mAdapter;
     private List<CourseListResp.DataBean> mDataList = new ArrayList<>();
     private List<CourseListResp.DataBean> mDataListOnCourse = new ArrayList<>();
     private List<CourseListResp.DataBean> mDataListDIY = new ArrayList<>();
     private String whichChoose = "0";// 默认课堂，0  自学1
-
+    private List<PackageInfo> arr=new ArrayList<>();
+    private int marketTips=-1;
+    private  Dialog dialog;
+    private String versionName;
+    private String versionContent;
+    private int textSize;
+    private View view;
     public CourseListForTeacherFragment() {
         mPresenter = new CourseListPresenter(this);
         mAdapter = new CourseListForTeacherAdapter(new ArrayList<CourseListResp.DataBean>());
@@ -110,6 +129,7 @@ public class CourseListForTeacherFragment extends ToolBarFragment implements Swi
     public void onResume() {
         super.onResume();
         mPresenter.loadCourseTeacherList();
+        mPresenter.versionUpdate();
     }
 
     @Override
@@ -208,8 +228,139 @@ public class CourseListForTeacherFragment extends ToolBarFragment implements Swi
 
     @Override
     public void versionUpdate(versionUpdateResp.DataBean resp) {
+        versionContent = resp.getContent();
+        versionName = resp.getVersion();
+        textSize = resp.getTextSize();
+        Log.e("更新",resp.getUpdatable()+"");
+        if (resp.getUpdatable() == 0) {
+//            没有更新继续轮训
+            Observable.timer(10, TimeUnit.SECONDS)
+                    .observeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(@NonNull Long aLong) throws Exception {
+                            mPresenter.versionUpdate();
+
+                        }
+                    });
+
+
+        } else {
+            if (resp.getUpdatemode() == 0) {
+                //非强制
+                if (DUTApplication.getInstance().getIsShowUpdateDialog() == 0) {
+                    DUTApplication.getInstance().setIsShowUpdateDialog(-1);
+                    //提示
+                    showUpdateDialog(resp.getUpdatemode());
+                } else {
+                    //不提示每次进来提示
+                }
+
+
+            } else if (resp.getUpdatemode() == 1) {
+                //强制
+                showUpdateDialog(resp.getUpdatemode());
+            } else {
+
+            }
+
+        }
 
     }
+    /**
+     * 更新提示框
+     *
+     * @param updatemode 强制非强制
+     */
+    private void showUpdateDialog(int updatemode) {
+        dialog = new Dialog(getHoldingActivity(), R.style.ActionSheetDialogStyle);
+        view = LayoutInflater.from(getHoldingActivity()).inflate(R.layout.update_dialog, null);
+        LinearLayout ll_normal_update = (LinearLayout) view.findViewById(R.id.ll_normal_update);
+        RelativeLayout rl_force_update = (RelativeLayout) view.findViewById(R.id.rl_force_update);
+        Button btn_cancel = (Button) view.findViewById(R.id.btn_cancel);
+        Button btn_ok = (Button) view.findViewById(R.id.btn_ok);
+        Button btn_ok_force = (Button) view.findViewById(R.id.btn_ok_force);
+        Button btn_version = (Button) view.findViewById(R.id.btn_version);
+        TextView tv_content = (TextView) view.findViewById(R.id.text_update_notice);
+        if (updatemode == 0) {
+            ll_normal_update.setVisibility(View.VISIBLE);
+            rl_force_update.setVisibility(View.GONE);
+        } else {
+            ll_normal_update.setVisibility(View.GONE);
+            rl_force_update.setVisibility(View.VISIBLE);
+        }
+        btn_version.setText(versionName);
+        tv_content.setText(versionContent);
+        // TODO: 2017/8/7
+        switch (textSize) {
+            case 0:
+                tv_content.setTextSize(15);
+                break;
+            case 1:
+                tv_content.setTextSize(13);
+                break;
+            case 2:
+                tv_content.setTextSize(11);
+                break;
+        }
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+
+            }
+        });
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (marketTips==-1){
+                    Uri uri = Uri.parse("http://android.myapp.com/myapp/detail.htm?apkName=com.yunding.dut");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    getHoldingActivity().finish();
+                }else{
+                    AppUtils.goToMarket(getHoldingActivity().getApplicationContext(),
+                            "com.yunding.dut",marketTips);
+                    getHoldingActivity().finish();
+                }
+
+            }
+        });
+        btn_ok_force.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (marketTips==-1){
+                    Uri uri = Uri.parse("http://android.myapp.com/myapp/detail.htm?apkName=com.yunding.dut");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    getHoldingActivity().finish();
+                }else{
+                    AppUtils.goToMarket(getHoldingActivity().getApplicationContext(),
+                            "com.yunding.dut",marketTips);
+                    getHoldingActivity().finish();
+                }
+            }
+        });
+        dialog.setContentView(view);
+        //获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        if (updatemode == 0) {
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.setCancelable(true);
+        } else {
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
+        }
+        //设置Dialog从窗体底部弹出
+        dialogWindow.setGravity(Gravity.CENTER);
+        dialog.show();//显示对话框
+    }
+
 
     @Override
     protected int getLayoutId() {
@@ -222,6 +373,21 @@ public class CourseListForTeacherFragment extends ToolBarFragment implements Swi
         setTitleInCenter("预览");
 
         setShowNavigation(false);
+
+        arr= AppUtils.getAllApps(getHoldingActivity().getApplicationContext());
+        for (int i=0;i<arr.size();i++){
+            if ("com.tencent.android.qqdownloader".equals(arr.get(i).packageName)){
+                marketTips=0;
+                return;
+            }else if ("com.wandoujia.phoenix2".equals(arr.get(i).packageName)){
+                marketTips=1;
+                return;
+            }else if ("com.baidu.appsearch".equals(arr.get(i).packageName)){
+                marketTips=2;
+                return;
+            }
+
+        }
 
 
     }
@@ -286,7 +452,7 @@ public class CourseListForTeacherFragment extends ToolBarFragment implements Swi
                     startActivity(intent);
                     //进二级页面
                 } else {
-                    mPresenter.loadPPTList(mDataListDIY.get(position).getTeachingId()
+                    mPresenter.loadPPTList(mDataListDIY.get(position).getTeachingId()+""
                             , String.valueOf(0), String.valueOf(0), mDataListDIY.get(position).getClassId(), mDataListDIY.get(position).getStudyMode());
                 }
             }

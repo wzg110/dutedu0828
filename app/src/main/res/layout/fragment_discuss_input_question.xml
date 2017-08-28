@@ -47,7 +47,7 @@
                     android:layout_marginTop="15dp"
                     android:textColor="@color/text_color"
                     android:lineSpacingExtra="6dp"
-                    android:text="@string/hello_blank_fragment" />
+                    />
                 
             </LinearLayout>
             <View

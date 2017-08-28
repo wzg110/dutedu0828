@@ -24,7 +24,7 @@ android:layout_marginRight="55dp"
                 android:text="正确答案"/>
 
             <TextView
-android:layout_marginTop="5dp"
+                android:layout_marginTop="5dp"
                 android:id="@+id/tv_right_answer"
                 android:textColor="@color/text_color"
                 android:textSize="14sp"
@@ -45,7 +45,6 @@ android:layout_marginTop="5dp"
             android:id="@+id/tv_toast"
             android:layout_marginTop="5dp"
             android:textSize="13sp"
-            android:text="A"
             android:textColor="@color/text_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

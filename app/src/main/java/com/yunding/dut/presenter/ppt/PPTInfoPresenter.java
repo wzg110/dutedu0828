@@ -29,7 +29,7 @@ public class PPTInfoPresenter extends BasePresenter {
      * 加载ppt信息
      * @param subjectId
      */
-    public void loadPPTInfo(int subjectId) {
+    public void loadPPTInfo(String subjectId) {
         mView.showProgress();
         String url = ApisPPT.getQuestion(subjectId);
         request(url, new DUTResp() {
@@ -88,7 +88,7 @@ public class PPTInfoPresenter extends BasePresenter {
         });
     }
 
-    public void addLog(int subjectid) {
+    public void addLog(String subjectid) {
         String url = ApisPPT.addReadingLog(subjectid);
         request(url, null);
     }

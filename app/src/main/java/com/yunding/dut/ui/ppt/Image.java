@@ -127,7 +127,7 @@ public class Image extends BaseFragmentInReading implements IPPTContentView{
         }else{
             isLeft=false;
         }
-        adapter = new ViewPagerAdapter(viewList, getHoldingActivity());
+        adapter = new ViewPagerAdapter(viewList, getHoldingActivity(),1);
         viewPager.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         viewPager.setCurrentItem(position1);

@@ -50,7 +50,6 @@ android:layout_marginTop="5dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:singleLine="true"
-                    android:text="Group Name"
                     android:theme="@style/text_unit_color" />
 
             </LinearLayout>
@@ -72,7 +71,6 @@ android:layout_marginTop="5dp"
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:paddingBottom="5dp"
-                    android:text="My father was a self-taught mandolin player. He was one of the best string instrument players in our town"
                     android:textSize="12sp"
                     android:textColor="#969696"/>
             </LinearLayout>

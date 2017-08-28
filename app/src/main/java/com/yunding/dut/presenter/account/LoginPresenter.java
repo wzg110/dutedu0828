@@ -2,6 +2,7 @@ package com.yunding.dut.presenter.account;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.yunding.dut.R;
 import com.yunding.dut.app.DUTApplication;
@@ -50,28 +51,30 @@ public class LoginPresenter extends BasePresenter {
         }
         mView.showProgress();
         String url = ApisAccount.loginUrl(account, pwd,userType);
-//        Log.e("login",url);
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {
                 mView.hideProgress();
-                LoginResp resp = parseJson(response, LoginResp.class);
-                if (resp != null) {
-                    if (resp.isResult()) {
-//                        Log.e("login",resp.getData().toString());
-                        UserInfo.saveUserInfo(resp,"正常");//保存用户信息
-                        if (TextUtils.isEmpty(DUTApplication.getUserInfo().getUserPhone())) {
-                            //未绑定
-                            mView.goBindPhone();
+                try {
+                    LoginResp resp = parseJson(response, LoginResp.class);
+                    if (resp != null) {
+                        if (resp.isResult()) {
+                            UserInfo.saveUserInfo(resp, "正常");//保存用户信息
+                            if (TextUtils.isEmpty(DUTApplication.getUserInfo().getUserPhone())) {
+                                //未绑定
+                                mView.goBindPhone();
+                            } else {
+                                //已绑定
+                                mView.loginSuccess();
+                            }
                         } else {
-                            //已绑定
-                            mView.loginSuccess();
+                            mView.loginFailed(resp.getMsg());
                         }
                     } else {
-                        mView.loginFailed(resp.getMsg());
+                        mView.loginFailed(((Context) mView).getString(R.string.server_error));
                     }
-                } else {
-                    mView.loginFailed(((Context) mView).getString(R.string.server_error));
+                }catch (Exception e){
+                    Log.e("asd",e.getMessage().toString());
                 }
             }
 
@@ -88,9 +91,10 @@ public class LoginPresenter extends BasePresenter {
      * @param classId   [课程Id]
      * @param teacherId [教师I]
      */
-    public void visitorLogin(String classId,String teacherId,String teachingId){
+    public void visitorLogin(String classId,String teacherId,String teachingId,String schoolCode){
         mView.showProgress();
-        String url = ApisAccount.visitorLogin(classId,teacherId,teachingId);
+        String url = ApisAccount.visitorLogin(classId,teacherId,teachingId,schoolCode);
+//        Log.e("url",url);
         request(url, new DUTResp() {
             @Override
             public void onResp(String response) {

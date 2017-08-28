@@ -126,7 +126,7 @@ public class ImageSelf extends BaseFragmentInReading {
 
         }
 
-        adapter = new ViewPagerAdapter(viewList, getHoldingActivity());
+        adapter = new ViewPagerAdapter(viewList, getHoldingActivity(),1);
         viewPager.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         viewPager.setCurrentItem(position1);

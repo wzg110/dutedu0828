@@ -1,7 +1,6 @@
 package com.yunding.dut.ui.ppt;
 
 import android.app.Dialog;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioManager;
@@ -484,7 +483,7 @@ public class PPTQuestionInputTeacherNewFragment extends BaseFragmentInReading {
 
                     et.setFocusable(false);
 
-                    et.setTextColor(Color.BLACK);
+                    et.setTextColor(getResources().getColor(R.color.text_color));
                     ll.addView(et);
 
                     TextView asda = new TextView(ll.getContext());
@@ -799,7 +798,7 @@ public class PPTQuestionInputTeacherNewFragment extends BaseFragmentInReading {
             }, 0, 1000);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e);
+            showToast("音频文件异常");
         }
     }
 

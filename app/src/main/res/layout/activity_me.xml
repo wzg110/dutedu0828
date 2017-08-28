@@ -40,18 +40,18 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/btn_change_info"
             android:layout_centerHorizontal="true"
-            android:text="username"
+
             android:textSize="14sp"
             android:layout_marginTop="15dp"
             android:textColor="#969696"/>
         <TextView
             android:id="@+id/tv_grade"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_marginTop="8dp"
-            android:textColor="#c7c7c7"
+            android:textColor="#969696"
             android:layout_centerHorizontal="true"
-            android:text="20170707"
-            android:textSize="12sp"
+
+            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_name"/>
@@ -184,11 +184,10 @@
         android:layout_centerHorizontal="true"
         android:layout_width="97dp"
         android:layout_height="97dp"
-        android:scaleType="centerInside"
         android:id="@+id/iv_avatar"
         fresco:placeholderImage="@drawable/ic_userhead"
-        fresco:actualImageScaleType="fitCenter"
-        fresco:placeholderImageScaleType="fitCenter"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImageScaleType="fitXY"
         fresco:roundAsCircle="true"
         fresco:roundingBorderColor="@color/bg_white"
         fresco:roundingBorderWidth="1.5dp"

@@ -83,8 +83,14 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_send_sms_code:
+                String phone = etPhone.getText().toString();
+                if (!RegexUtils.isMobileSimple(phone)) {
+                    showToast("手机号码不合法");
+                    return;
+                }else{
+                    mPresenter.checkPhone(phone);
+                }
 
-                mPresenter.checkPhone(etPhone.getText().toString());
                 break;
             case R.id.btn_next:
                 bindPhone();
@@ -98,9 +104,7 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
     private void bindPhone() {
         String phone = etPhone.getText().toString();
         String smsCode = etSmsCode.getText().toString();
-        long studentId = DUTApplication.getUserInfo().getUserId();
-
-
+        String studentId = DUTApplication.getUserInfo().getUserId();
         mPresenter.bindPhone(phone, smsCode, studentId);
     }
 
@@ -108,11 +112,9 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
      * 功能简述:发送短信验证码
      */
     private void sendSmsCode() {
+        etPhone.setFocusable(false);
+        btnSendSmsCode.setEnabled(false);
         String phone = etPhone.getText().toString();
-        if (!RegexUtils.isMobileSimple(phone)) {
-            showToast("手机号码不合法");
-            return;
-        }
         mPresenter.sendSmsCode(phone);
         Observable.intervalRange(1, 60, 0, 1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,6 +125,9 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
                         btnSendSmsCode.setText((60-aLong) + "s");
                         if (aLong == 60) {
                             btnSendSmsCode.setText("重新发送");
+                            etPhone.setFocusable(true);
+                            etPhone.setFocusableInTouchMode(true);
+                            btnSendSmsCode.setEnabled(true);
                         }
                     }
                 });
@@ -131,11 +136,17 @@ public class BindPhoneActivity extends ToolBarActivity implements IBindPhoneView
 
     @Override
     public void showMsg(String msg) {
+        etPhone.setFocusable(true);
+        etPhone.setFocusableInTouchMode(true);
+        btnSendSmsCode.setEnabled(true);
         showToast(msg);
     }
 
     @Override
     public void bindSuccess() {
+        etPhone.setFocusable(true);
+        etPhone.setFocusableInTouchMode(true);
+        btnSendSmsCode.setEnabled(true);
         DUTApplication.getUserInfo().setUserPhone(etPhone.getText().toString());
         showMsg("绑定成功");
         Intent intent = new Intent(this, HomeActivity.class);

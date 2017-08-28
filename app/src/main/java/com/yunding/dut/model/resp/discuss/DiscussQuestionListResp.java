@@ -109,10 +109,10 @@ public class DiscussQuestionListResp implements Serializable{
         private String answer;
         private String content;
         private String createTime;
-        private int createUserId;
+        private String createUserId;
         private String selectOptions;
-        private int themeId;
-        private int topicId;
+        private String themeId;
+        private String topicId;
         private int type;
         private String studentAnswer;
 
@@ -170,11 +170,11 @@ public class DiscussQuestionListResp implements Serializable{
             this.createTime = createTime;
         }
 
-        public int getCreateUserId() {
+        public String getCreateUserId() {
             return createUserId;
         }
 
-        public void setCreateUserId(int createUserId) {
+        public void setCreateUserId(String createUserId) {
             this.createUserId = createUserId;
         }
 
@@ -186,19 +186,19 @@ public class DiscussQuestionListResp implements Serializable{
             this.selectOptions = selectOptions;
         }
 
-        public int getThemeId() {
+        public String getThemeId() {
             return themeId;
         }
 
-        public void setThemeId(int themeId) {
+        public void setThemeId(String themeId) {
             this.themeId = themeId;
         }
 
-        public int getTopicId() {
+        public String getTopicId() {
             return topicId;
         }
 
-        public void setTopicId(int topicId) {
+        public void setTopicId(String topicId) {
             this.topicId = topicId;
         }
 

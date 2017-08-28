@@ -56,7 +56,7 @@
                             android:textSize="14sp"
                             android:textColor="@color/text_color"
                             android:lineSpacingExtra="10dp"
-                            android:text="@string/hello_blank_fragment" />
+                            />
 
 
                     </AbsoluteLayout>

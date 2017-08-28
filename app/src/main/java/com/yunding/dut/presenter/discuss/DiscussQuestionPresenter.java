@@ -1,5 +1,6 @@
 package com.yunding.dut.presenter.discuss;
 
+import com.yunding.dut.app.DUTApplication;
 import com.yunding.dut.model.resp.CommonResp;
 import com.yunding.dut.model.resp.CommonRespNew;
 import com.yunding.dut.model.resp.discuss.DiscussQuestionListResp;
@@ -65,7 +66,7 @@ public class DiscussQuestionPresenter extends BasePresenter {
      * @param subjectId [主题ID]
      * @param groupId   [讨论组ID]
      */
-    public void getSubjectQuestions(long subjectId,long groupId) {
+    public void getSubjectQuestions(String subjectId,String groupId) {
         mView.showProgress();
         String url = ApisDiscuss.getSubjectQuestion(subjectId,groupId);
 //        Log.e(TAG, "getSubjectQuestions: "+url );
@@ -131,6 +132,7 @@ public class DiscussQuestionPresenter extends BasePresenter {
         OkHttpUtils.post()
                 .url(url)
                 .addParams("json", jsonParams)
+                .addParams("schoolCode", DUTApplication.getUserInfo().getSCHOOL_CODE())
                 .build()
                 .execute(new StringCallback() {
                     @Override

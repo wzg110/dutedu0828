@@ -900,7 +900,7 @@ public class PPTQuestionInputSelfFragment extends BackHandledFragment implements
             }, 0, 1000);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e);
+            showToast("音频文件异常");
         }
     }
 

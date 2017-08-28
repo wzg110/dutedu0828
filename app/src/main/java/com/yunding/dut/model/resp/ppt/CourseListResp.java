@@ -109,7 +109,7 @@ private  String specialityId;
         private String startDate;
         private int status;
         private int studyMode;
-        private int teachingId;
+        private String teachingId;
 
         public String getCover() {
             return cover;
@@ -187,11 +187,11 @@ private  String specialityId;
             this.studyMode = studyMode;
         }
 
-        public int getTeachingId() {
+        public String getTeachingId() {
             return teachingId;
         }
 
-        public void setTeachingId(int teachingId) {
+        public void setTeachingId(String teachingId) {
             this.teachingId = teachingId;
         }
     }

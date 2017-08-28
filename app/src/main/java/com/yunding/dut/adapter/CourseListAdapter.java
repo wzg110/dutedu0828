@@ -4,10 +4,18 @@ import android.net.Uri;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.yunding.dut.R;
 import com.yunding.dut.model.resp.ppt.CourseListResp;
 import com.yunding.dut.util.api.Apis;
+import com.yunding.dut.util.third.SizeUtils;
 
 import java.util.List;
 
@@ -33,8 +41,25 @@ public class CourseListAdapter extends BaseQuickAdapter<CourseListResp.DataBean,
         helper.setText(R.id.tv_course_name, item.getSpeciality());
         helper.setText(R.id.tv_content, item.getFileName());
         helper.setText(R.id.tv_time, item.getPlatformTime());
-        SimpleDraweeView imgPPT = helper.getView(R.id.img_ppt_narrow);
-        imgPPT.setImageURI(Uri.parse(Apis.TEST_URL2 + item.getCover()));
+
+        try {
+            SimpleDraweeView imgPPT = helper.getView(R.id.img_ppt_narrow);
+//        imgPPT.setImageURI(Uri.parse(Apis.TEST_URL2 + item.getSlideImage()));
+
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(Apis.TEST_URL2 + item.getCover()))
+                    .setResizeOptions(new ResizeOptions(SizeUtils.dp2px(80), SizeUtils.dp2px(60)))
+                    .build();
+            DraweeController controller = Fresco.newDraweeControllerBuilder()
+                    .setOldController(imgPPT.getController())
+                    .setControllerListener(new BaseControllerListener<ImageInfo>())
+                    .setImageRequest(request)
+                    .build();
+
+            imgPPT.setController(controller);
+
+        }catch (Exception e){
+            e.getStackTrace();
+        }
         helper.setText(R.id.tv_teacher_name,item.getTeacherName());
         if (item.getStudyMode() == 0) {
             helper.setVisible(R.id.btn_change_info, true);

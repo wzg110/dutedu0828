@@ -338,7 +338,7 @@ public class ReadingInputNewFragment extends BaseFragmentInReading implements IR
                             et.setFocusable(false);
                         }
                     }
-                    et.setTextColor(Color.BLACK);
+                    et.setTextColor(getResources().getColor(R.color.text_color));
                     ll.addView(et);
 
                     TextView asda = new TextView(ll.getContext());
@@ -622,7 +622,12 @@ public class ReadingInputNewFragment extends BaseFragmentInReading implements IR
         rl_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                if (mReadingInfo.getExercises().size() > (mQuestionIndex + 1)){
+                    dialog.dismiss();
+                }else{
+                    dialog.dismiss();
+                    getHoldingActivity().finish();
+                }
             }
         });
         dialog.setContentView(view);

@@ -50,7 +50,6 @@ android:layout_marginLeft="12dp"
                 <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
-                    android:text="8.00"
                     android:textSize="10sp"
                     android:textColor="#ffd700"
                     android:layout_gravity="center_vertical"
@@ -76,7 +75,6 @@ android:layout_marginLeft="12dp"
 
             android:id="@+id/tv_page"
             android:textColor="@color/bg_white"
-            android:text="sdadssd"
 
             android:gravity="center"
             android:layout_marginLeft="16dp"
@@ -85,6 +83,12 @@ android:layout_marginLeft="12dp"
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:background="@drawable/bg_question_title"/>
-
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_selected"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_ppt_list_selected_new" />
     </RelativeLayout>
 </RelativeLayout>

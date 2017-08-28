@@ -134,20 +134,20 @@ public class DiscussGroupInfoResp {
              * radeId : 1
              */
 
-            private int classId;
+            private String classId;
             private String className;
             private String createTime;
-            private int createUserId;
+            private String createUserId;
             private String gradeName;
-            private int groupId;
+            private String groupId;
             private String name;
-            private int radeId;
+            private String radeId;
 
-            public int getClassId() {
+            public String getClassId() {
                 return classId;
             }
 
-            public void setClassId(int classId) {
+            public void setClassId(String classId) {
                 this.classId = classId;
             }
 
@@ -167,11 +167,11 @@ public class DiscussGroupInfoResp {
                 this.createTime = createTime;
             }
 
-            public int getCreateUserId() {
+            public String getCreateUserId() {
                 return createUserId;
             }
 
-            public void setCreateUserId(int createUserId) {
+            public void setCreateUserId(String createUserId) {
                 this.createUserId = createUserId;
             }
 
@@ -183,11 +183,11 @@ public class DiscussGroupInfoResp {
                 this.gradeName = gradeName;
             }
 
-            public int getGroupId() {
+            public String getGroupId() {
                 return groupId;
             }
 
-            public void setGroupId(int groupId) {
+            public void setGroupId(String groupId) {
                 this.groupId = groupId;
             }
 
@@ -199,11 +199,11 @@ public class DiscussGroupInfoResp {
                 this.name = name;
             }
 
-            public int getRadeId() {
+            public String getRadeId() {
                 return radeId;
             }
 
-            public void setRadeId(int radeId) {
+            public void setRadeId(String radeId) {
                 this.radeId = radeId;
             }
         }

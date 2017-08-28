@@ -34,7 +34,6 @@
                 android:padding="16dp"
                 android:lineSpacingExtra="6dp"
                 android:textColor="@color/text_color"
-                android:text="@string/hello_blank_fragment"
                 android:textSize="14sp" />
 
 
@@ -78,7 +77,6 @@
     <TextView
         android:id="@+id/tv_title"
         android:textColor="@color/bg_white"
-        android:text="sdadssd"
         android:layout_marginTop="15dp"
         android:gravity="center"
         android:layout_marginLeft="16dp"

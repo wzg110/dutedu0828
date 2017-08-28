@@ -4,16 +4,14 @@
     xmlns:fresco="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:orientation="vertical"
     android:layout_marginTop="8dp"
-    app:cardBackgroundColor="@color/bg_white"
-   >
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/bg_white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-
         android:background="@drawable/bg_ripple">
 
         <ImageView
@@ -25,7 +23,6 @@
             android:padding="5dp"
             android:src="@drawable/ic_discuss" />
 
-
         <TextView
             android:id="@+id/tv_group_name"
             android:layout_width="wrap_content"
@@ -36,9 +33,8 @@
             android:ellipsize="end"
             android:maxWidth="260dp"
             android:singleLine="true"
-            android:textSize="13sp"
             android:textColor="#969696"
-            android:text="Group Name" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_group_latest_msg"
@@ -48,13 +44,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="6dp"
             android:layout_toRightOf="@id/img_group_logo"
-            android:textSize="13sp"
-            android:textColor="#b4b4b4"
             android:ellipsize="end"
             android:maxWidth="260dp"
             android:singleLine="true"
-            android:text="Latest msg" />
-
+            android:textColor="#b4b4b4"
+            android:textSize="13sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -74,13 +68,11 @@
                 android:id="@+id/tv_group_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:textSize="11sp"
                 android:textColor="#aeaeae"
-                android:text="10人"
+                android:textSize="11sp"
                 android:theme="@style/text_style_common_black" />
 
             <ImageView
@@ -88,28 +80,19 @@
                 android:layout_height="13dp"
                 android:layout_gravity="center_vertical|bottom"
                 android:layout_marginLeft="14dp"
-
                 android:src="@drawable/ic_hourglass" />
 
-
             <TextView
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:textColor="#aeaeae"
                 android:id="@+id/tv_group_valid_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="15dp"
-                android:text="2017-07-07"
-android:layout_marginLeft="5dp"
-
+                android:gravity="center"
+                android:textColor="#aeaeae"
+                android:textSize="11sp"
                 android:theme="@style/text_style_common_gray" />
-
-
         </LinearLayout>
-
     </RelativeLayout>
-
-
 </android.support.v7.widget.CardView>

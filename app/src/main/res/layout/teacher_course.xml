@@ -43,7 +43,6 @@
                 android:ellipsize="end"
 
                 android:singleLine="true"
-                android:text="英语综合口语（一）"
                 android:textColor="#818181"
                 android:textSize="13sp" />
 
@@ -69,13 +68,11 @@
                     android:layout_marginLeft="6dp"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="2017.07.07"
                     android:textColor="#aeaeae"
                     android:textSize="11sp" />
                 <TextView
                     android:id="@+id/tv_teacher_name"
                     android:layout_width="wrap_content"
-                    android:text="王教授"
                     android:layout_weight="1"
                     android:gravity="right"
                     android:layout_alignParentBottom="true"

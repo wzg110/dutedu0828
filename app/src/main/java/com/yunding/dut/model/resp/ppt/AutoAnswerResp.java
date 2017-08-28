@@ -1,6 +1,7 @@
 package com.yunding.dut.model.resp.ppt;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -196,7 +197,7 @@ public class AutoAnswerResp {
 
             private int isRight;
             private String optionContent;
-            private int optionId;
+            private BigInteger optionId;
             private String optionIndex;
 
             public int getIsRight() {
@@ -215,11 +216,11 @@ public class AutoAnswerResp {
                 this.optionContent = optionContent;
             }
 
-            public int getOptionId() {
+            public BigInteger getOptionId() {
                 return optionId;
             }
 
-            public void setOptionId(int optionId) {
+            public void setOptionId(BigInteger optionId) {
                 this.optionId = optionId;
             }
 

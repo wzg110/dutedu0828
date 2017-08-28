@@ -96,10 +96,18 @@ public class RegisterResp implements Serializable{
          * studentId : 123
          * studentNo : 111111
          */
+        private String  schoolCode;
+        public String getSchoolCode() {
+            return schoolCode;
+        }
+
+        public void setSchoolCode(String schoolCode) {
+            this.schoolCode = schoolCode;
+        }
 private  String teachingId;
         private int age;
         private String avatarUrl;
-        private int classId;
+        private String classId;
         private String className;
         private String createTime;
         private int loginCount;
@@ -108,10 +116,10 @@ private  String teachingId;
         private String name;
         private String passWord;
         private String phone;
-        private int radeId;
+        private String radeId;
         private String radeName;
         private int sex;
-        private int studentId;
+        private String studentId;
         private String studentNo;
 
         public int getAge() {
@@ -130,11 +138,11 @@ private  String teachingId;
             this.avatarUrl = avatarUrl;
         }
 
-        public int getClassId() {
+        public String getClassId() {
             return classId;
         }
 
-        public void setClassId(int classId) {
+        public void setClassId(String classId) {
             this.classId = classId;
         }
 
@@ -202,11 +210,11 @@ private  String teachingId;
             this.phone = phone;
         }
 
-        public int getRadeId() {
+        public String getRadeId() {
             return radeId;
         }
 
-        public void setRadeId(int radeId) {
+        public void setRadeId(String radeId) {
             this.radeId = radeId;
         }
 
@@ -226,11 +234,11 @@ private  String teachingId;
             this.sex = sex;
         }
 
-        public int getStudentId() {
+        public String getStudentId() {
             return studentId;
         }
 
-        public void setStudentId(int studentId) {
+        public void setStudentId(String studentId) {
             this.studentId = studentId;
         }
 

@@ -177,6 +177,11 @@ public class PPTListForTeacherActivity extends ToolBarActivity implements IPPTLi
     }
 
     @Override
+    public void showMsg(String msg) {
+
+    }
+
+    @Override
     protected void onDestroy() {
 
         isRefreshing = false;

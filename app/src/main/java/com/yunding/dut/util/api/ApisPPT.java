@@ -43,7 +43,7 @@ public class ApisPPT extends Apis {
      * @param subjectId [题目id]
      * @return String [小题详情]
      */
-    public static String getQuestion(int subjectId) {
+    public static String getQuestion(String subjectId) {
         String url = TEST_URL + "edupptapp/getsubjectlist"
                 + "?subjectid=" + subjectId
                 + "&studentid=" + DUTApplication.getUserInfo().getUserId();
@@ -70,7 +70,7 @@ public class ApisPPT extends Apis {
      * @param subjectId [题目id]
      * @return 添加日志接口地址 [返回类型说明]
      */
-    public static String addReadingLog(int subjectId) {
+    public static String addReadingLog(String subjectId) {
         String url = TEST_URL + "edupptapp/backanswer"
                 + "?studentid=" + DUTApplication.getUserInfo().getUserId()
                 + "&subjectid=" + subjectId;
@@ -101,12 +101,14 @@ public class ApisPPT extends Apis {
      */
     public static String signIn(String teachingId, String specialityId,
                                 String classId, String latitude, String longitude) {
+        String schoolCode = DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = TEST_URL + "pptteaching/signin?studentId=" + DUTApplication.getUserInfo().getUserId() +
                 "&teachingId=" + teachingId +
                 "&specialityId=" + specialityId +
                 "&classId=" + classId +
                 "&latitude=" + latitude +
-                "&longitude=" + longitude;
+                "&longitude=" + longitude
+                +"&schoolCode="+schoolCode;
         return url;
     }
 
@@ -161,9 +163,10 @@ public class ApisPPT extends Apis {
      * @return
      */
     public static String savePPTAnswerAuto(String slideId, String teachingId) {
+        String schoolCode = DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = Apis.TEST_URL + "pptteaching/saveanswerauto?studentId=" + DUTApplication.getUserInfo().getUserId() +
 
-                "&teachingId=" + teachingId + "&slideId=" + slideId;
+                "&teachingId=" + teachingId + "&slideId=" + slideId+"&schoolCode="+schoolCode;
         return url;
     }
 
@@ -181,6 +184,7 @@ public class ApisPPT extends Apis {
      */
     public static String savePPTBrowerStayTime(String teachingSlideId, String selfTaughtId, String slideId
             , String classId, String teachingId, String startTime, String endTime) {
+        String schoolCode = DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = Apis.TEST_URL + "pptteaching/savepptbrowsestaytime?studentId=" + DUTApplication.getUserInfo().getUserId() +
                 "&teachingSlideId=" + teachingSlideId +
                 "&selfTaughtId=" + selfTaughtId +
@@ -188,7 +192,8 @@ public class ApisPPT extends Apis {
                 "&classId=" + classId +
                 "&teachingId=" + teachingId +
                 "&startTime=" + startTime +
-                "&endTime=" + endTime;
+                "&endTime=" + endTime
+                +"&schoolCode="+schoolCode;
         return url;
     }
 
@@ -202,15 +207,17 @@ public class ApisPPT extends Apis {
      * @param studyMode
      * @return
      */
-    public static String getSelftaughtslides(int teachingId, String longitude,
+    public static String getSelftaughtslides(String teachingId, String longitude,
                                              String latitude, String classId, int studyMode) {
+        String schoolCode = DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = Apis.TEST_URL + "pptteaching/getselftaughtslides?studentId=" + DUTApplication.getUserInfo().getUserId() +
 
                 "&classId=" + classId +
                 "&teachingId=" + teachingId +
                 "&longitude=" + longitude +
                 "&latitude=" + latitude +
-                "&studyMode=" + studyMode;
+                "&studyMode=" + studyMode
+                +"&schoolCode="+schoolCode;
 
         return url;
     }
@@ -281,9 +288,10 @@ public class ApisPPT extends Apis {
                                       String classId,
                                       String selfTaughtId,
                                       String replyContent) {
+        String schoolCode = DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = SERVER_URL + "pptteaching/savestureply?studentId=" + DUTApplication.getUserInfo().getUserId()
                 + "&teachingId=" + teachingId + "&slideId=" + slideId + "&questionId=" + questionId + "&classId=" + classId +
-                "&selfTaughtId=" + selfTaughtId + "&replyContent=" + replyContent;
+                "&selfTaughtId=" + selfTaughtId + "&replyContent=" + replyContent+"&schoolCode="+schoolCode;
         return url;
     }
 
@@ -313,8 +321,9 @@ public class ApisPPT extends Apis {
      * @return
      */
     public static String autoAnswerSingle(String questionId, String teachingId) {
+        String schoolCode = DUTApplication.getUserInfo().getSCHOOL_CODE();
         String url = SERVER_URL + "pptteaching/savetimeoutanswerauto?studentId=" + DUTApplication.getUserInfo().getUserId()
-                + "&teachingId=" + teachingId + "&questionId=" + questionId;
+                + "&teachingId=" + teachingId + "&questionId=" + questionId+"&schoolCode="+schoolCode;
         return url;
     }
 

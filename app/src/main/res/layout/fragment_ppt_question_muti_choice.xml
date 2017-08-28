@@ -54,7 +54,6 @@
 
                 android:id="@+id/tv_page"
                 android:textColor="@color/bg_white"
-                android:text="sdadssd"
 
                 android:gravity="center"
                 android:layout_marginLeft="16dp"
@@ -163,7 +162,7 @@
                             android:id="@+id/tv_content"
                             android:layout_marginLeft="5dp"
                             android:textColor="@color/text_color"
-                            android:text="this is it!"/>
+                         />
                         <View
                             android:layout_width="match_parent"
                             android:background="#dfe5ff"

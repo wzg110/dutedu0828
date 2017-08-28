@@ -57,9 +57,9 @@ public class LaunchActivity extends BaseActivity {
         Observable.timer(1, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
             @Override
             public void accept(@NonNull Long aLong) throws Exception {
-                long userId = DUTApplication.getUserInfo().getUserId();
+                String userId = DUTApplication.getUserInfo().getUserId();
 //                校验是否登录
-                if (userId == 0) {
+                if (TextUtils.isEmpty(userId)){
                     startActivity(new Intent(LaunchActivity.this, LoginActivity.class));
                 } else {
                     checkBindState();
